@@ -17,9 +17,10 @@ internal class Startup
         services.AddDbContext<FastBoxDbContext>(options => options.UseAzureSql(connectionString));
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
         services.AddScoped<IClienteService, ClienteService>();
         services.AddScoped<IUsuarioService, UsuarioService>();
+        services.AddScoped<IConcelhoService, ConcelhoService>();
+        services.AddScoped<IEnderecoService, EnderecoService>();
 
         services.AddTransient<FormLogin>();
         services.AddTransient<FormDashboard>();
@@ -28,7 +29,10 @@ internal class Startup
         services.AddTransient<FormRelatorios>();
         services.AddTransient<FormSummary>();
         services.AddTransient<FormVeiculos>();
+        services.AddTransient<FormCadastrarCliente>();
+        services.AddTransient<FormAtualizarCliente>();
 
         return services.BuildServiceProvider();
+
     }
 }

@@ -14,6 +14,38 @@ public class Repository<T>: IRepository<T> where T : class
         _dbSet = _context.Set<T>();
         
     }
+    public IQueryable<T> Query()
+    {
+        return _dbSet.AsQueryable();
+    }
+
+    public async Task<IEnumerable<T>> GetAllAsync(bool asNoTracking = false)
+    {
+        var query = asNoTracking ? _dbSet.AsNoTracking() : _dbSet;
+        return await query.ToListAsync();
+    }
+
+    public async Task<T?> GetByIdWithIncludesAsync( Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = _dbSet;
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.FirstOrDefaultAsync(predicate);
+    }
+
+    public async Task<T?> GetByIdAsync(long id)
+    {
+        return await _dbSet.FindAsync(id);
+    }
+
+    public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _dbSet.FirstOrDefaultAsync(predicate);
+    }
 
     public async Task AddAsync(T entity)
     {
@@ -30,25 +62,10 @@ public class Repository<T>: IRepository<T> where T : class
         }
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
-    {
-        return await _dbSet.ToListAsync();
-    }
-
-    public async Task<T> GetByIdAsync(long id)
-    {
-        return await _dbSet.FindAsync(id);
-    }
-
     public async Task UpdateAsync(T entity)
     {
         _dbSet.Update(entity);
         await _context.SaveChangesAsync();
-    }
-
-    public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
-    {
-        return await _dbSet.FirstOrDefaultAsync(predicate);
     }
 
     public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
@@ -56,9 +73,12 @@ public class Repository<T>: IRepository<T> where T : class
         return await _dbSet.AnyAsync(predicate);
     }
 
-    public IQueryable<T> Query()
+    public void DetachEntity(T entity)
     {
-        return _dbSet.AsQueryable();
+        var entry = _context.Entry(entity);
+        if (entry != null)
+        {
+            entry.State = EntityState.Detached;
+        }
     }
-
 }

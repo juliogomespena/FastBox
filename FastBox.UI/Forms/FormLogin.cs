@@ -22,6 +22,7 @@ public partial class FormLogin : Form
     {
         try
         {
+            BtnEntrar.Enabled = false;
             string loginOrEmail = TxtLogin.Text.Trim();
             string password = TxtPassword.Text;
 
@@ -39,6 +40,10 @@ public partial class FormLogin : Form
         catch (Exception ex)
         {
             MessageBox.Show($"Erro: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        finally
+        {
+            BtnEntrar.Enabled = true;
         }
     }
 

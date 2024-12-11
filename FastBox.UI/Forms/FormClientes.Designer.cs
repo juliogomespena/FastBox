@@ -30,10 +30,11 @@
         {
             DgvClientes = new DataGridView();
             PanelClientesBotoes = new Panel();
+            BtnRefresh = new Button();
             BtnNextPage = new Button();
             BtnPreviousPage = new Button();
             BtnExcluirCliente = new Button();
-            BtnAtualizarInformacoes = new Button();
+            BtnAtualizarCliente = new Button();
             BtnCadastrarCliente = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)DgvClientes).BeginInit();
@@ -46,18 +47,20 @@
             DgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DgvClientes.Dock = DockStyle.Fill;
             DgvClientes.Location = new Point(3, 3);
-            DgvClientes.Margin = new Padding(3, 3, 3, 10);
             DgvClientes.Name = "DgvClientes";
-            DgvClientes.Size = new Size(1258, 593);
+            DgvClientes.ReadOnly = true;
+            DgvClientes.Size = new Size(1258, 600);
             DgvClientes.TabIndex = 0;
+            DgvClientes.CellToolTipTextNeeded += DgvClientes_CellToolTipTextNeeded;
             // 
             // PanelClientesBotoes
             // 
             PanelClientesBotoes.BackColor = SystemColors.ControlLight;
+            PanelClientesBotoes.Controls.Add(BtnRefresh);
             PanelClientesBotoes.Controls.Add(BtnNextPage);
             PanelClientesBotoes.Controls.Add(BtnPreviousPage);
             PanelClientesBotoes.Controls.Add(BtnExcluirCliente);
-            PanelClientesBotoes.Controls.Add(BtnAtualizarInformacoes);
+            PanelClientesBotoes.Controls.Add(BtnAtualizarCliente);
             PanelClientesBotoes.Controls.Add(BtnCadastrarCliente);
             PanelClientesBotoes.Dock = DockStyle.Fill;
             PanelClientesBotoes.Location = new Point(3, 609);
@@ -65,16 +68,31 @@
             PanelClientesBotoes.Size = new Size(1258, 69);
             PanelClientesBotoes.TabIndex = 1;
             // 
+            // BtnRefresh
+            // 
+            BtnRefresh.Anchor = AnchorStyles.Right;
+            BtnRefresh.AutoEllipsis = true;
+            BtnRefresh.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnRefresh.BackColor = SystemColors.ControlLight;
+            BtnRefresh.Font = new Font("Segoe UI Variable Display Semib", 26F, FontStyle.Bold);
+            BtnRefresh.Location = new Point(1052, 0);
+            BtnRefresh.Name = "BtnRefresh";
+            BtnRefresh.Size = new Size(72, 69);
+            BtnRefresh.TabIndex = 5;
+            BtnRefresh.Text = "⟳";
+            BtnRefresh.UseVisualStyleBackColor = false;
+            BtnRefresh.Click += BtnRefresh_Click;
+            // 
             // BtnNextPage
             // 
             BtnNextPage.Anchor = AnchorStyles.Right;
             BtnNextPage.AutoEllipsis = true;
             BtnNextPage.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnNextPage.BackColor = SystemColors.ControlLight;
-            BtnNextPage.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
-            BtnNextPage.Location = new Point(1055, -14);
+            BtnNextPage.Font = new Font("Segoe UI Variable Display Semib", 30F, FontStyle.Bold);
+            BtnNextPage.Location = new Point(1189, 0);
             BtnNextPage.Name = "BtnNextPage";
-            BtnNextPage.Size = new Size(203, 100);
+            BtnNextPage.Size = new Size(69, 69);
             BtnNextPage.TabIndex = 4;
             BtnNextPage.Text = "→";
             BtnNextPage.UseVisualStyleBackColor = false;
@@ -86,10 +104,10 @@
             BtnPreviousPage.AutoEllipsis = true;
             BtnPreviousPage.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnPreviousPage.BackColor = SystemColors.ControlLight;
-            BtnPreviousPage.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
-            BtnPreviousPage.Location = new Point(852, -14);
+            BtnPreviousPage.Font = new Font("Segoe UI Variable Display Semib", 30F, FontStyle.Bold);
+            BtnPreviousPage.Location = new Point(1122, 0);
             BtnPreviousPage.Name = "BtnPreviousPage";
-            BtnPreviousPage.Size = new Size(203, 100);
+            BtnPreviousPage.Size = new Size(69, 69);
             BtnPreviousPage.TabIndex = 3;
             BtnPreviousPage.Text = "←";
             BtnPreviousPage.UseVisualStyleBackColor = false;
@@ -101,27 +119,29 @@
             BtnExcluirCliente.AutoEllipsis = true;
             BtnExcluirCliente.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnExcluirCliente.BackColor = SystemColors.ControlLight;
-            BtnExcluirCliente.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
-            BtnExcluirCliente.Location = new Point(406, -17);
+            BtnExcluirCliente.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnExcluirCliente.Location = new Point(404, 0);
             BtnExcluirCliente.Name = "BtnExcluirCliente";
-            BtnExcluirCliente.Size = new Size(203, 103);
+            BtnExcluirCliente.Size = new Size(203, 69);
             BtnExcluirCliente.TabIndex = 2;
-            BtnExcluirCliente.Text = "Excluir cliente";
+            BtnExcluirCliente.Text = "Excluir";
             BtnExcluirCliente.UseVisualStyleBackColor = false;
+            BtnExcluirCliente.Click += BtnExcluirCliente_Click;
             // 
-            // BtnAtualizarInformacoes
+            // BtnAtualizarCliente
             // 
-            BtnAtualizarInformacoes.Anchor = AnchorStyles.Left;
-            BtnAtualizarInformacoes.AutoEllipsis = true;
-            BtnAtualizarInformacoes.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BtnAtualizarInformacoes.BackColor = SystemColors.ControlLight;
-            BtnAtualizarInformacoes.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
-            BtnAtualizarInformacoes.Location = new Point(203, -17);
-            BtnAtualizarInformacoes.Name = "BtnAtualizarInformacoes";
-            BtnAtualizarInformacoes.Size = new Size(203, 103);
-            BtnAtualizarInformacoes.TabIndex = 1;
-            BtnAtualizarInformacoes.Text = "Atualizar informações";
-            BtnAtualizarInformacoes.UseVisualStyleBackColor = false;
+            BtnAtualizarCliente.Anchor = AnchorStyles.Left;
+            BtnAtualizarCliente.AutoEllipsis = true;
+            BtnAtualizarCliente.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnAtualizarCliente.BackColor = SystemColors.ControlLight;
+            BtnAtualizarCliente.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnAtualizarCliente.Location = new Point(202, 0);
+            BtnAtualizarCliente.Name = "BtnAtualizarCliente";
+            BtnAtualizarCliente.Size = new Size(203, 69);
+            BtnAtualizarCliente.TabIndex = 1;
+            BtnAtualizarCliente.Text = "Atualizar";
+            BtnAtualizarCliente.UseVisualStyleBackColor = false;
+            BtnAtualizarCliente.Click += BtnAtualizarCliente_Click;
             // 
             // BtnCadastrarCliente
             // 
@@ -129,13 +149,14 @@
             BtnCadastrarCliente.AutoEllipsis = true;
             BtnCadastrarCliente.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnCadastrarCliente.BackColor = SystemColors.ControlLight;
-            BtnCadastrarCliente.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
-            BtnCadastrarCliente.Location = new Point(0, -17);
+            BtnCadastrarCliente.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnCadastrarCliente.Location = new Point(0, 0);
             BtnCadastrarCliente.Name = "BtnCadastrarCliente";
-            BtnCadastrarCliente.Size = new Size(203, 103);
+            BtnCadastrarCliente.Size = new Size(203, 69);
             BtnCadastrarCliente.TabIndex = 0;
-            BtnCadastrarCliente.Text = "Cadastrar cliente";
+            BtnCadastrarCliente.Text = "Cadastrar";
             BtnCadastrarCliente.UseVisualStyleBackColor = false;
+            BtnCadastrarCliente.Click += BtnCadastrarCliente_Click;
             // 
             // tableLayoutPanel1
             // 
@@ -160,7 +181,7 @@
             ClientSize = new Size(1264, 681);
             Controls.Add(tableLayoutPanel1);
             Name = "FormClientes";
-            Text = "FormClientes";
+            Text = "FastBox - Clientes";
             Load += FormClientes_Load;
             ((System.ComponentModel.ISupportInitialize)DgvClientes).EndInit();
             PanelClientesBotoes.ResumeLayout(false);
@@ -173,10 +194,11 @@
         private DataGridView DgvClientes;
         private Panel PanelClientesBotoes;
         private Button BtnExcluirCliente;
-        private Button BtnAtualizarInformacoes;
+        private Button BtnAtualizarCliente;
         private Button BtnCadastrarCliente;
         private Button BtnPreviousPage;
         private Button BtnNextPage;
         private TableLayoutPanel tableLayoutPanel1;
+        private Button BtnRefresh;
     }
 }

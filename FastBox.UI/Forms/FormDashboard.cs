@@ -64,6 +64,7 @@ namespace FastBox.UI
         private void BtnClientes_Click(object sender, EventArgs e)
         {
             var frmClientes = _serviceProvider.GetRequiredService<FormClientes>();
+            frmClientes.ButtonClientes = this.BtnClientes;
             LoadFormInContainer(frmClientes);
         }
 

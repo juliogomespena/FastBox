@@ -1,3 +1,5 @@
+using FastBox.BLL.Services;
+using FastBox.DAL;
 using FastBox.UI.Helper;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,5 +22,7 @@ namespace FastBox.UI
 
             Application.Run(formPrincipal);
         }
+
+
     }
 }

@@ -2,6 +2,7 @@
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using FastBox.DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace FastBox.BLL.Services;
 
@@ -19,7 +20,23 @@ public class UsuarioService : IUsuarioService
 
         user.Senha = Password.HashPassword(user.Senha);
 
-        await _userRepository.AddAsync(user);
+        try
+        {
+            await _userRepository.AddAsync(user);
+        }
+        catch (DbUpdateException ex)
+        {
+
+            if (ex.InnerException?.Message.Contains("UNIQUE") ?? false)
+                throw new InvalidOperationException("Já existe um usuário com os mesmos dados únicos.");
+
+            throw;
+        }
+        finally
+        {
+            _userRepository.DetachEntity(user);
+        }
+
     }
 
     public async Task<Usuario> ValidateLoginAsync(string loginOrEmail, string password)
