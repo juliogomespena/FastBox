@@ -11,11 +11,11 @@ public partial class Cliente
 
     public string Sobrenome { get; set; } = null!;
 
+    public string Nif { get; set; } = null!;
+
     public string Telemovel { get; set; } = null!;
 
     public string? Email { get; set; }
-
-    public string Nif { get; set; } = null!;
 
     public long? EnderecoId { get; set; }
 
@@ -28,4 +28,9 @@ public partial class Cliente
     public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 
     public virtual ICollection<Veiculo> Veiculos { get; set; } = new List<Veiculo>();
+
+    public override string ToString()
+    {
+        return $"{Nome} {Sobrenome}";
+    }
 }

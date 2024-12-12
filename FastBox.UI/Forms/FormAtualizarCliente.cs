@@ -47,6 +47,8 @@ public partial class FormAtualizarCliente : Form
             TxtEmail.Text = cliente.Email;
             TxtMskNif.Text = cliente.Nif;
 
+            PanelInfoCliente.Enabled = true;
+
             if (cliente.Endereco != null)
             {
                 ChkCadastrarEndereco.Checked = true;

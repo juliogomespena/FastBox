@@ -23,6 +23,15 @@
     <Compile Update="Forms\FormAtualizarCliente.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\FormAtualizarVeiculo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormCadastrarVeiculo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormVeiculos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

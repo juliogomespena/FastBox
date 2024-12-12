@@ -14,23 +14,28 @@ internal class Startup
     {
         var services = new ServiceCollection();
 
-        services.AddDbContext<FastBoxDbContext>(options => options.UseAzureSql(connectionString));
-
+        services.AddDbContext<FastBoxDbContext>(options => options.UseAzureSql(connectionString), ServiceLifetime.Scoped);
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
         services.AddScoped<IClienteService, ClienteService>();
         services.AddScoped<IUsuarioService, UsuarioService>();
         services.AddScoped<IConcelhoService, ConcelhoService>();
         services.AddScoped<IEnderecoService, EnderecoService>();
+        services.AddScoped<IVeiculoService, VeiculoService>();
+        //services.AddScoped<IRelatorioService, RelatorioService>();
+        //services.AddScoped<IOrdemDeServicoService, OrdemDeServicoService>();
 
         services.AddTransient<FormLogin>();
         services.AddTransient<FormDashboard>();
-        services.AddTransient<FormClientes>();
-        services.AddTransient<FormOrdensDeServico>();
-        services.AddTransient<FormRelatorios>();
         services.AddTransient<FormSummary>();
-        services.AddTransient<FormVeiculos>();
+        services.AddTransient<FormClientes>();
         services.AddTransient<FormCadastrarCliente>();
         services.AddTransient<FormAtualizarCliente>();
+        services.AddTransient<FormVeiculos>();
+        services.AddTransient<FormCadastrarVeiculo>();
+        services.AddTransient<FormAtualizarVeiculo>();
+        services.AddTransient<FormOrdensDeServico>();
+        services.AddTransient<FormRelatorios>();
 
         return services.BuildServiceProvider();
 

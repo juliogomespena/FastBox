@@ -151,6 +151,7 @@
             PanelInfoCliente.Controls.Add(TxtSobrenome);
             PanelInfoCliente.Controls.Add(LblEmail);
             PanelInfoCliente.Controls.Add(LblTelemovel);
+            PanelInfoCliente.Enabled = false;
             PanelInfoCliente.Location = new Point(4, 25);
             PanelInfoCliente.Name = "PanelInfoCliente";
             PanelInfoCliente.Size = new Size(780, 164);

@@ -49,6 +49,7 @@
             DgvClientes.Location = new Point(3, 3);
             DgvClientes.Name = "DgvClientes";
             DgvClientes.ReadOnly = true;
+            DgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DgvClientes.Size = new Size(1258, 600);
             DgvClientes.TabIndex = 0;
             DgvClientes.CellToolTipTextNeeded += DgvClientes_CellToolTipTextNeeded;

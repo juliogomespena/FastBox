@@ -360,14 +360,12 @@
             // 
             // ChkCadastrarEndereco
             // 
-            ChkCadastrarEndereco.AutoSize = true;
-            ChkCadastrarEndereco.Location = new Point(8, 193);
+            ChkCadastrarEndereco.Location = new Point(5, 193);
             ChkCadastrarEndereco.Name = "ChkCadastrarEndereco";
-            ChkCadastrarEndereco.Size = new Size(143, 21);
-            ChkCadastrarEndereco.TabIndex = 16;
+            ChkCadastrarEndereco.Size = new Size(151, 24);
+            ChkCadastrarEndereco.TabIndex = 0;
             ChkCadastrarEndereco.Text = "Cadastrar endereço";
-            ChkCadastrarEndereco.UseVisualStyleBackColor = true;
-            ChkCadastrarEndereco.CheckedChanged += chkCadastrarEndereco_CheckedChanged;
+            ChkCadastrarEndereco.CheckedChanged += ChkCadastrarEndereco_CheckedChanged_1;
             // 
             // FormCadastrarCliente
             // 

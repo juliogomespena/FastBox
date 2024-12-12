@@ -1,5 +1,5 @@
 ﻿namespace FastBox.BLL.Services;
 
-internal class RelatorioService
+public class RelatorioService
 {
 }

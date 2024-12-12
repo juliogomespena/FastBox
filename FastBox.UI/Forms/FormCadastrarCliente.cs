@@ -117,14 +117,14 @@ public partial class FormCadastrarCliente : Form
                     MessageBox.Show("Selecione um concelho válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-            
+
 
             var cliente = new Cliente
             {
                 Nome = TxtNome.Text.Trim(),
                 Sobrenome = TxtSobrenome.Text.Trim(),
                 Telemovel = TxtMskTelemovel.Text.Trim(),
-                Email = TxtEmail.Text.Trim(),
+                Email = String.IsNullOrWhiteSpace(TxtEmail.Text.Trim()) ? null : TxtEmail.Text.Trim(),
                 Nif = TxtMskNif.Text.Trim(),
                 EnderecoId = enderecoId
             };
@@ -162,7 +162,7 @@ public partial class FormCadastrarCliente : Form
             LblInfoNif.Text = "NIF inválido!";
     }
 
-    private void chkCadastrarEndereco_CheckedChanged(object sender, EventArgs e)
+    private void ChkCadastrarEndereco_CheckedChanged_1(object sender, EventArgs e)
     {
         PanelEnderecoCliente.Enabled = ChkCadastrarEndereco.Checked;
     }

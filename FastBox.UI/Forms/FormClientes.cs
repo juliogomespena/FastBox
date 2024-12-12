@@ -17,7 +17,10 @@ public partial class FormClientes : Form
         _serviceProvider = serviceProvider;
     }
 
-    public Button ButtonClientes { get; set; }
+    public required Button buttonClientes;
+    public required Button buttonVeiculos;
+    public required Button buttonOrdensDeServico;
+    public required Button buttonRelatorios;
 
     private async void FormClientes_Load(object sender, EventArgs e)
     {
@@ -28,19 +31,16 @@ public partial class FormClientes : Form
     {
         try
         {
-            ButtonClientes.Enabled = false;
-            BtnRefresh.Enabled = false;
-            BtnNextPage.Enabled = false;
-            BtnPreviousPage.Enabled = false;
-            BtnAtualizarCliente.Enabled = false;
-            BtnCadastrarCliente.Enabled = false;
-            BtnExcluirCliente.Enabled = false;
+            ControlButtonsForDatabaseOperations();
             var clientes = await _clienteService.GetClientsInPagesAsync(page, size);
             DgvClientes.DataSource = clientes;
             DgvClientes.Columns["EnderecoCompleto"].Visible = false;
             DgvClientes.Columns["EnderecoResumido"].HeaderText = "Endereço";
             DgvClientes.Columns["DataCadastro"].HeaderText = "Data de cadastro";
+            DgvClientes.Columns["OrdensDeServico"].HeaderText = "Ordens de serviço";
+            DgvClientes.Columns["Veiculos"].HeaderText = "Veículos";
             DgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DgvClientes.MultiSelect = false;
         }
         catch (Exception ex)
         {
@@ -48,13 +48,7 @@ public partial class FormClientes : Form
         }
         finally
         {
-            ButtonClientes.Enabled = true;
-            BtnRefresh.Enabled = true;
-            BtnNextPage.Enabled = true;
-            BtnPreviousPage.Enabled = true;
-            BtnAtualizarCliente.Enabled = true;
-            BtnCadastrarCliente.Enabled = true;
-            BtnExcluirCliente.Enabled = true;
+            ControlButtonsForDatabaseOperations(true);
         }
     }
 
@@ -63,7 +57,7 @@ public partial class FormClientes : Form
         currentPage++;
         try
         {
-            BtnNextPage.Enabled = false;
+            ControlButtonsForDatabaseOperations();
             await LoadClientsIntoDgvAsync(currentPage, pageSize);
         }
         catch (Exception ex)
@@ -73,7 +67,7 @@ public partial class FormClientes : Form
         }
         finally
         {
-            BtnNextPage.Enabled = true;
+            ControlButtonsForDatabaseOperations(true);
         }
 
     }
@@ -85,7 +79,7 @@ public partial class FormClientes : Form
             currentPage--;
             try
             {
-                BtnPreviousPage.Enabled = false;
+                ControlButtonsForDatabaseOperations();
                 await LoadClientsIntoDgvAsync(currentPage, pageSize);
             }
             catch (Exception ex)
@@ -95,7 +89,7 @@ public partial class FormClientes : Form
             }
             finally
             {
-                BtnPreviousPage.Enabled = true;
+                ControlButtonsForDatabaseOperations(true);
             }
 
         }
@@ -148,6 +142,7 @@ public partial class FormClientes : Form
         {
             try
             {
+                ControlButtonsForDatabaseOperations();
                 var clienteId = (long)DgvClientes.SelectedRows[0].Cells["ClienteId"].Value;
                 var cliente = await _clienteService.GetClientByIdAsync(clienteId);
 
@@ -162,7 +157,7 @@ public partial class FormClientes : Form
                     MessageBox.Show("Cliente deletado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 if (ex.InnerException == null)
                     MessageBox.Show($"Erro ao deletar cliente: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -174,11 +169,25 @@ public partial class FormClientes : Form
 
                 MessageBox.Show($"Erro ao deletar cliente: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
 
             await LoadClientsIntoDgvAsync(1, pageSize);
         }
         else
             MessageBox.Show("Selecione um cliente para excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+
+    private void ControlButtonsForDatabaseOperations(bool buttonState = false)
+    {
+        buttonClientes.Enabled = buttonState;
+        buttonVeiculos.Enabled = buttonState;
+        buttonOrdensDeServico.Enabled = buttonState;
+        buttonRelatorios.Enabled = buttonState;
+        BtnRefresh.Enabled = buttonState;
+        BtnNextPage.Enabled = buttonState;
+        BtnPreviousPage.Enabled = buttonState;
+        BtnAtualizarCliente.Enabled = buttonState;
+        BtnCadastrarCliente.Enabled = buttonState;
+        BtnExcluirCliente.Enabled = buttonState;
     }
 }

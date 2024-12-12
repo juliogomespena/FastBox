@@ -17,7 +17,7 @@ public class ClienteService : IClienteService
 
     public async Task<IEnumerable<Cliente>> GetAllClients()
     {
-        return await _clienteRepository.GetAllAsync();
+        return await _clienteRepository.GetAllAsync(asNoTracking: true);
     }
 
     public async Task<IEnumerable<ClienteViewModel>> GetClientsInPagesAsync(int page, int size)
@@ -35,7 +35,9 @@ public class ClienteService : IClienteService
                 Sobrenome = c.Sobrenome,
                 Nif = c.Nif,
                 Telemovel = c.Telemovel,
-                Email = c.Email == null ? "E-mail não cadastrado" : c.Email,
+                Email = String.IsNullOrWhiteSpace(c.Email) ? "E-mail não cadastrado" : c.Email,
+                Veiculos = c.Veiculos.Count(),
+                OrdensDeServico = c.OrdemDeServicos.Count(),
                 DataCadastro = c.DataCadastro,
                 EnderecoResumido = c.Endereco == null ? "Endereço não cadastrado" : $"{c.Endereco.Logradouro}, {c.Endereco.Numero}",
                 EnderecoCompleto = c.Endereco == null ? "Endereço não cadastrado" : $"{c.Endereco.Logradouro}, {c.Endereco.Numero}, {(!string.IsNullOrWhiteSpace(c.Endereco.Complemento) ? c.Endereco.Complemento : "Sem complemento")}, {c.Endereco.Freguesia}, Concelho: {c.Endereco.Concelho.Nome}, Distrito: {c.Endereco.Concelho.Distrito.Nome}, {c.Endereco.CodigoPostal}, {c.Endereco.Pais}"
@@ -68,6 +70,23 @@ public class ClienteService : IClienteService
         return clienteExistente;
     }
 
+    public async Task<IEnumerable<ClienteViewModel>> GetClientsByNameAsync(string searchText)
+    {
+        return await _clienteRepository.Query()
+            .AsNoTracking()
+            .OrderByDescending(c => c.ClienteId)
+            .Where(c =>(c.Nome + " " + c.Sobrenome).Contains(searchText))
+            .Select(c => new ClienteViewModel
+            {
+                ClienteId = c.ClienteId,
+                Nome = c.Nome,
+                Sobrenome = c.Sobrenome,
+                Nif = c.Nif,
+                Telemovel = c.Telemovel,
+                Email = c.Email == null ? "E-mail não cadastrado" : c.Email
+            }).ToListAsync();
+    }
+
     public async Task AddClientAsync(Cliente cliente)
     {
         try
@@ -87,25 +106,6 @@ public class ClienteService : IClienteService
             _clienteRepository.DetachEntity(cliente);
         }
     }
-
-    //public async Task UpdateClientAsync(Cliente cliente)
-    //{
-    //    if (cliente.ClienteId <= 0)
-    //        throw new ArgumentException("Cliente inválido para atualização.");
-
-    //    var clienteExistente = await _clienteRepository.GetByIdAsync(cliente.ClienteId);
-
-    //    if (clienteExistente == null)
-    //        throw new Exception("Cliente não encontrado.");
-
-    //    clienteExistente.Nome = cliente.Nome;
-    //    clienteExistente.Sobrenome = cliente.Sobrenome;
-    //    clienteExistente.Telemovel = cliente.Telemovel;
-    //    clienteExistente.Email = cliente.Email;
-    //    clienteExistente.Nif = cliente.Nif;
-
-    //    await _clienteRepository.UpdateAsync(clienteExistente);
-    //}
 
     public async Task UpdateClientAsync(Cliente cliente)
     {
@@ -143,7 +143,7 @@ public class ClienteService : IClienteService
         }
         finally
         {
-            _clienteRepository.DetachEntity(cliente);
+            _clienteRepository.DetachEntity(clienteExistente);
         }
     }
 
@@ -153,6 +153,7 @@ public class ClienteService : IClienteService
         if (clienteExistente == null)
             throw new Exception("Cliente não encontrado.");
 
-        await _clienteRepository.DeleteAsync(cliente);
+        await _clienteRepository.DeleteAsync(clienteExistente);
+        _clienteRepository.DetachEntity(clienteExistente);
     }
 }

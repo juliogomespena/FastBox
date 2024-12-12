@@ -64,7 +64,10 @@ namespace FastBox.UI
         private void BtnClientes_Click(object sender, EventArgs e)
         {
             var frmClientes = _serviceProvider.GetRequiredService<FormClientes>();
-            frmClientes.ButtonClientes = this.BtnClientes;
+            frmClientes.buttonClientes = this.BtnClientes;
+            frmClientes.buttonVeiculos = this.BtnVeiculos;
+            frmClientes.buttonOrdensDeServico = this.BtnOrdensDeServico;
+            frmClientes.buttonRelatorios = this.BtnRelatorios;
             LoadFormInContainer(frmClientes);
         }
 
@@ -72,6 +75,16 @@ namespace FastBox.UI
         {
             var frmSummary = _serviceProvider.GetRequiredService<FormSummary>();
             LoadFormInContainer(frmSummary);
+        }
+
+        private void BtnVeiculos_Click(object sender, EventArgs e)
+        {
+            var frmVeiculos = _serviceProvider.GetRequiredService<FormVeiculos>();
+            frmVeiculos.buttonClientes = this.BtnClientes;
+            frmVeiculos.buttonVeiculos = this.BtnVeiculos;
+            frmVeiculos.buttonOrdensDeServico = this.BtnOrdensDeServico;
+            frmVeiculos.buttonRelatorios = this.BtnRelatorios;
+            LoadFormInContainer(frmVeiculos);
         }
     }
 }
