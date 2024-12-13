@@ -18,9 +18,11 @@ public class VeiculoViewModel
 
     public string? NomeCliente { get; set; }
 
-    public int OrdensDeServico { get; set; }
+    public int OrdensDeServico => OrdemDeServicos.Count();
 
     public string? Observacoes { get; set; }
+
+    public string? ModeloMatricula => $"{Modelo} ({Matricula})";
 
     public virtual Cliente? Cliente { get; set; }
 

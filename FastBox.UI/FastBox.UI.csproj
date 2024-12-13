@@ -26,7 +26,13 @@
     <Compile Update="Forms\FormAtualizarVeiculo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\FormCadastrarOrdem.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\FormCadastrarVeiculo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormOrdensDeServico.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\FormVeiculos.cs">

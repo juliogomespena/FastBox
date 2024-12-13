@@ -63,6 +63,7 @@ namespace FastBox.UI
 
         private void BtnClientes_Click(object sender, EventArgs e)
         {
+            LblPagina.Text = "- Clientes";
             var frmClientes = _serviceProvider.GetRequiredService<FormClientes>();
             frmClientes.buttonClientes = this.BtnClientes;
             frmClientes.buttonVeiculos = this.BtnVeiculos;
@@ -73,18 +74,31 @@ namespace FastBox.UI
 
         private void PicBoxLogo_Click(object sender, EventArgs e)
         {
+            LblPagina.Text = "";
             var frmSummary = _serviceProvider.GetRequiredService<FormSummary>();
             LoadFormInContainer(frmSummary);
         }
 
         private void BtnVeiculos_Click(object sender, EventArgs e)
         {
+            LblPagina.Text = "- Veículos";
             var frmVeiculos = _serviceProvider.GetRequiredService<FormVeiculos>();
             frmVeiculos.buttonClientes = this.BtnClientes;
             frmVeiculos.buttonVeiculos = this.BtnVeiculos;
             frmVeiculos.buttonOrdensDeServico = this.BtnOrdensDeServico;
             frmVeiculos.buttonRelatorios = this.BtnRelatorios;
             LoadFormInContainer(frmVeiculos);
+        }
+
+        private void BtnOrdensDeServico_Click(object sender, EventArgs e)
+        {
+            LblPagina.Text = "- Ordens de serviço";
+            var frmOrdemDeServico = _serviceProvider.GetRequiredService<FormOrdensDeServico>();
+            frmOrdemDeServico.buttonClientes = this.BtnClientes;
+            frmOrdemDeServico.buttonVeiculos = this.BtnVeiculos;
+            frmOrdemDeServico.buttonOrdensDeServico = this.BtnOrdensDeServico;
+            frmOrdemDeServico.buttonRelatorios = this.BtnRelatorios;
+            LoadFormInContainer(frmOrdemDeServico);
         }
     }
 }

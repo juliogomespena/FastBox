@@ -22,8 +22,8 @@ internal class Startup
         services.AddScoped<IConcelhoService, ConcelhoService>();
         services.AddScoped<IEnderecoService, EnderecoService>();
         services.AddScoped<IVeiculoService, VeiculoService>();
+        services.AddScoped<IOrdemDeServicoService, OrdemDeServicoService>();
         //services.AddScoped<IRelatorioService, RelatorioService>();
-        //services.AddScoped<IOrdemDeServicoService, OrdemDeServicoService>();
 
         services.AddTransient<FormLogin>();
         services.AddTransient<FormDashboard>();
@@ -35,6 +35,7 @@ internal class Startup
         services.AddTransient<FormCadastrarVeiculo>();
         services.AddTransient<FormAtualizarVeiculo>();
         services.AddTransient<FormOrdensDeServico>();
+        services.AddTransient<FormCadastrarOrdem>();
         services.AddTransient<FormRelatorios>();
 
         return services.BuildServiceProvider();

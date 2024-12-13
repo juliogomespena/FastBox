@@ -38,6 +38,7 @@ public partial class FormVeiculos : Form
             DgvVeiculos.Columns["ClienteId"].Visible = false;
             DgvVeiculos.Columns["Cliente"].Visible = false;
             DgvVeiculos.Columns["OrdemDeServicos"].Visible = false;
+            DgvVeiculos.Columns["ModeloMatricula"].Visible = false;
             DgvVeiculos.Columns["Observacoes"].HeaderText = "Observações";
             DgvVeiculos.Columns["NomeCliente"].HeaderText = "Cliente";
             DgvVeiculos.Columns["OrdensDeServico"].HeaderText = "Ordens de serviço";

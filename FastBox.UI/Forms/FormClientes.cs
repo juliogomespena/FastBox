@@ -40,10 +40,13 @@ public partial class FormClientes : Form
             DgvClientes.Columns["Usuarios"].Visible = false;
             DgvClientes.Columns["OrdemDeServicos"].Visible = false;
             DgvClientes.Columns["Veiculos"].Visible = false;
+            DgvClientes.Columns["Nome"].Visible = false;
+            DgvClientes.Columns["Sobrenome"].Visible = false;
             DgvClientes.Columns["EnderecoResumido"].HeaderText = "Endereço";
             DgvClientes.Columns["DataCadastro"].HeaderText = "Data de cadastro";
             DgvClientes.Columns["OrdensDeServicoCount"].HeaderText = "Ordens de serviço";
             DgvClientes.Columns["VeiculosCount"].HeaderText = "Veículos";
+            DgvClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
             DgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvClientes.MultiSelect = false;
         }

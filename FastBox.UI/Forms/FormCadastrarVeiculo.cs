@@ -1,4 +1,5 @@
-﻿using FastBox.BLL.Services;
+﻿using FastBox.BLL.DTOs;
+using FastBox.BLL.Services;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,15 +11,14 @@ namespace FastBox.UI.Forms;
 public partial class FormCadastrarVeiculo : Form
 {
     private readonly IVeiculoService _veiculoService;
-    private readonly IClienteService _clienteService;
     private readonly IServiceProvider _serviceProvider;
     private System.Windows.Forms.Timer _debounceTimer;
+    private bool _isUpdatingText = false;
 
-    public FormCadastrarVeiculo(IVeiculoService veiculoService, IClienteService clienteService, IServiceProvider serviceProvider)
+    public FormCadastrarVeiculo(IVeiculoService veiculoService, IServiceProvider serviceProvider)
     {
         InitializeComponent();
         _veiculoService = veiculoService;
-        _clienteService = clienteService;
         _serviceProvider = serviceProvider;
     }
 
@@ -43,7 +43,7 @@ public partial class FormCadastrarVeiculo : Form
             BtnCadastrarVeiculo.Enabled = false;
             long? clienteId = clienteFlag ? (long)DgvVeiculosClientes.SelectedRows[0].Cells["ClienteId"].Value : null;
 
-            var veiculo = new Veiculo
+            var veiculo = new VeiculoViewModel
             {
                 ClienteId = clienteId,
                 Marca = TxtMarca.Text.Trim(),
@@ -77,17 +77,11 @@ public partial class FormCadastrarVeiculo : Form
         }
     }
 
-    private void TxtMskMatricula_TextChanged(object sender, EventArgs e)
-    {
-        var regex = new Regex(@"^([A-Z]{2}-\d{2}-\d{2}|\d{2}-\d{2}-[A-Z]{2}|\d{2}-[A-Z]{2}-\d{2}|[A-Z]{2}-\d{2}-[A-Z]{2}|\d{2}-[A-Z]{2}-[A-Z]{2})$");
-        if (regex.IsMatch(TxtMskMatricula.Text))
-            LblInfoMatricula.Text = "OK!";
-        else
-            LblInfoMatricula.Text = "Inválido!";
-    }
-
     private async void TxtCliente_TextChanged(object sender, EventArgs e)
     {
+        if (_isUpdatingText)
+            return;
+
         _debounceTimer?.Stop();
         _debounceTimer = new System.Windows.Forms.Timer { Interval = 650 };
         _debounceTimer.Tick += async (s, ev) =>
@@ -115,6 +109,9 @@ public partial class FormCadastrarVeiculo : Form
                         DgvVeiculosClientes.Columns["Usuarios"].Visible = false;
                         DgvVeiculosClientes.Columns["VeiculosCount"].Visible = false;
                         DgvVeiculosClientes.Columns["OrdensDeServicoCount"].Visible = false;
+                        DgvVeiculosClientes.Columns["Nome"].Visible = false;
+                        DgvVeiculosClientes.Columns["Sobrenome"].Visible = false;
+                        DgvVeiculosClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
                         DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         DgvVeiculosClientes.MultiSelect = false;
                     }
@@ -157,11 +154,12 @@ public partial class FormCadastrarVeiculo : Form
             MessageBox.Show("Digite um ano válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
-        if (TxtMskMatricula.Text.Length != 8 || LblInfoMatricula.Text == "Inválido!")
+        if (String.IsNullOrWhiteSpace(TxtMskMatricula.Text))
         {
-            MessageBox.Show("Digite uma matrícula válida.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Digite uma matrícula para o veículo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
+
         return true;
     }
 
@@ -171,16 +169,17 @@ public partial class FormCadastrarVeiculo : Form
         frmCadastrarCliente.ShowDialog();
     }
 
-    private void DgvVeiculosClientes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    private void DgvVeiculosClientes_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.ColumnIndex == 5)
+        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
         {
-            string emailValue = e.Value?.ToString();
+            var row = DgvVeiculosClientes.Rows[e.RowIndex];
 
-            if (string.IsNullOrEmpty(emailValue))
+            if (row.Cells["NomeSobrenome"] != null && row.Cells["NomeSobrenome"].Value != null)
             {
-                e.Value = "Não cadastrado";
-                e.FormattingApplied = true;
+                _isUpdatingText = true;
+                TxtCliente.Text = row.Cells["NomeSobrenome"].Value.ToString();
+                _isUpdatingText = false;
             }
         }
     }

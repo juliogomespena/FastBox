@@ -15,9 +15,26 @@ public class VeiculoService : IVeiculoService
         _veiculoRepository = veiculoRepository;
     }
 
-    public async Task<IEnumerable<Veiculo>> GetAllVeiculos()
+    public async Task<IEnumerable<VeiculoViewModel>> GetAllVeiculos()
     {
-        return await _veiculoRepository.GetAllAsync(asNoTracking: true);
+        return await _veiculoRepository.Query()
+            .AsNoTracking()
+            .Include(v => v.Cliente)
+            .Include(v => v.OrdemDeServicos)
+            .Select(v => new VeiculoViewModel
+            {
+                VeiculoId = v.VeiculoId,
+                ClienteId = v.ClienteId == null ? 0 : v.ClienteId,
+                Marca = v.Marca,
+                Modelo = v.Modelo,
+                Ano = v.Ano,
+                Matricula = v.Matricula,
+                NomeCliente = v.Cliente == null ? "Não cadastrado" : v.Cliente.ToString(),
+                Observacoes = string.IsNullOrEmpty(v.Observacoes) ? "Sem observações" : v.Observacoes,
+                Cliente = v.Cliente,
+                OrdemDeServicos = v.OrdemDeServicos
+            })
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<VeiculoViewModel>> GetVeiculosInPagesAsync(int page, int size)
@@ -36,41 +53,53 @@ public class VeiculoService : IVeiculoService
             Ano = v.Ano,
             Matricula = v.Matricula,
             NomeCliente = v.Cliente == null ? "Não cadastrado" : v.Cliente.ToString(),
-            OrdensDeServico = v.OrdemDeServicos.Count,
             Observacoes = string.IsNullOrEmpty(v.Observacoes) ? "Sem observações" : v.Observacoes,
         })
         .ToListAsync();
     }
 
-    public async Task<Veiculo> GetVeiculoByIdAsync(long id)
+    public async Task<VeiculoViewModel> GetVeiculoByIdAsync(long id)
     {
-        var veiculoExistente = await _veiculoRepository.GetByIdAsync(id);
+        var veiculoExistente = await _veiculoRepository.Query()
+            .Include(v => v.Cliente)
+            .Include(v => v.OrdemDeServicos)
+            .FirstOrDefaultAsync(v => v.VeiculoId == id);
 
         if (veiculoExistente == null)
             throw new Exception("Veículo não encontrado.");
 
-        return veiculoExistente;
+        return new VeiculoViewModel
+        {
+            VeiculoId = veiculoExistente.VeiculoId,
+            ClienteId = veiculoExistente.ClienteId == null ? 0 : veiculoExistente.ClienteId,
+            Marca = veiculoExistente.Marca,
+            Modelo = veiculoExistente.Modelo,
+            Ano = veiculoExistente.Ano,
+            Matricula = veiculoExistente.Matricula,
+            NomeCliente = veiculoExistente.Cliente == null ? "Não cadastrado" : veiculoExistente.Cliente.ToString(),
+            Observacoes = string.IsNullOrEmpty(veiculoExistente.Observacoes) ? "Sem observações" : veiculoExistente.Observacoes,
+            Cliente = veiculoExistente.Cliente,
+            OrdemDeServicos = veiculoExistente.OrdemDeServicos
+        };
     }
 
-    public async Task<Veiculo> GetVeiculoByIdWithIncludesAsync(long id)
+    public async Task AddVeiculoAsync(VeiculoViewModel veiculo)
     {
-        var veiculoExistente = await _veiculoRepository.GetByIdWithIncludesAsync(
-            v => v.VeiculoId == id,
-            v => v.Cliente,
-            v => v.OrdemDeServicos
-        );
+        var veiculoConverted = new Veiculo
+        {
+            ClienteId = veiculo.ClienteId,
+            Marca = veiculo.Marca,
+            Modelo = veiculo.Modelo,
+            Ano = veiculo.Ano,
+            Matricula = veiculo.Matricula,
+            Observacoes = veiculo.Observacoes,
+            Cliente = veiculo.Cliente,
+            OrdemDeServicos = veiculo.OrdemDeServicos
+        };
 
-        if (veiculoExistente == null)
-            throw new Exception("Veículo não encontrado.");
-
-        return veiculoExistente;
-    }
-
-    public async Task AddVeiculoAsync(Veiculo veiculo)
-    {
         try
         {
-            await _veiculoRepository.AddAsync(veiculo);
+            await _veiculoRepository.AddAsync(veiculoConverted);
         }
         catch (DbUpdateException ex)
         {
@@ -82,11 +111,11 @@ public class VeiculoService : IVeiculoService
         }
         finally
         {
-            _veiculoRepository.DetachEntity(veiculo);
+            _veiculoRepository.DetachEntity(veiculoConverted);
         }
     }
 
-    public async Task UpdateVeiculoAsync(Veiculo veiculo)
+    public async Task UpdateVeiculoAsync(VeiculoViewModel veiculo)
     {
         var veiculoExistente = await _veiculoRepository.GetByIdAsync(veiculo.VeiculoId);
         if (veiculoExistente == null)
@@ -117,7 +146,7 @@ public class VeiculoService : IVeiculoService
         }
     }
 
-    public async Task DeleteVeiculoAsync(Veiculo veiculo)
+    public async Task DeleteVeiculoAsync(VeiculoViewModel veiculo)
     {
         var veiculoExistente = await _veiculoRepository.GetByIdAsync(veiculo.VeiculoId);
         if (veiculoExistente == null)

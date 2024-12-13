@@ -53,11 +53,6 @@ public partial class FormCadastrarCliente : Form
             MessageBox.Show("Digite um telemóvel válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
-        if (TxtMskNif.Text.Length != 9 || LblInfoNif.Text == "NIF inválido!")
-        {
-            MessageBox.Show("Digite um NIF válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return false;
-        }
         if (ChkCadastrarEndereco.Checked)
         {
             if (String.IsNullOrWhiteSpace(TxtLogradouro.Text))
@@ -158,6 +153,8 @@ public partial class FormCadastrarCliente : Form
         var regex = new Regex(@"^[1-9][0-9]{8}$");
         if (regex.IsMatch(TxtMskNif.Text))
             LblInfoNif.Text = "OK!";
+        else if (String.IsNullOrWhiteSpace(TxtMskNif.Text))
+            LblInfoNif.Text = "";
         else
             LblInfoNif.Text = "NIF inválido!";
     }

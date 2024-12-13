@@ -61,7 +61,7 @@ public partial class FastBoxDbContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .HasDefaultValueSql("(NULL)");
-            entity.Property(e => e.Nif).HasMaxLength(20);
+            entity.Property(e => e.Nif).HasMaxLength(50);
             entity.Property(e => e.Nome).HasMaxLength(45);
             entity.Property(e => e.Sobrenome).HasMaxLength(100);
             entity.Property(e => e.Telemovel).HasMaxLength(30);

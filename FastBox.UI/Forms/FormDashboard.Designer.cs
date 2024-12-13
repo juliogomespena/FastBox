@@ -44,6 +44,7 @@
             BtnClientes = new Button();
             PanelMain = new Panel();
             DataHora = new System.Windows.Forms.Timer(components);
+            LblPagina = new Label();
             PanelTopMenu.SuspendLayout();
             PanelTopMenuBorder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PicBoxLogo).BeginInit();
@@ -67,6 +68,7 @@
             PanelTopMenuBorder.AutoSize = true;
             PanelTopMenuBorder.BackColor = SystemColors.ControlLight;
             PanelTopMenuBorder.BorderStyle = BorderStyle.Fixed3D;
+            PanelTopMenuBorder.Controls.Add(LblPagina);
             PanelTopMenuBorder.Controls.Add(LblDataHora);
             PanelTopMenuBorder.Controls.Add(LblTitulo);
             PanelTopMenuBorder.Controls.Add(LblBemVindo);
@@ -189,6 +191,7 @@
             BtnOrdensDeServico.TabIndex = 2;
             BtnOrdensDeServico.Text = "Ordens de serviço";
             BtnOrdensDeServico.UseVisualStyleBackColor = false;
+            BtnOrdensDeServico.Click += BtnOrdensDeServico_Click;
             // 
             // BtnVeiculos
             // 
@@ -234,6 +237,16 @@
             DataHora.Interval = 1000;
             DataHora.Tick += DataHora_Tick;
             // 
+            // LblPagina
+            // 
+            LblPagina.Anchor = AnchorStyles.Left;
+            LblPagina.AutoSize = true;
+            LblPagina.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            LblPagina.Location = new Point(446, 16);
+            LblPagina.Name = "LblPagina";
+            LblPagina.Size = new Size(0, 30);
+            LblPagina.TabIndex = 5;
+            // 
             // FormDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -274,5 +287,6 @@
         private Panel PanelTopMenuBorder;
         private Label LblDataHora;
         private Button BtnSair;
+        private Label LblPagina;
     }
 }

@@ -41,7 +41,6 @@
             LblCliente = new Label();
             TxtCliente = new TextBox();
             RTxtObservacoes = new RichTextBox();
-            LblInfoMatricula = new Label();
             TxtMskMatricula = new MaskedTextBox();
             TxtMskAno = new MaskedTextBox();
             LblInfoVeiculo = new Label();
@@ -125,7 +124,6 @@
             PanelInfoVeiculo.Controls.Add(LblCliente);
             PanelInfoVeiculo.Controls.Add(TxtCliente);
             PanelInfoVeiculo.Controls.Add(RTxtObservacoes);
-            PanelInfoVeiculo.Controls.Add(LblInfoMatricula);
             PanelInfoVeiculo.Controls.Add(TxtMskMatricula);
             PanelInfoVeiculo.Controls.Add(TxtMskAno);
             PanelInfoVeiculo.Controls.Add(LblMarca);
@@ -155,7 +153,7 @@
             DgvVeiculosClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DgvVeiculosClientes.Size = new Size(776, 197);
             DgvVeiculosClientes.TabIndex = 17;
-            DgvVeiculosClientes.CellFormatting += DgvVeiculosClientes_CellFormatting;
+            DgvVeiculosClientes.CellClick += DgvVeiculosClientes_CellClick;
             // 
             // BtnNovoCliente
             // 
@@ -196,23 +194,13 @@
             RTxtObservacoes.TabIndex = 13;
             RTxtObservacoes.Text = "";
             // 
-            // LblInfoMatricula
-            // 
-            LblInfoMatricula.AutoSize = true;
-            LblInfoMatricula.Location = new Point(219, 73);
-            LblInfoMatricula.Name = "LblInfoMatricula";
-            LblInfoMatricula.Size = new Size(0, 17);
-            LblInfoMatricula.TabIndex = 12;
-            // 
             // TxtMskMatricula
             // 
             TxtMskMatricula.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtMskMatricula.Location = new Point(107, 63);
-            TxtMskMatricula.Mask = "&&-&&-&&";
             TxtMskMatricula.Name = "TxtMskMatricula";
-            TxtMskMatricula.Size = new Size(106, 33);
+            TxtMskMatricula.Size = new Size(164, 33);
             TxtMskMatricula.TabIndex = 5;
-            TxtMskMatricula.TextChanged += TxtMskMatricula_TextChanged;
             TxtMskMatricula.KeyPress += TxtMskMatricula_KeyPress;
             // 
             // TxtMskAno
@@ -281,7 +269,6 @@
         private Button BtnAtualizarVeiculo;
         private MaskedTextBox TxtMskAno;
         private MaskedTextBox TxtMskMatricula;
-        private Label LblInfoMatricula;
         private RichTextBox RTxtObservacoes;
         private Button BtnNovoCliente;
         private Label LblCliente;

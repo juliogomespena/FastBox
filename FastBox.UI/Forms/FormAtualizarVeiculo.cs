@@ -11,15 +11,14 @@ namespace FastBox.UI.Forms;
 public partial class FormAtualizarVeiculo : Form
 {
     private readonly IVeiculoService _veiculoService;
-    private readonly IClienteService _clienteService;
     private readonly IServiceProvider _serviceProvider;
     private System.Windows.Forms.Timer _debounceTimer;
+    private bool _isUpdatingText = false;
 
-    public FormAtualizarVeiculo(IVeiculoService veiculoService, IClienteService clienteService, IServiceProvider serviceProvider)
+    public FormAtualizarVeiculo(IVeiculoService veiculoService, IServiceProvider serviceProvider)
     {
         InitializeComponent();
         _veiculoService = veiculoService;
-        _clienteService = clienteService;
         _serviceProvider = serviceProvider;
     }
 
@@ -92,17 +91,11 @@ public partial class FormAtualizarVeiculo : Form
         }
     }
 
-    private void TxtMskMatricula_TextChanged(object sender, EventArgs e)
-    {
-        var regex = new Regex(@"^([A-Z]{2}-\d{2}-\d{2}|\d{2}-\d{2}-[A-Z]{2}|\d{2}-[A-Z]{2}-\d{2}|[A-Z]{2}-\d{2}-[A-Z]{2}|\d{2}-[A-Z]{2}-[A-Z]{2})$");
-        if (regex.IsMatch(TxtMskMatricula.Text))
-            LblInfoMatricula.Text = "OK!";
-        else
-            LblInfoMatricula.Text = "Inválido!";
-    }
-
     private async void TxtCliente_TextChanged(object sender, EventArgs e)
     {
+        if (_isUpdatingText)
+            return;
+
         _debounceTimer?.Stop();
         _debounceTimer = new System.Windows.Forms.Timer { Interval = 650 };
         _debounceTimer.Tick += async (s, ev) =>
@@ -174,11 +167,12 @@ public partial class FormAtualizarVeiculo : Form
             MessageBox.Show("Digite um ano válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
-        if (TxtMskMatricula.Text.Length != 8 || LblInfoMatricula.Text == "Inválido!")
+        if(String.IsNullOrWhiteSpace(TxtMskMatricula.Text))
         {
-            MessageBox.Show("Digite uma matrícula válida.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Digite uma matrícula para o veículo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
+
         return true;
     }
 
@@ -192,7 +186,7 @@ public partial class FormAtualizarVeiculo : Form
     {
         try
         {
-            var veiculo = await _veiculoService.GetVeiculoByIdWithIncludesAsync(VeiculoId);
+            var veiculo = await _veiculoService.GetVeiculoByIdAsync(VeiculoId);
 
             if (veiculo == null)
             {
@@ -212,7 +206,7 @@ public partial class FormAtualizarVeiculo : Form
                 TxtCliente.Text = veiculo.Cliente.Nome + " " + veiculo.Cliente.Sobrenome;
             }
 
-                PanelInfoVeiculo.Enabled = true;
+            PanelInfoVeiculo.Enabled = true;
         }
         catch (Exception ex)
         {
@@ -220,17 +214,18 @@ public partial class FormAtualizarVeiculo : Form
         }
     }
 
-    private void DgvVeiculosClientes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    private void DgvVeiculosClientes_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-        //if (e.ColumnIndex == 5)
-        //{
-        //    string emailValue = e.Value?.ToString();
+        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+        {
+            var row = DgvVeiculosClientes.Rows[e.RowIndex];
 
-        //    if (string.IsNullOrEmpty(emailValue))
-        //    {
-        //        e.Value = "Não cadastrado";
-        //        e.FormattingApplied = true;
-        //    }
-        //}
+            if (row.Cells["NomeSobrenome"] != null && row.Cells["NomeSobrenome"].Value != null)
+            {
+                _isUpdatingText = true;
+                TxtCliente.Text = row.Cells["NomeSobrenome"].Value.ToString();
+                _isUpdatingText = false;
+            }
+        }
     }
 }
