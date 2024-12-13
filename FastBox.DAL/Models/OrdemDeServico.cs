@@ -16,6 +16,7 @@ public partial class OrdemDeServico
     public string Descricao { get; set; } = null!;
 
     public DateTime DataAbertura { get; set; }
+    public DateTime? EstimativaConclusao { get; set; }
 
     public DateTime? DataConclusao { get; set; }
 
@@ -25,7 +26,7 @@ public partial class OrdemDeServico
 
     public virtual Cliente? Cliente { get; set; }
 
-    public virtual ICollection<ItemOrdemDeServico> ItemOrdemDeServicos { get; set; } = new List<ItemOrdemDeServico>();
+    public virtual ICollection<Orcamento> Orcamentos { get; set; } = new List<Orcamento>();
 
     public virtual ICollection<Pagamento> Pagamentos { get; set; } = new List<Pagamento>();
 

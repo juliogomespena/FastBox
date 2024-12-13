@@ -123,19 +123,23 @@ public partial class FormAtualizarVeiculo : Form
                         DgvVeiculosClientes.Columns["EnderecoResumido"].Visible = false;
                         DgvVeiculosClientes.Columns["EnderecoCompleto"].Visible = false;
                         DgvVeiculosClientes.Columns["DataCadastro"].Visible = false;
-                        DgvVeiculosClientes.Columns["OrdensDeServico"].Visible = false;
+                        DgvVeiculosClientes.Columns["OrdemDeServicos"].Visible = false;
                         DgvVeiculosClientes.Columns["Veiculos"].Visible = false;
+                        DgvVeiculosClientes.Columns["EnderecoId"].Visible = false;
+                        DgvVeiculosClientes.Columns["Endereco"].Visible = false;
+                        DgvVeiculosClientes.Columns["Usuarios"].Visible = false;
+                        DgvVeiculosClientes.Columns["VeiculosCount"].Visible = false;
+                        DgvVeiculosClientes.Columns["OrdensDeServicoCount"].Visible = false;
                         DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         DgvVeiculosClientes.MultiSelect = false;
+                        DgvVeiculosClientes.ClearSelection();
+                        DgvVeiculosClientes.Rows[0].Selected = true;
                     }
                 }
                 else
                 {
                     DgvVeiculosClientes.DataSource = null;
                 }
-            }
-            catch (OperationCanceledException)
-            {
             }
             catch (Exception ex)
             {
@@ -218,15 +222,15 @@ public partial class FormAtualizarVeiculo : Form
 
     private void DgvVeiculosClientes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
-        if (e.ColumnIndex == 5)
-        {
-            string emailValue = e.Value?.ToString();
+        //if (e.ColumnIndex == 5)
+        //{
+        //    string emailValue = e.Value?.ToString();
 
-            if (string.IsNullOrEmpty(emailValue))
-            {
-                e.Value = "Não cadastrado";
-                e.FormattingApplied = true;
-            }
-        }
+        //    if (string.IsNullOrEmpty(emailValue))
+        //    {
+        //        e.Value = "Não cadastrado";
+        //        e.FormattingApplied = true;
+        //    }
+        //}
     }
 }

@@ -5,8 +5,6 @@ namespace FastBox.DAL;
 
 public partial class FastBoxDbContext : DbContext
 {
-    private readonly string _connectionString;
-
     public FastBoxDbContext(DbContextOptions<FastBoxDbContext> options)
             : base(options)
     {
@@ -24,7 +22,8 @@ public partial class FastBoxDbContext : DbContext
 
     public virtual DbSet<Fornecedor> Fornecedors { get; set; }
 
-    public virtual DbSet<ItemOrdemDeServico> ItemOrdemDeServicos { get; set; }
+    public virtual DbSet<ItemOrcamento> ItemOrcamentos { get; set; }
+    public virtual DbSet<Orcamento> Orcamentos { get; set; }
 
     public virtual DbSet<MetodoPagamento> MetodoPagamentos { get; set; }
 
@@ -39,12 +38,6 @@ public partial class FastBoxDbContext : DbContext
     public virtual DbSet<Veiculo> Veiculos { get; set; }
 
     public virtual DbSet<NivelDeAcesso> NivelDeAcessos { get; set; }
-
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //{
-    //    optionsBuilder.UseAzureSql(_connectionString);
-    //}
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -102,6 +95,11 @@ public partial class FastBoxDbContext : DbContext
             entity.ToTable("Distrito", "fastbox-db");
 
             entity.Property(e => e.Nome).HasMaxLength(100);
+
+            entity.HasMany(d => d.Concelhos).WithOne(c => c.Distrito)
+            .HasForeignKey(c => c.DistritoId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("Concelho$fk_Concelho_Distrito");
         });
 
         modelBuilder.Entity<Endereco>(entity =>
@@ -171,21 +169,38 @@ public partial class FastBoxDbContext : DbContext
                 .HasConstraintName("Fornecedor$fk_Fornecedor_Endereco");
         });
 
-        modelBuilder.Entity<ItemOrdemDeServico>(entity =>
+        modelBuilder.Entity<ItemOrcamento>(entity =>
         {
-            entity.HasKey(e => e.ItemOrdemDeServicoId).HasName("PK_ItemOrdemDeServico_ItemOrdemDeServicoId");
+            entity.HasKey(e => e.ItemOrcamentoId).HasName("PK_ItemOrcamento_ItemOrcamentoId");
 
-            entity.ToTable("ItemOrdemDeServico", "fastbox-db");
+            entity.ToTable("ItemOrcamento", "fastbox-db");
 
-            entity.HasIndex(e => e.OrdemDeServicoId, "fk_ItemOrdemDeServico_OrdemDeServico1_idx");
+            entity.HasIndex(e => e.OrcamentoId, "fk_ItemOrcamento_Orcamento1_idx");
 
-            entity.Property(e => e.Descricao).HasMaxLength(50);
+            entity.Property(e => e.Descricao).HasMaxLength(255);
             entity.Property(e => e.PrecoUnitario).HasColumnType("decimal(10, 2)");
 
-            entity.HasOne(d => d.OrdemDeServico).WithMany(p => p.ItemOrdemDeServicos)
-                .HasForeignKey(d => d.OrdemDeServicoId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("ItemOrdemDeServico$fk_ItemOrdemDeServico_OrdemDeServico");
+            entity.HasOne(d => d.Orcamento).WithMany(p => p.ItensOrcamento)
+                .HasForeignKey(d => d.OrcamentoId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("ItemOrcamento$fk_ItemOrcamento_Orcamento");
+        });
+
+        modelBuilder.Entity<Orcamento>(entity =>
+        {
+            entity.HasKey(e => e.OrcamentoId).HasName("PK_Orcamento_OrcamentoId");
+
+            entity.ToTable("Orcamento", "fastbox-db");
+
+            entity.HasIndex(e => e.OrdemDeServicoId, "fk_Orcamento_OrdemDeServico1_idx");
+
+            entity.Property(e => e.DataCriacao).HasPrecision(0).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.Descricao).HasMaxLength(255);
+
+            entity.HasOne(d => d.OrdemDeServico).WithMany(p => p.Orcamentos)
+            .HasForeignKey(d => d.OrdemDeServicoId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .HasConstraintName("Orcamento$fk_Orcamento_OrdemDeServico");
         });
 
         modelBuilder.Entity<MetodoPagamento>(entity =>
@@ -214,6 +229,9 @@ public partial class FastBoxDbContext : DbContext
             entity.Property(e => e.DataAbertura)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.EstimativaConclusao)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(NULL)");
             entity.Property(e => e.DataConclusao)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(NULL)");

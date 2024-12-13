@@ -144,6 +144,8 @@
             // 
             DgvVeiculosClientes.AllowUserToAddRows = false;
             DgvVeiculosClientes.AllowUserToDeleteRows = false;
+            DgvVeiculosClientes.AllowUserToResizeColumns = false;
+            DgvVeiculosClientes.AllowUserToResizeRows = false;
             DgvVeiculosClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DgvVeiculosClientes.Dock = DockStyle.Bottom;
             DgvVeiculosClientes.Location = new Point(0, 163);

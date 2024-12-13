@@ -113,6 +113,7 @@
             Name = "FormLogin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FastBox - Login";
+            FormClosing += FormLogin_FormClosing;
             ((System.ComponentModel.ISupportInitialize)PicBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();

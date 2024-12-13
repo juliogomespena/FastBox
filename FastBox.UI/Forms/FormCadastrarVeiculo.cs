@@ -107,9 +107,14 @@ public partial class FormCadastrarVeiculo : Form
                         DgvVeiculosClientes.DataSource = clientes.ToList();
                         DgvVeiculosClientes.Columns["EnderecoResumido"].Visible = false;
                         DgvVeiculosClientes.Columns["EnderecoCompleto"].Visible = false;
-                        DgvVeiculosClientes.Columns["OrdensDeServico"].Visible = false;
-                        DgvVeiculosClientes.Columns["Veiculos"].Visible = false;
                         DgvVeiculosClientes.Columns["DataCadastro"].Visible = false;
+                        DgvVeiculosClientes.Columns["OrdemDeServicos"].Visible = false;
+                        DgvVeiculosClientes.Columns["Veiculos"].Visible = false;
+                        DgvVeiculosClientes.Columns["EnderecoId"].Visible = false;
+                        DgvVeiculosClientes.Columns["Endereco"].Visible = false;
+                        DgvVeiculosClientes.Columns["Usuarios"].Visible = false;
+                        DgvVeiculosClientes.Columns["VeiculosCount"].Visible = false;
+                        DgvVeiculosClientes.Columns["OrdensDeServicoCount"].Visible = false;
                         DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         DgvVeiculosClientes.MultiSelect = false;
                     }
@@ -118,9 +123,6 @@ public partial class FormCadastrarVeiculo : Form
                 {
                     DgvVeiculosClientes.DataSource = null;
                 }
-            }
-            catch (OperationCanceledException)
-            {
             }
             catch (Exception ex)
             {

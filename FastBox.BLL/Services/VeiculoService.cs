@@ -35,10 +35,9 @@ public class VeiculoService : IVeiculoService
             Modelo = v.Modelo,
             Ano = v.Ano,
             Matricula = v.Matricula,
-            Cliente = v.Cliente == null ? "Não cadastrado" : v.Cliente.ToString(),
+            NomeCliente = v.Cliente == null ? "Não cadastrado" : v.Cliente.ToString(),
             OrdensDeServico = v.OrdemDeServicos.Count,
-            ObservacoesResumido = string.IsNullOrEmpty(v.Observacoes) ? "Sem observações" : v.Observacoes.Length > 20 ? v.Observacoes.Substring(0, 20) + "..." : v.Observacoes,
-            ObservacoesCompleto = v.Observacoes
+            Observacoes = string.IsNullOrEmpty(v.Observacoes) ? "Sem observações" : v.Observacoes,
         })
         .ToListAsync();
     }

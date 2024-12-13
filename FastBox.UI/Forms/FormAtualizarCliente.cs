@@ -32,7 +32,7 @@ public partial class FormAtualizarCliente : Form
             CmbConcelho.DisplayMember = "Nome";
             CmbConcelho.ValueMember = "ConcelhoId";
 
-            var cliente = await _clienteService.GetClientByIdWithIncludesAsync(ClienteId);
+            var cliente = await _clienteService.GetClientByIdAsync(ClienteId);
 
             if (cliente == null)
             {
@@ -132,7 +132,7 @@ public partial class FormAtualizarCliente : Form
             BtnAtualizarCliente.Enabled = false;
 
             var cliente = await _clienteService.GetClientByIdAsync(ClienteId);
-            Endereco enderecoExistente;
+            Endereco? enderecoExistente = null;
             long? enderecoId = null;
 
             if (ChkCadastrarEndereco.Checked)
@@ -175,7 +175,6 @@ public partial class FormAtualizarCliente : Form
                 }  
             }
             
-
             cliente.Nome = TxtNome.Text.Trim();
             cliente.Sobrenome = TxtSobrenome.Text.Trim();
             cliente.Telemovel = TxtMskTelemovel.Text.Trim();

@@ -3,6 +3,7 @@ using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using FastBox.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace FastBox.BLL.Services;
 
@@ -15,9 +16,27 @@ public class ClienteService : IClienteService
         _clienteRepository = clientRepository;
     }
 
-    public async Task<IEnumerable<Cliente>> GetAllClients()
+    public async Task<IEnumerable<ClienteViewModel>> GetAllClients()
     {
-        return await _clienteRepository.GetAllAsync(asNoTracking: true);
+        var clientes = await _clienteRepository.Query().ToListAsync();
+        return clientes.Select(c => new ClienteViewModel
+        {
+            ClienteId = c.ClienteId,
+            Nome = c.Nome,
+            Sobrenome = c.Sobrenome,
+            Nif = c.Nif,
+            Telemovel = c.Telemovel,
+            Email = String.IsNullOrWhiteSpace(c.Email) ? "E-mail não cadastrado" : c.Email,
+            DataCadastro = c.DataCadastro,
+            VeiculosCount = c.Veiculos.Count(),
+            OrdensDeServicoCount = c.OrdemDeServicos.Count(),
+            EnderecoResumido = c.Endereco == null ? "Endereço não cadastrado" : $"{c.Endereco.Logradouro}, {c.Endereco.Numero}",
+            EnderecoCompleto = c.Endereco == null ? "Endereço não cadastrado" : $"{c.Endereco.Logradouro}, {c.Endereco.Numero}, {(!string.IsNullOrWhiteSpace(c.Endereco.Complemento) ? c.Endereco.Complemento : "Sem complemento")}, {c.Endereco.Freguesia}, Concelho: {c.Endereco.Concelho.Nome}, Distrito: {c.Endereco.Concelho.Distrito.Nome}, {c.Endereco.CodigoPostal}, {c.Endereco.Pais}",
+            Endereco = c.Endereco,
+            OrdemDeServicos = c.OrdemDeServicos,
+            Usuarios = c.Usuarios,
+            Veiculos = c.Veiculos,
+        }).ToList();
     }
 
     public async Task<IEnumerable<ClienteViewModel>> GetClientsInPagesAsync(int page, int size)
@@ -36,38 +55,48 @@ public class ClienteService : IClienteService
                 Nif = c.Nif,
                 Telemovel = c.Telemovel,
                 Email = String.IsNullOrWhiteSpace(c.Email) ? "E-mail não cadastrado" : c.Email,
-                Veiculos = c.Veiculos.Count(),
-                OrdensDeServico = c.OrdemDeServicos.Count(),
                 DataCadastro = c.DataCadastro,
+                VeiculosCount = c.Veiculos.Count(),
+                OrdensDeServicoCount = c.OrdemDeServicos.Count(),
                 EnderecoResumido = c.Endereco == null ? "Endereço não cadastrado" : $"{c.Endereco.Logradouro}, {c.Endereco.Numero}",
-                EnderecoCompleto = c.Endereco == null ? "Endereço não cadastrado" : $"{c.Endereco.Logradouro}, {c.Endereco.Numero}, {(!string.IsNullOrWhiteSpace(c.Endereco.Complemento) ? c.Endereco.Complemento : "Sem complemento")}, {c.Endereco.Freguesia}, Concelho: {c.Endereco.Concelho.Nome}, Distrito: {c.Endereco.Concelho.Distrito.Nome}, {c.Endereco.CodigoPostal}, {c.Endereco.Pais}"
+                EnderecoCompleto = c.Endereco == null ? "Endereço não cadastrado" : $"{c.Endereco.Logradouro}, {c.Endereco.Numero}, {(!string.IsNullOrWhiteSpace(c.Endereco.Complemento) ? c.Endereco.Complemento : "Sem complemento")}, {c.Endereco.Freguesia}, Concelho: {c.Endereco.Concelho.Nome}, Distrito: {c.Endereco.Concelho.Distrito.Nome}, {c.Endereco.CodigoPostal}, {c.Endereco.Pais}",
             })
             .ToListAsync();
     }
 
-    public async Task<Cliente> GetClientByIdAsync(long id)
+    public async Task<ClienteViewModel> GetClientByIdAsync(long id)
     {
-        var clienteExistente = await _clienteRepository.GetByIdAsync(id);
+        var clienteExistente = await _clienteRepository.Query()
+    .Include(c => c.Endereco)
+    .Include(c => c.Endereco.Concelho)
+    .Include(c => c.Endereco.Concelho.Distrito)
+    .Include(c => c.Usuarios) 
+    .Include(c => c.OrdemDeServicos)
+    .Include(c => c.Veiculos)
+    .FirstOrDefaultAsync(c => c.ClienteId == id);
 
         if (clienteExistente == null)
             throw new Exception("Cliente não encontrado.");
 
-        return clienteExistente;
-    }
-
-    public async Task<Cliente> GetClientByIdWithIncludesAsync(long id)
-    {
-        var clienteExistente = await _clienteRepository.GetByIdWithIncludesAsync(
-            c => c.ClienteId == id,
-            c => c.Endereco,
-            c => c.Veiculos,
-            c => c.OrdemDeServicos
-        );
-
-        if (clienteExistente == null)
-            throw new Exception("Cliente não encontrado.");
-
-        return clienteExistente;
+        return new ClienteViewModel 
+        {
+            ClienteId = clienteExistente.ClienteId,
+            Nome = clienteExistente.Nome,
+            Sobrenome = clienteExistente.Sobrenome,
+            Nif = clienteExistente.Nif,
+            Telemovel = clienteExistente.Telemovel,
+            Email = String.IsNullOrWhiteSpace(clienteExistente.Email) ? "E-mail não cadastrado" : clienteExistente.Email,
+            DataCadastro = clienteExistente.DataCadastro,
+            VeiculosCount = clienteExistente.Veiculos.Count(),
+            OrdensDeServicoCount = clienteExistente.OrdemDeServicos.Count(),
+            EnderecoId = clienteExistente.EnderecoId,
+            EnderecoResumido = clienteExistente.Endereco == null ? "Endereço não cadastrado" : $"{clienteExistente.Endereco.Logradouro}, {clienteExistente.Endereco.Numero}",
+            EnderecoCompleto = clienteExistente.Endereco == null ? "Endereço não cadastrado" : $"{clienteExistente.Endereco.Logradouro}, {clienteExistente.Endereco.Numero}, {(!string.IsNullOrWhiteSpace(clienteExistente.Endereco.Complemento) ? clienteExistente.Endereco.Complemento : "Sem complemento")}, {clienteExistente.Endereco.Freguesia}, Concelho: {clienteExistente.Endereco.Concelho.Nome}, Distrito: {clienteExistente.Endereco.Concelho.Distrito.Nome}, {clienteExistente.Endereco.CodigoPostal}, {clienteExistente.Endereco.Pais}",
+            Endereco = clienteExistente.Endereco,
+            OrdemDeServicos = clienteExistente.OrdemDeServicos,
+            Usuarios = clienteExistente.Usuarios,
+            Veiculos = clienteExistente.Veiculos,
+        };
     }
 
     public async Task<IEnumerable<ClienteViewModel>> GetClientsByNameAsync(string searchText)
@@ -83,15 +112,24 @@ public class ClienteService : IClienteService
                 Sobrenome = c.Sobrenome,
                 Nif = c.Nif,
                 Telemovel = c.Telemovel,
-                Email = c.Email == null ? "E-mail não cadastrado" : c.Email
+                Email = String.IsNullOrWhiteSpace(c.Email) ? "E-mail não cadastrado" : c.Email,
             }).ToListAsync();
     }
 
-    public async Task AddClientAsync(Cliente cliente)
+    public async Task AddClientAsync(ClienteViewModel cliente)
     {
+        var clienteConverted = new Cliente
+        {
+            Nome = cliente.Nome,
+            Sobrenome = cliente.Sobrenome,
+            Telemovel = cliente.Telemovel,
+            Email = cliente.Email,
+            Nif = cliente.Nif,
+            EnderecoId = cliente.EnderecoId
+        };
         try
         {
-            await _clienteRepository.AddAsync(cliente);
+            await _clienteRepository.AddAsync(clienteConverted);
         }
         catch (DbUpdateException ex)
         {
@@ -103,11 +141,11 @@ public class ClienteService : IClienteService
         }
         finally
         {
-            _clienteRepository.DetachEntity(cliente);
+            _clienteRepository.DetachEntity(clienteConverted);
         }
     }
 
-    public async Task UpdateClientAsync(Cliente cliente)
+    public async Task UpdateClientAsync(ClienteViewModel cliente)
     {
         var clienteExistente = await _clienteRepository.GetByIdAsync(cliente.ClienteId);
         if (clienteExistente == null)
@@ -118,24 +156,14 @@ public class ClienteService : IClienteService
         clienteExistente.Telemovel = cliente.Telemovel;
         clienteExistente.Email = cliente.Email;
         clienteExistente.Nif = cliente.Nif;
+        clienteExistente.EnderecoId = cliente.EnderecoId;
 
-        if (cliente.Endereco != null)
-        {
-            clienteExistente.Endereco.Logradouro = cliente.Endereco.Logradouro;
-            clienteExistente.Endereco.Numero = cliente.Endereco.Numero;
-            clienteExistente.Endereco.Complemento = cliente.Endereco.Complemento;
-            clienteExistente.Endereco.Freguesia = cliente.Endereco.Freguesia;
-            clienteExistente.Endereco.CodigoPostal = cliente.Endereco.CodigoPostal;
-            clienteExistente.Endereco.ConcelhoId = cliente.Endereco.ConcelhoId;
-            clienteExistente.Endereco.Pais = cliente.Endereco.Pais;
-        }
         try
         {
             await _clienteRepository.UpdateAsync(clienteExistente);
         }
         catch (DbUpdateException ex)
         {
-
             if (ex.InnerException?.Message.Contains("UNIQUE") ?? false)
                 throw new InvalidOperationException("Já existe um cliente com os mesmos dados únicos.");
 
@@ -147,7 +175,7 @@ public class ClienteService : IClienteService
         }
     }
 
-    public async Task DeleteClientAsync(Cliente cliente)
+    public async Task DeleteClientAsync(ClienteViewModel cliente)
     {
         var clienteExistente = await _clienteRepository.GetByIdAsync(cliente.ClienteId);
         if (clienteExistente == null)

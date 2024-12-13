@@ -44,6 +44,8 @@
             // 
             // DgvVeiculos
             // 
+            DgvVeiculos.AllowUserToResizeColumns = false;
+            DgvVeiculos.AllowUserToResizeRows = false;
             DgvVeiculos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DgvVeiculos.Dock = DockStyle.Fill;
             DgvVeiculos.Location = new Point(3, 3);
@@ -52,7 +54,6 @@
             DgvVeiculos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DgvVeiculos.Size = new Size(1258, 600);
             DgvVeiculos.TabIndex = 0;
-            DgvVeiculos.CellToolTipTextNeeded += DgvVeiculos_CellToolTipTextNeeded;
             // 
             // PanelVeiculosBotoes
             // 

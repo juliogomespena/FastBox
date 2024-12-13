@@ -1,4 +1,5 @@
-﻿using FastBox.BLL.Services.Interfaces;
+﻿using FastBox.BLL.DTOs;
+using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
@@ -18,7 +19,6 @@ public partial class FormCadastrarCliente : Form
         _concelhoService = concelhoService;
         _clienteService = clienteService;
     }
-
 
     private async void FormCadastrarCliente_Load(object sender, EventArgs e)
     {
@@ -119,12 +119,12 @@ public partial class FormCadastrarCliente : Form
             }
 
 
-            var cliente = new Cliente
+            var cliente = new ClienteViewModel
             {
                 Nome = TxtNome.Text.Trim(),
                 Sobrenome = TxtSobrenome.Text.Trim(),
                 Telemovel = TxtMskTelemovel.Text.Trim(),
-                Email = String.IsNullOrWhiteSpace(TxtEmail.Text.Trim()) ? null : TxtEmail.Text.Trim(),
+                Email = TxtEmail.Text.Trim(),
                 Nif = TxtMskNif.Text.Trim(),
                 EnderecoId = enderecoId
             };

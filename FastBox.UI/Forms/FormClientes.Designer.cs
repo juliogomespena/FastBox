@@ -44,6 +44,8 @@
             // 
             // DgvClientes
             // 
+            DgvClientes.AllowUserToResizeColumns = false;
+            DgvClientes.AllowUserToResizeRows = false;
             DgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DgvClientes.Dock = DockStyle.Fill;
             DgvClientes.Location = new Point(3, 3);

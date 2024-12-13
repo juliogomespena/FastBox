@@ -35,8 +35,11 @@ public partial class FormVeiculos : Form
             ControlButtonsForDatabaseOperations();
             var veiculos = await _veiculoService.GetVeiculosInPagesAsync(page, size);
             DgvVeiculos.DataSource = veiculos;
-            DgvVeiculos.Columns["ObservacoesCompleto"].Visible = false;
-            DgvVeiculos.Columns["ObservacoesResumido"].HeaderText = "Observações";
+            DgvVeiculos.Columns["ClienteId"].Visible = false;
+            DgvVeiculos.Columns["Cliente"].Visible = false;
+            DgvVeiculos.Columns["OrdemDeServicos"].Visible = false;
+            DgvVeiculos.Columns["Observacoes"].HeaderText = "Observações";
+            DgvVeiculos.Columns["NomeCliente"].HeaderText = "Cliente";
             DgvVeiculos.Columns["OrdensDeServico"].HeaderText = "Ordens de serviço";
             DgvVeiculos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvVeiculos.MultiSelect = false;
@@ -100,19 +103,6 @@ public partial class FormVeiculos : Form
         frmCadastrarVeiculo.ShowDialog();
 
         await LoadVehiclesIntoDgvAsync(1, pageSize);
-    }
-
-    private void DgvVeiculos_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
-    {
-        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-        {
-            var coluna = DgvVeiculos.Columns[e.ColumnIndex];
-
-            if (coluna.Name == "ObservacoesResumido")
-            {
-                e.ToolTipText = DgvVeiculos.Rows[e.RowIndex].Cells["ObservacoesCompleto"].Value?.ToString();
-            }
-        }
     }
 
     private async void BtnRefresh_Click(object sender, EventArgs e)

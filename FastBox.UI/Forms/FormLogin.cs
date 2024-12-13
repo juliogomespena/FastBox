@@ -1,4 +1,5 @@
 ﻿using FastBox.BLL.Services.Interfaces;
+using FastBox.DAL.Models;
 using FastBox.UI.Helper;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -51,5 +52,10 @@ public partial class FormLogin : Form
     {
         if (!Session.ActiveSession())
             this.Show();
+    }
+
+    private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        Environment.Exit(0);
     }
 }

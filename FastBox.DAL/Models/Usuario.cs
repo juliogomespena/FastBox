@@ -17,7 +17,9 @@ public partial class Usuario
 
     public long? ClienteId { get; set; }
 
-    public virtual Cliente? Cliente { get; set; }
     public int NivelDeAcessoId { get; set; }
+
+    public virtual Cliente? Cliente { get; set; }
+
     public NivelDeAcesso NivelDeAcesso { get; set; } = null!;
 }

@@ -35,10 +35,15 @@ public partial class FormClientes : Form
             var clientes = await _clienteService.GetClientsInPagesAsync(page, size);
             DgvClientes.DataSource = clientes;
             DgvClientes.Columns["EnderecoCompleto"].Visible = false;
+            DgvClientes.Columns["EnderecoId"].Visible = false;
+            DgvClientes.Columns["Endereco"].Visible = false;
+            DgvClientes.Columns["Usuarios"].Visible = false;
+            DgvClientes.Columns["OrdemDeServicos"].Visible = false;
+            DgvClientes.Columns["Veiculos"].Visible = false;
             DgvClientes.Columns["EnderecoResumido"].HeaderText = "Endereço";
             DgvClientes.Columns["DataCadastro"].HeaderText = "Data de cadastro";
-            DgvClientes.Columns["OrdensDeServico"].HeaderText = "Ordens de serviço";
-            DgvClientes.Columns["Veiculos"].HeaderText = "Veículos";
+            DgvClientes.Columns["OrdensDeServicoCount"].HeaderText = "Ordens de serviço";
+            DgvClientes.Columns["VeiculosCount"].HeaderText = "Veículos";
             DgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvClientes.MultiSelect = false;
         }
