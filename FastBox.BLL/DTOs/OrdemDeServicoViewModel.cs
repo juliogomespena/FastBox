@@ -13,13 +13,15 @@ public class OrdemDeServicoViewModel
 
     public long StatusOrdemDeServicoId { get; set; }
 
+    public string Status => StatusOrdemDeServico.Descricao;
+
     public long? ClienteId { get; set; }
 
     public string? NomeCliente => Cliente == null ? "Não cadastrado" : $"{Cliente.Nome} {Cliente.Sobrenome}";
 
     public long? VeiculoId { get; set; }
 
-    public string? Matricula => Veiculo == null ? "Não cadastrado" : Veiculo.Matricula;
+    public string? ModeloMatricula => Veiculo == null ? "Não cadastrado" : $"{Veiculo.Modelo} ({Veiculo.Matricula})";
 
     public string Descricao { get; set; } = null!;
 

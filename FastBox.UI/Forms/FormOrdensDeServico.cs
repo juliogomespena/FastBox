@@ -44,10 +44,11 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.Columns["Orcamentos"].Visible = false;
             DgvOrdensDeServico.Columns["Pagamentos"].Visible = false;
             DgvOrdensDeServico.Columns["Veiculo"].Visible = false;
+            DgvOrdensDeServico.Columns["StatusOrdemDeServicoId"].Visible = false;
             DgvOrdensDeServico.Columns["StatusOrdemDeServico"].Visible = false;
             DgvOrdensDeServico.Columns["DataConclusao"].Visible = false;
-            DgvOrdensDeServico.Columns["StatusOrdemDeServicoId"].HeaderText = "Status";
-            DgvOrdensDeServico.Columns["Matricula"].HeaderText = "Veículo (matrícula)";
+            DgvOrdensDeServico.Columns["OrdemDeServicoId"].HeaderText = "Id";
+            DgvOrdensDeServico.Columns["ModeloMatricula"].HeaderText = "Veículo (matrícula)";
             DgvOrdensDeServico.Columns["NomeCliente"].HeaderText = "Cliente";
             DgvOrdensDeServico.Columns["Descricao"].HeaderText = "Descrição";
             DgvOrdensDeServico.Columns["DataAbertura"].HeaderText = "Abertura";

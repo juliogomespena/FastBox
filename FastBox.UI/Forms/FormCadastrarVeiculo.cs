@@ -112,6 +112,7 @@ public partial class FormCadastrarVeiculo : Form
                         DgvVeiculosClientes.Columns["Nome"].Visible = false;
                         DgvVeiculosClientes.Columns["Sobrenome"].Visible = false;
                         DgvVeiculosClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
+                        DgvVeiculosClientes.Columns["ClienteId"].HeaderText = "Id";
                         DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         DgvVeiculosClientes.MultiSelect = false;
                     }
@@ -167,6 +168,7 @@ public partial class FormCadastrarVeiculo : Form
     {
         var frmCadastrarCliente = _serviceProvider.GetRequiredService<FormCadastrarCliente>();
         frmCadastrarCliente.ShowDialog();
+        TxtCliente.Text = "";
     }
 
     private void DgvVeiculosClientes_CellClick(object sender, DataGridViewCellEventArgs e)

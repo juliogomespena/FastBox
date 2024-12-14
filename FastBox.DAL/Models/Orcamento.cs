@@ -5,6 +5,7 @@ public partial class Orcamento
     public long OrcamentoId { get; set; }
 
     public long OrdemDeServicoId { get; set; }
+
     public byte StatusOrcamento { get; set; }
 
     public DateTime DataCriacao { get; set; }

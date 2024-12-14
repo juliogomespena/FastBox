@@ -42,6 +42,7 @@ public partial class FormClientes : Form
             DgvClientes.Columns["Veiculos"].Visible = false;
             DgvClientes.Columns["Nome"].Visible = false;
             DgvClientes.Columns["Sobrenome"].Visible = false;
+            DgvClientes.Columns["ClienteId"].HeaderText = "Id";
             DgvClientes.Columns["EnderecoResumido"].HeaderText = "Endereço";
             DgvClientes.Columns["DataCadastro"].HeaderText = "Data de cadastro";
             DgvClientes.Columns["OrdensDeServicoCount"].HeaderText = "Ordens de serviço";

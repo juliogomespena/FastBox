@@ -188,6 +188,7 @@
             // 
             // RTxtObservacoes
             // 
+            RTxtObservacoes.Font = new Font("Segoe UI", 12F);
             RTxtObservacoes.Location = new Point(406, 63);
             RTxtObservacoes.Name = "RTxtObservacoes";
             RTxtObservacoes.Size = new Size(361, 94);

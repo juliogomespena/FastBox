@@ -123,6 +123,10 @@ public partial class FormAtualizarVeiculo : Form
                         DgvVeiculosClientes.Columns["Usuarios"].Visible = false;
                         DgvVeiculosClientes.Columns["VeiculosCount"].Visible = false;
                         DgvVeiculosClientes.Columns["OrdensDeServicoCount"].Visible = false;
+                        DgvVeiculosClientes.Columns["Nome"].Visible = false;
+                        DgvVeiculosClientes.Columns["Sobrenome"].Visible = false;
+                        DgvVeiculosClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
+                        DgvVeiculosClientes.Columns["ClienteId"].HeaderText = "Id";
                         DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         DgvVeiculosClientes.MultiSelect = false;
                         DgvVeiculosClientes.ClearSelection();
@@ -180,6 +184,7 @@ public partial class FormAtualizarVeiculo : Form
     {
         var frmCadastrarCliente = _serviceProvider.GetRequiredService<FormCadastrarCliente>();
         frmCadastrarCliente.ShowDialog();
+        TxtCliente.Text = "";
     }
 
     private async void FormAtualizarVeiculo_Load(object sender, EventArgs e)

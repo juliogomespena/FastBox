@@ -13,18 +13,17 @@ namespace FastBox.UI.Forms;
 public partial class FormCadastrarOrdem : Form
 {
     private readonly IOrdemDeServicoService _ordemService;
-    private readonly IClienteService _clienteService;
     private readonly IServiceProvider _serviceProvider;
     private System.Windows.Forms.Timer _debounceTimer;
     private bool _isUpdatingText = false;
     private long? _clienteId = null;
     private long? _veiculoId = null;
 
-    public FormCadastrarOrdem(IOrdemDeServicoService ordemService, IClienteService clienteService, IServiceProvider serviceProvider)
+    public FormCadastrarOrdem(IOrdemDeServicoService ordemService, IServiceProvider serviceProvider)
     {
         InitializeComponent();
+
         _ordemService = ordemService;
-        _clienteService = clienteService;
         _serviceProvider = serviceProvider;
     }
 
@@ -121,7 +120,7 @@ public partial class FormCadastrarOrdem : Form
 
             try
             {
-                string searchText = TxtClienteOrdem.Text.Trim();
+                string searchText = TxtClienteOrdemCadastro.Text.Trim();
 
                 if (searchText.Length >= 2)
                 {
@@ -158,25 +157,25 @@ public partial class FormCadastrarOrdem : Form
         if (LstSugestoesClientes.SelectedItem is ClienteViewModel clienteSelecionado)
         {
             _isUpdatingText = true;
-            TxtClienteOrdem.Text = clienteSelecionado.NomeSobrenome;
+            TxtClienteOrdemCadastro.Text = clienteSelecionado.NomeSobrenome;
             _isUpdatingText = false;
             LstSugestoesClientes.Visible = false;
             _clienteId = clienteSelecionado.ClienteId;
 
             if (clienteSelecionado.Veiculos != null && clienteSelecionado.Veiculos.Any())
             {
-                CmbVeiculos.DataSource = clienteSelecionado.Veiculos.ToList();
-                CmbVeiculos.DisplayMember = "Matricula";
-                CmbVeiculos.ValueMember = "VeiculoId";
-                CmbVeiculos.SelectedIndex = 0;
-                _veiculoId = (long?)CmbVeiculos.SelectedValue;
+                CmbVeiculosOrdemCadastro.DataSource = clienteSelecionado.Veiculos.ToList();
+                CmbVeiculosOrdemCadastro.DisplayMember = "Matricula";
+                CmbVeiculosOrdemCadastro.ValueMember = "VeiculoId";
+                CmbVeiculosOrdemCadastro.SelectedIndex = 0;
+                _veiculoId = (long?)CmbVeiculosOrdemCadastro.SelectedValue;
             }
             else
             {
-                CmbVeiculos.DataSource = null;
-                CmbVeiculos.Items.Clear();
-                CmbVeiculos.Items.Add("Não cadastrado");
-                CmbVeiculos.SelectedIndex = 0;
+                CmbVeiculosOrdemCadastro.DataSource = null;
+                CmbVeiculosOrdemCadastro.Items.Clear();
+                CmbVeiculosOrdemCadastro.Items.Add("Não cadastrado");
+                CmbVeiculosOrdemCadastro.SelectedIndex = 0;
                 _veiculoId = null;
             }
         }
@@ -189,25 +188,25 @@ public partial class FormCadastrarOrdem : Form
             if (LstSugestoesClientes.SelectedItem is ClienteViewModel clienteSelecionado)
             {
                 _isUpdatingText = true;
-                TxtClienteOrdem.Text = clienteSelecionado.NomeSobrenome;
+                TxtClienteOrdemCadastro.Text = clienteSelecionado.NomeSobrenome;
                 _isUpdatingText = false;
                 LstSugestoesClientes.Visible = false;
                 _clienteId = clienteSelecionado.ClienteId;
 
                 if (clienteSelecionado.Veiculos != null && clienteSelecionado.Veiculos.Any())
                 {
-                    CmbVeiculos.DataSource = clienteSelecionado.Veiculos.ToList();
-                    CmbVeiculos.DisplayMember = "Matricula";
-                    CmbVeiculos.ValueMember = "VeiculoId";
-                    CmbVeiculos.SelectedIndex = 0;
-                    _veiculoId = (long?)CmbVeiculos.SelectedValue;
+                    CmbVeiculosOrdemCadastro.DataSource = clienteSelecionado.Veiculos.ToList();
+                    CmbVeiculosOrdemCadastro.DisplayMember = "Matricula";
+                    CmbVeiculosOrdemCadastro.ValueMember = "VeiculoId";
+                    CmbVeiculosOrdemCadastro.SelectedIndex = 0;
+                    _veiculoId = (long?)CmbVeiculosOrdemCadastro.SelectedValue;
                 }
                 else
                 {
-                    CmbVeiculos.DataSource = null;
-                    CmbVeiculos.Items.Clear();
-                    CmbVeiculos.Items.Add("Não cadastrado");
-                    CmbVeiculos.SelectedIndex = 0;
+                    CmbVeiculosOrdemCadastro.DataSource = null;
+                    CmbVeiculosOrdemCadastro.Items.Clear();
+                    CmbVeiculosOrdemCadastro.Items.Add("Não cadastrado");
+                    CmbVeiculosOrdemCadastro.SelectedIndex = 0;
                     _veiculoId = null;
                 }
             }
@@ -227,7 +226,7 @@ public partial class FormCadastrarOrdem : Form
         int maxVisibleItems = 5;
         int itemHeight = LstSugestoesClientes.ItemHeight;
         int borderHeight = 2;
-        int padding = 4; 
+        int padding = 4;
 
         int visibleItems = Math.Min(LstSugestoesClientes.Items.Count, maxVisibleItems);
         LstSugestoesClientes.Height = (itemHeight * visibleItems) + borderHeight + padding;
@@ -237,10 +236,34 @@ public partial class FormCadastrarOrdem : Form
 
     private void CmbVeiculos_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (CmbVeiculos.SelectedValue != null && long.TryParse(CmbVeiculos.SelectedValue.ToString(), out long veiculoId))
+        if (CmbVeiculosOrdemCadastro.SelectedValue != null && long.TryParse(CmbVeiculosOrdemCadastro.SelectedValue.ToString(), out long veiculoId))
             _veiculoId = veiculoId;
         else
             _veiculoId = null;
-        
+
+    }
+
+    private void FormCadastrarOrdem_Load(object sender, EventArgs e)
+    {
+        LstSugestoesClientes.Width = 208;
+    }
+
+    private void BtnNovoClienteOrdemCadastro_Click(object sender, EventArgs e)
+    {
+        var frmCadastrarCliente = _serviceProvider.GetRequiredService<FormCadastrarCliente>();
+        frmCadastrarCliente.ShowDialog();
+        TxtClienteOrdemCadastro.Text = "";
+    }
+
+    private void BtnNovoVeiculoOrdemCadastro_Click(object sender, EventArgs e)
+    {
+        var frmCadastrarVeiculo = _serviceProvider.GetRequiredService<FormCadastrarVeiculo>();
+        frmCadastrarVeiculo.ShowDialog();
+    }
+
+    private void BtnNovoOrcamentoOrdemCadastro_Click(object sender, EventArgs e)
+    {
+        var frmCadastrarOrcamento = _serviceProvider.GetRequiredService<FormCadastrarOrcamento>();
+        frmCadastrarOrcamento.ShowDialog();
     }
 }

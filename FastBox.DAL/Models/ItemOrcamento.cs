@@ -15,7 +15,7 @@ public partial class ItemOrcamento
 
     public decimal PrecoUnitario { get; set; }
 
-    public byte Margem { get; set; }
+    public decimal Margem { get; set; }
 
     public virtual Orcamento Orcamento { get; set; } = null!;
 }

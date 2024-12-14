@@ -40,6 +40,7 @@ public partial class FormVeiculos : Form
             DgvVeiculos.Columns["OrdemDeServicos"].Visible = false;
             DgvVeiculos.Columns["ModeloMatricula"].Visible = false;
             DgvVeiculos.Columns["Observacoes"].HeaderText = "Observações";
+            DgvVeiculos.Columns["VeiculoId"].HeaderText = "Id";
             DgvVeiculos.Columns["NomeCliente"].HeaderText = "Cliente";
             DgvVeiculos.Columns["OrdensDeServico"].HeaderText = "Ordens de serviço";
             DgvVeiculos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
