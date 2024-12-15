@@ -81,4 +81,9 @@ public class Repository<T>: IRepository<T> where T : class
             entry.State = EntityState.Detached;
         }
     }
+
+    public void RemoveEntity(T entity)
+    {
+        _context.Set<T>().Remove(entity);
+    }
 }

@@ -41,9 +41,15 @@ public partial class FormCadastrarOrdem : Form
         {
             BtnGerarOrdemCadastrar.Enabled = false;
 
+            var statusOrdemDeServicoId = 1;
+            if (_orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
+                statusOrdemDeServicoId = 2;
+            else if (_orcamentos.All(o => o.StatusOrcamento == 2))
+                statusOrdemDeServicoId = 3;
+
             var ordemConverted = new OrdemDeServicoViewModel
             {
-                StatusOrdemDeServicoId = !_orcamentos.Any() ? 1 : _orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3) ? 2 : _orcamentos.All(o => o.StatusOrcamento == 2) ? 3 : 1,
+                StatusOrdemDeServicoId = statusOrdemDeServicoId,
                 ClienteId = _clienteId,
                 VeiculoId = _veiculoId,
                 Descricao = RTxtDescricaoOrdemCadastrar.Text.Trim(),
@@ -66,21 +72,21 @@ public partial class FormCadastrarOrdem : Form
 
             await _ordemService.AddOrdemAsync(ordemConverted);
 
-            MessageBox.Show("Ordem de serviço alterada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Ordem de serviço cadastrada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             this.Close();
         }
         catch (DbUpdateException ex)
         {
             if (ex.InnerException == null)
-                MessageBox.Show($"Erro ao alterar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Erro ao cadastrar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-                MessageBox.Show($"Erro ao alterar ordem de serviço: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Erro ao cadastrar ordem de serviço: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         catch (Exception ex)
         {
 
-            MessageBox.Show($"Erro ao alterar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Erro ao cadastrar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         finally
         {
@@ -122,7 +128,7 @@ public partial class FormCadastrarOrdem : Form
 
         if (!_orcamentos.Any())
         {
-            var dialog = MessageBox.Show("Tem certeza que deseja continuar sem alterar um orçamento?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            var dialog = MessageBox.Show("Tem certeza que deseja continuar sem cadastrar um orçamento?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
             if (dialog == DialogResult.No)
                 return false;
@@ -321,12 +327,12 @@ public partial class FormCadastrarOrdem : Form
 
             _orcamentos.Add(orcamentoAtual);
 
-            MessageBox.Show("Orçamento alterada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Orçamento cadastrado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
         }
         else
-            MessageBox.Show("Orçamento não alterado, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Orçamento não cadastrado, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 
     private void LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem()
@@ -513,12 +519,12 @@ public partial class FormCadastrarOrdem : Form
                     orcamentoSelecionado.ItensOrcamento = frmCadastrarOrcamento._items.ToList();
 
                     MessageBox.Show("Orçamento alterado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
                 }
                 else
                     MessageBox.Show("As alterações no orçamento não foram salvas, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+            LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
         }
         else
         {
@@ -553,7 +559,7 @@ public partial class FormCadastrarOrdem : Form
         }
         else
         {
-            MessageBox.Show("Selecione um orçamento para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Selecione um orçamento para excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 

@@ -124,17 +124,23 @@ public partial class FormOrdensDeServico : Form
     {
         if (DgvOrdensDeServico.SelectedRows.Count > 0)
         {
-            //    var ordemId = (long)DgvOrdensDeServico.SelectedRows[0].Cells["OrdemDeServicoId"].Value;
-            //    var frmAtualizarOrdemDeServico = _serviceProvider.GetRequiredService<FormAtualizarOrdemDeServico>();
-            //    frmAtualizarOrdemDeServico.OrdemDeServicoId = ordemId;
-            //    frmAtualizarOrdemDeServico.ShowDialog();
+            var ordemId = (long)DgvOrdensDeServico.SelectedRows[0].Cells["OrdemDeServicoId"].Value;
+            var ordemAtual = await _ordemDeServicoService.GetOrdemByIdAsync(ordemId);
 
-            //    await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
-            //}
-            //else
-            //    MessageBox.Show("Selecione uma ordem de serviço para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (ordemAtual != null)
+            {
+                var frmAtualizarOrdemDeServico = _serviceProvider.GetRequiredService<FormAtualizarOrdem>();
+                frmAtualizarOrdemDeServico.OrdemDeServicoAtual = ordemAtual;
+
+                var result = frmAtualizarOrdemDeServico.ShowDialog();
+            }
+
+            await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
         }
+        else
+            MessageBox.Show("Selecione uma ordem de serviço para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
+    
 
     private async void BtnExcluirOrdemDeServico_Click(object sender, EventArgs e)
     {

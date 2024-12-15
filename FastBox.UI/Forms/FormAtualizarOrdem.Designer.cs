@@ -34,8 +34,6 @@
             LblPrazoEstimadoOrdemAtualizar = new Label();
             LblInfoOrcamentos = new Label();
             DateTimePickerEstimativaConclusao = new DateTimePicker();
-            LstSugestoesClientes = new ListBox();
-            LstSugestoesVeiculos = new ListBox();
             LblDescricaoOrdemAtualizar = new Label();
             RTxtDescricaoOrdemAtualizar = new RichTextBox();
             BtnNovoVeiculoOrdemAtualizar = new Button();
@@ -50,7 +48,7 @@
             BtnEditarOrcamentoOrdemAtualizar = new Button();
             DgvOrcamentosAtualizarOrdem = new DataGridView();
             LblInfoOrdemAtualizar = new Label();
-            BtnGerarOrdemAtualizar = new Button();
+            BtnAtualizarOrdem = new Button();
             PanelInfoOrdemAtualizar.SuspendLayout();
             PanelOrcamentosOrdemAtualizar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvOrcamentosAtualizarOrdem).BeginInit();
@@ -73,8 +71,6 @@
             PanelInfoOrdemAtualizar.Controls.Add(LblPrazoEstimadoOrdemAtualizar);
             PanelInfoOrdemAtualizar.Controls.Add(LblInfoOrcamentos);
             PanelInfoOrdemAtualizar.Controls.Add(DateTimePickerEstimativaConclusao);
-            PanelInfoOrdemAtualizar.Controls.Add(LstSugestoesClientes);
-            PanelInfoOrdemAtualizar.Controls.Add(LstSugestoesVeiculos);
             PanelInfoOrdemAtualizar.Controls.Add(LblDescricaoOrdemAtualizar);
             PanelInfoOrdemAtualizar.Controls.Add(RTxtDescricaoOrdemAtualizar);
             PanelInfoOrdemAtualizar.Controls.Add(BtnNovoVeiculoOrdemAtualizar);
@@ -91,12 +87,12 @@
             // TxtVeiculoOrdemAtualizar
             // 
             TxtVeiculoOrdemAtualizar.BackColor = SystemColors.Window;
+            TxtVeiculoOrdemAtualizar.Enabled = false;
             TxtVeiculoOrdemAtualizar.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtVeiculoOrdemAtualizar.Location = new Point(510, 11);
             TxtVeiculoOrdemAtualizar.Name = "TxtVeiculoOrdemAtualizar";
             TxtVeiculoOrdemAtualizar.Size = new Size(156, 33);
             TxtVeiculoOrdemAtualizar.TabIndex = 2;
-            TxtVeiculoOrdemAtualizar.TextChanged += TxtVeiculoOrdemAtualizar_TextChanged;
             TxtVeiculoOrdemAtualizar.KeyPress += TxtVeiculoOrdemAtualizar_KeyPress;
             // 
             // LblPrazoEstimadoOrdemAtualizar
@@ -128,32 +124,6 @@
             DateTimePickerEstimativaConclusao.Size = new Size(138, 25);
             DateTimePickerEstimativaConclusao.TabIndex = 4;
             // 
-            // LstSugestoesClientes
-            // 
-            LstSugestoesClientes.FormattingEnabled = true;
-            LstSugestoesClientes.IntegralHeight = false;
-            LstSugestoesClientes.ItemHeight = 17;
-            LstSugestoesClientes.Location = new Point(89, 44);
-            LstSugestoesClientes.Name = "LstSugestoesClientes";
-            LstSugestoesClientes.Size = new Size(1, 1);
-            LstSugestoesClientes.TabIndex = 22;
-            LstSugestoesClientes.Visible = false;
-            LstSugestoesClientes.Click += LstSugestoesClientes_Click;
-            LstSugestoesClientes.KeyDown += LstSugestoesClientes_KeyDown;
-            // 
-            // LstSugestoesVeiculos
-            // 
-            LstSugestoesVeiculos.FormattingEnabled = true;
-            LstSugestoesVeiculos.IntegralHeight = false;
-            LstSugestoesVeiculos.ItemHeight = 17;
-            LstSugestoesVeiculos.Location = new Point(510, 44);
-            LstSugestoesVeiculos.Name = "LstSugestoesVeiculos";
-            LstSugestoesVeiculos.Size = new Size(1, 1);
-            LstSugestoesVeiculos.TabIndex = 33;
-            LstSugestoesVeiculos.Visible = false;
-            LstSugestoesVeiculos.Click += LstSugestoesVeiculos_Click;
-            LstSugestoesVeiculos.KeyDown += LstSugestoesVeiculos_KeyDown;
-            // 
             // LblDescricaoOrdemAtualizar
             // 
             LblDescricaoOrdemAtualizar.AutoSize = true;
@@ -175,6 +145,7 @@
             // BtnNovoVeiculoOrdemAtualizar
             // 
             BtnNovoVeiculoOrdemAtualizar.BackColor = SystemColors.ControlLight;
+            BtnNovoVeiculoOrdemAtualizar.Enabled = false;
             BtnNovoVeiculoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 8F, FontStyle.Bold);
             BtnNovoVeiculoOrdemAtualizar.Location = new Point(672, 11);
             BtnNovoVeiculoOrdemAtualizar.Name = "BtnNovoVeiculoOrdemAtualizar";
@@ -187,6 +158,7 @@
             // BtnNovoClienteOrdemAtualizar
             // 
             BtnNovoClienteOrdemAtualizar.BackColor = SystemColors.ControlLight;
+            BtnNovoClienteOrdemAtualizar.Enabled = false;
             BtnNovoClienteOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 8F, FontStyle.Bold);
             BtnNovoClienteOrdemAtualizar.Location = new Point(303, 11);
             BtnNovoClienteOrdemAtualizar.Name = "BtnNovoClienteOrdemAtualizar";
@@ -209,12 +181,12 @@
             // TxtClienteOrdemAtualizar
             // 
             TxtClienteOrdemAtualizar.BackColor = SystemColors.Window;
+            TxtClienteOrdemAtualizar.Enabled = false;
             TxtClienteOrdemAtualizar.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtClienteOrdemAtualizar.Location = new Point(89, 11);
             TxtClienteOrdemAtualizar.Name = "TxtClienteOrdemAtualizar";
             TxtClienteOrdemAtualizar.Size = new Size(208, 33);
             TxtClienteOrdemAtualizar.TabIndex = 1;
-            TxtClienteOrdemAtualizar.TextChanged += TxtClienteOrdem_TextChanged;
             // 
             // PanelOrcamentosOrdemAtualizar
             // 
@@ -314,17 +286,17 @@
             LblInfoOrdemAtualizar.TabIndex = 11;
             LblInfoOrdemAtualizar.Text = "Informações da ordem";
             // 
-            // BtnGerarOrdemAtualizar
+            // BtnAtualizarOrdem
             // 
-            BtnGerarOrdemAtualizar.BackColor = SystemColors.ControlLight;
-            BtnGerarOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnGerarOrdemAtualizar.Location = new Point(4, 494);
-            BtnGerarOrdemAtualizar.Name = "BtnGerarOrdemAtualizar";
-            BtnGerarOrdemAtualizar.Size = new Size(778, 55);
-            BtnGerarOrdemAtualizar.TabIndex = 11;
-            BtnGerarOrdemAtualizar.Text = "Gerar ordem de serviço";
-            BtnGerarOrdemAtualizar.UseVisualStyleBackColor = false;
-            BtnGerarOrdemAtualizar.Click += BtnGerarOrdem_Click;
+            BtnAtualizarOrdem.BackColor = SystemColors.ControlLight;
+            BtnAtualizarOrdem.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnAtualizarOrdem.Location = new Point(4, 494);
+            BtnAtualizarOrdem.Name = "BtnAtualizarOrdem";
+            BtnAtualizarOrdem.Size = new Size(778, 55);
+            BtnAtualizarOrdem.TabIndex = 11;
+            BtnAtualizarOrdem.Text = "Atualizar ordem de serviço";
+            BtnAtualizarOrdem.UseVisualStyleBackColor = false;
+            BtnAtualizarOrdem.Click += BtnAtualizarOrdem_Click;
             // 
             // FormAtualizarOrdem
             // 
@@ -332,7 +304,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(784, 561);
-            Controls.Add(BtnGerarOrdemAtualizar);
+            Controls.Add(BtnAtualizarOrdem);
             Controls.Add(LblInfoOrdemAtualizar);
             Controls.Add(PanelInfoOrdemAtualizar);
             MaximizeBox = false;
@@ -359,7 +331,7 @@
         private Label LblMatricula;
         private Panel PanelInfoOrdemAtualizar;
         private Label LblInfoOrdemAtualizar;
-        private Button BtnGerarOrdemAtualizar;
+        private Button BtnAtualizarOrdem;
         private MaskedTextBox TxtMskAno;
         private MaskedTextBox TxtMskMatricula;
         private Label LblInfoMatricula;
@@ -370,7 +342,6 @@
         private DataGridView DgvOrcamentosAtualizarOrdem;
         private TextBox TxtClienteOrdemAtualizar;
         private Label LblVeiculoOrdemAtualizar;
-        private ListBox LstSugestoesClientes;
         private RichTextBox RTxtDescricaoOrdemAtualizar;
         private Button BtnNovoVeiculoOrdemAtualizar;
         private Button BtnNovoClienteOrdemAtualizar;
@@ -385,6 +356,5 @@
         private Label LblPrazoEstimadoOrdemAtualizar;
         private Label LblInfoOrcamentos;
         private TextBox TxtVeiculoOrdemAtualizar;
-        private ListBox LstSugestoesVeiculos;
     }
 }

@@ -9,10 +9,14 @@ namespace FastBox.BLL.Services;
 public class OrdemDeServicoService : IOrdemDeServicoService
 {
     private readonly IRepository<OrdemDeServico> _ordemRepository;
+    private readonly IRepository<Orcamento> _orcamentoRepository;
+    private readonly IRepository<ItemOrcamento> _itemOrcamentoRepository;
 
-    public OrdemDeServicoService(IRepository<OrdemDeServico> ordemRepository)
+    public OrdemDeServicoService(IRepository<OrdemDeServico> ordemRepository, IRepository<Orcamento> orcamentoRepository, IRepository<ItemOrcamento> itemOrcamentoRepository)
     {
         _ordemRepository = ordemRepository;
+        _orcamentoRepository = orcamentoRepository;
+        _itemOrcamentoRepository = itemOrcamentoRepository;
     }
 
     public async Task<IEnumerable<OrdemDeServicoViewModel>> GetAllOrdens()
@@ -83,6 +87,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
         var ordemExistente = await _ordemRepository.Query()
             .Include(o => o.Cliente)
             .Include(o => o.Orcamentos)
+                .ThenInclude(o => o.ItensOrcamento)
             .Include(o => o.Pagamentos)
             .Include(o => o.StatusOrdemDeServico)
             .Include(o => o.Veiculo)
@@ -155,7 +160,112 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
     public async Task UpdateOrdemAsync(OrdemDeServicoViewModel ordem)
     {
-        throw new NotImplementedException();
+        OrdemDeServico? ordemExistente = null;
+
+        try
+        {
+            ordemExistente = await _ordemRepository.Query()
+                .Include(o => o.Orcamentos)
+                    .ThenInclude(o => o.ItensOrcamento)
+                .FirstOrDefaultAsync(o => o.OrdemDeServicoId == ordem.OrdemDeServicoId);
+
+            if (ordemExistente == null)
+                throw new InvalidOperationException("Ordem de serviço não encontrada.");
+
+            ordemExistente.StatusOrdemDeServicoId = ordem.StatusOrdemDeServicoId;
+            ordemExistente.ClienteId = ordem.ClienteId;
+            ordemExistente.VeiculoId = ordem.VeiculoId;
+            ordemExistente.Descricao = ordem.Descricao;
+            ordemExistente.EstimativaConclusao = ordem.EstimativaConclusao;
+
+            foreach (var orcamentoViewModel in ordem.Orcamentos)
+            {
+                var orcamentoExistente = ordemExistente.Orcamentos
+                    .FirstOrDefault(o => o.OrcamentoId == orcamentoViewModel.OrcamentoId);
+
+                if (orcamentoExistente != null)
+                {
+                    orcamentoExistente.StatusOrcamento = orcamentoViewModel.StatusOrcamento;
+                    orcamentoExistente.Descricao = orcamentoViewModel.Descricao == "Sem descrição" ? null : orcamentoViewModel.Descricao;
+
+                    foreach (var itemViewModel in orcamentoViewModel.ItensOrcamento)
+                    {
+                        var itemExistente = orcamentoExistente.ItensOrcamento
+                            .FirstOrDefault(i => i.ItemOrcamentoId == itemViewModel.ItemOrcamentoId);
+
+                        if (itemExistente != null)
+                        {
+                            itemExistente.Descricao = itemViewModel.Descricao;
+                            itemExistente.Quantidade = itemViewModel.Quantidade;
+                            itemExistente.PrecoUnitario = itemViewModel.PrecoUnitario;
+                            itemExistente.Margem = itemViewModel.Margem;
+                        }
+                        else
+                        {
+                            orcamentoExistente.ItensOrcamento.Add(new ItemOrcamento
+                            {
+                                Descricao = itemViewModel.Descricao,
+                                Quantidade = itemViewModel.Quantidade,
+                                PrecoUnitario = itemViewModel.PrecoUnitario,
+                                Margem = itemViewModel.Margem
+                            });
+                        }
+                    }
+
+                    var itensParaRemover = orcamentoExistente.ItensOrcamento
+                        .Where(i => !orcamentoViewModel.ItensOrcamento.Any(v => v.ItemOrcamentoId == i.ItemOrcamentoId))
+                        .ToList();
+
+                    foreach (var itemRemovido in itensParaRemover)
+                    {
+                        orcamentoExistente.ItensOrcamento.Remove(itemRemovido);
+                    }
+                }
+                else
+                {
+                    ordemExistente.Orcamentos.Add(new Orcamento
+                    {
+                        StatusOrcamento = orcamentoViewModel.StatusOrcamento,
+                        DataCriacao = orcamentoViewModel.DataCriacao,
+                        Descricao = orcamentoViewModel.Descricao == "Sem descrição" ? null : orcamentoViewModel.Descricao,
+                        ItensOrcamento = orcamentoViewModel.ItensOrcamento.Select(i => new ItemOrcamento
+                        {
+                            Descricao = i.Descricao,
+                            Quantidade = i.Quantidade,
+                            PrecoUnitario = i.PrecoUnitario,
+                            Margem = i.Margem
+                        }).ToList()
+                    });
+                }
+            }
+
+            var orcamentosParaRemover = ordemExistente.Orcamentos
+                .Where(o => !ordem.Orcamentos.Any(v => v.OrcamentoId == o.OrcamentoId))
+                .ToList();
+            foreach (var orcamentoRemovido in orcamentosParaRemover)
+            {
+                foreach (var item in orcamentoRemovido.ItensOrcamento.ToList())
+                {
+                    _itemOrcamentoRepository.RemoveEntity(item);
+                }
+
+                _orcamentoRepository.RemoveEntity(orcamentoRemovido);
+            }
+
+            await _ordemRepository.UpdateAsync(ordemExistente);
+        }
+        catch (DbUpdateException ex)
+        {
+            if (ex.InnerException?.Message.Contains("UNIQUE") ?? false)
+                throw new InvalidOperationException("Já existe uma ordem com os mesmos dados únicos.");
+
+            throw;
+        }
+        finally
+        {
+            if (ordemExistente != null)
+                _ordemRepository.DetachEntity(ordemExistente);
+        }
     }
 
     public async Task DeleteOrdemAsync(OrdemDeServicoViewModel ordem)
