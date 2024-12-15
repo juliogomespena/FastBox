@@ -138,8 +138,8 @@ public class ClienteService : IClienteService
             Nome = cliente.Nome,
             Sobrenome = cliente.Sobrenome,
             Telemovel = cliente.Telemovel,
-            Email = cliente.Email,
-            Nif = cliente.Nif,
+            Email = cliente.Email == "Não cadastrado" ? null : cliente.Email,
+            Nif = cliente.Nif == "Não cadastrado" ? null: cliente.Nif,
             EnderecoId = cliente.EnderecoId
         };
         try
@@ -169,8 +169,8 @@ public class ClienteService : IClienteService
         clienteExistente.Nome = cliente.Nome;
         clienteExistente.Sobrenome = cliente.Sobrenome;
         clienteExistente.Telemovel = cliente.Telemovel;
-        clienteExistente.Email = cliente.Email;
-        clienteExistente.Nif = cliente.Nif;
+        clienteExistente.Email = cliente.Email == "Não cadastrado" ? null : cliente.Email;
+        clienteExistente.Nif = cliente.Nif == "Não cadastrado" ? null : cliente.Nif;
         clienteExistente.EnderecoId = cliente.EnderecoId;
 
         try

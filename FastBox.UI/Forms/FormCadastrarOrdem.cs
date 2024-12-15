@@ -89,7 +89,7 @@ public partial class FormCadastrarOrdem : Form
     {
         if (String.IsNullOrWhiteSpace(TxtVeiculoOrdemCadastro.Text) || _veiculoId == null)
         {
-            MessageBox.Show("Selecione um veículo para abrir a ordem de serviço.", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            MessageBox.Show("Selecione um veículo para abrir a ordem de serviço.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return false;
         }
 
@@ -130,8 +130,9 @@ public partial class FormCadastrarOrdem : Form
 
     private void TxtClienteOrdem_TextChanged(object sender, EventArgs e)
     {
-        _clienteId = null;
         if (_isUpdatingText) return;
+
+        _clienteId = null;
 
         _debounceTimer?.Stop();
         _debounceTimer = new System.Windows.Forms.Timer { Interval = 650 };
@@ -424,13 +425,21 @@ public partial class FormCadastrarOrdem : Form
                 }
             }
 
+            if (_clienteId == null && veiculoSelecionado.Cliente != null)
+            {
+                _clienteId = veiculoSelecionado.ClienteId;
+                _isUpdatingText = true;
+                TxtClienteOrdemCadastro.Text = $"{veiculoSelecionado.Cliente.Nome} {veiculoSelecionado.Cliente.Sobrenome}";
+                _isUpdatingText = false;
+
+            }
+
             _isUpdatingText = true;
-            TxtVeiculoOrdemCadastro.Text = $"{veiculoSelecionado.ModeloMatricula}";
+            TxtVeiculoOrdemCadastro.Text = veiculoSelecionado.ModeloMatricula;
             _isUpdatingText = false;
             LstSugestoesVeiculos.Visible = false;
             _veiculoId = veiculoSelecionado.VeiculoId;
         }
-
     }
 
     private void LstSugestoesVeiculos_KeyDown(object sender, KeyEventArgs e)
@@ -451,8 +460,17 @@ public partial class FormCadastrarOrdem : Form
                     }
                 }
 
+                if (_clienteId == null && veiculoSelecionado.Cliente != null)
+                {
+                    _clienteId = veiculoSelecionado.ClienteId;
+                    _isUpdatingText = true;
+                    TxtClienteOrdemCadastro.Text = $"{veiculoSelecionado.Cliente.Nome} {veiculoSelecionado.Cliente.Sobrenome}";
+                    _isUpdatingText = false;
+
+                }
+
                 _isUpdatingText = true;
-                TxtVeiculoOrdemCadastro.Text = $"{veiculoSelecionado.ModeloMatricula}";
+                TxtVeiculoOrdemCadastro.Text = veiculoSelecionado.ModeloMatricula;
                 _isUpdatingText = false;
                 LstSugestoesVeiculos.Visible = false;
                 _veiculoId = veiculoSelecionado.VeiculoId;

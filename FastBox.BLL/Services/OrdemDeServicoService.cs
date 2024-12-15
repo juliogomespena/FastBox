@@ -124,7 +124,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             {
                 StatusOrcamento = orcamento.StatusOrcamento,
                 DataCriacao = orcamento.DataCriacao,
-                Descricao = orcamento.Descricao,
+                Descricao = orcamento.Descricao == "Sem descrição" ? null : orcamento.Descricao,
                 ItensOrcamento = orcamento.ItensOrcamento.Select(itens => new ItemOrcamento
                 {
                     Descricao = itens.Descricao,

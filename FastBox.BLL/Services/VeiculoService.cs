@@ -97,7 +97,7 @@ public class VeiculoService : IVeiculoService
             Modelo = veiculo.Modelo,
             Ano = veiculo.Ano,
             Matricula = veiculo.Matricula,
-            Observacoes = veiculo.Observacoes,
+            Observacoes = veiculo.Observacoes == "Sem observações" ? null : veiculo.Observacoes,
             Cliente = veiculo.Cliente,
             OrdemDeServicos = veiculo.OrdemDeServicos
         };
@@ -131,7 +131,7 @@ public class VeiculoService : IVeiculoService
         veiculoExistente.Modelo = veiculo.Modelo;
         veiculoExistente.Ano = veiculo.Ano;
         veiculoExistente.Matricula = veiculo.Matricula;
-        veiculoExistente.Observacoes = veiculo.Observacoes;
+        veiculoExistente.Observacoes = veiculo.Observacoes == "Sem observações" ? null : veiculo.Observacoes;
 
         try
         {

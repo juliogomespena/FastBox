@@ -5,15 +5,10 @@ namespace FastBox.BLL.DTOs;
 
 public class VeiculoViewModel
 {
-    private long? _clienteId;
     private string? _observacoes;
     public long VeiculoId { get; set; }
 
-    public long? ClienteId 
-    { 
-        get => _clienteId == null ? null : _clienteId;
-        set => _clienteId = value;
-    }
+    public long? ClienteId { get; set; }
 
     public string Marca { get; set; } = null!;
 
