@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace FastBox.UI.Forms;
 
-public partial class FormCadastrarOrdem : Form
+public partial class FormAtualizarOrdem : Form
 {
     private readonly IOrdemDeServicoService _ordemService;
     private readonly IServiceProvider _serviceProvider;
@@ -24,13 +24,15 @@ public partial class FormCadastrarOrdem : Form
     private long? _veiculoId = null;
     private ICollection<OrcamentoViewModel> _orcamentos = [];
 
-    public FormCadastrarOrdem(IOrdemDeServicoService ordemService, IServiceProvider serviceProvider)
+    public FormAtualizarOrdem(IOrdemDeServicoService ordemService, IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
         _ordemService = ordemService;
         _serviceProvider = serviceProvider;
     }
+
+    public OrdemDeServicoViewModel OrdemDeServicoAtual {  get; set; }
 
     private async void BtnGerarOrdem_Click(object sender, EventArgs e)
     {
@@ -39,14 +41,14 @@ public partial class FormCadastrarOrdem : Form
 
         try
         {
-            BtnGerarOrdemCadastrar.Enabled = false;
+            BtnGerarOrdemAtualizar.Enabled = false;
 
             var ordemConverted = new OrdemDeServicoViewModel
             {
                 StatusOrdemDeServicoId = !_orcamentos.Any() ? 1 : _orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3) ? 2 : _orcamentos.All(o => o.StatusOrcamento == 2) ? 3 : 1,
                 ClienteId = _clienteId,
                 VeiculoId = _veiculoId,
-                Descricao = RTxtDescricaoOrdemCadastrar.Text.Trim(),
+                Descricao = RTxtDescricaoOrdemAtualizar.Text.Trim(),
                 EstimativaConclusao = DateTimePickerEstimativaConclusao.Value,
                 Orcamentos = _orcamentos.Select(orcamento => new Orcamento
                 {
@@ -84,19 +86,19 @@ public partial class FormCadastrarOrdem : Form
         }
         finally
         {
-            BtnGerarOrdemCadastrar.Enabled = true;
+            BtnGerarOrdemAtualizar.Enabled = true;
         }
     }
 
     private bool CheckFields()
     {
-        if (String.IsNullOrWhiteSpace(TxtVeiculoOrdemCadastrar.Text) || _veiculoId == null)
+        if (String.IsNullOrWhiteSpace(TxtVeiculoOrdemAtualizar.Text) || _veiculoId == null)
         {
             MessageBox.Show("Selecione um veículo para abrir a ordem de serviço.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return false;
         }
 
-        if (String.IsNullOrWhiteSpace(RTxtDescricaoOrdemCadastrar.Text))
+        if (String.IsNullOrWhiteSpace(RTxtDescricaoOrdemAtualizar.Text))
         {
             MessageBox.Show("Digite uma breve descrição para a ordem de serviço.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
@@ -111,7 +113,7 @@ public partial class FormCadastrarOrdem : Form
             return false;
         }
 
-        if (String.IsNullOrWhiteSpace(TxtClienteOrdemCadastrar.Text))
+        if (String.IsNullOrWhiteSpace(TxtClienteOrdemAtualizar.Text))
         {
             var dialog = MessageBox.Show("Tem certeza que deseja continuar sem selecionar um cliente?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
@@ -145,7 +147,7 @@ public partial class FormCadastrarOrdem : Form
 
             try
             {
-                string searchText = TxtClienteOrdemCadastrar.Text.Trim();
+                string searchText = TxtClienteOrdemAtualizar.Text.Trim();
 
                 if (searchText.Length >= 2)
                 {
@@ -167,7 +169,7 @@ public partial class FormCadastrarOrdem : Form
                 {
                     _clienteId = null;
                     _veiculoId = null;
-                    TxtVeiculoOrdemCadastrar.Text = string.Empty;
+                    TxtVeiculoOrdemAtualizar.Text = string.Empty;
                     LstSugestoesClientes.DataSource = null;
                     LstSugestoesClientes.Visible = false;
                     LstSugestoesVeiculos.DataSource = null;
@@ -187,7 +189,7 @@ public partial class FormCadastrarOrdem : Form
         if (LstSugestoesClientes.SelectedItem is ClienteViewModel clienteSelecionado)
         {
             _isUpdatingText = true;
-            TxtClienteOrdemCadastrar.Text = clienteSelecionado.NomeSobrenome;
+            TxtClienteOrdemAtualizar.Text = clienteSelecionado.NomeSobrenome;
             _isUpdatingText = false;
             LstSugestoesClientes.Visible = false;
             _clienteId = clienteSelecionado.ClienteId;
@@ -210,7 +212,7 @@ public partial class FormCadastrarOrdem : Form
             else
             {
                 _veiculoId = null;
-                TxtVeiculoOrdemCadastrar.Text = string.Empty;
+                TxtVeiculoOrdemAtualizar.Text = string.Empty;
                 LstSugestoesVeiculos.DataSource = null;
                 LstSugestoesVeiculos.Visible = false;
             }
@@ -224,7 +226,7 @@ public partial class FormCadastrarOrdem : Form
             if (LstSugestoesClientes.SelectedItem is ClienteViewModel clienteSelecionado)
             {
                 _isUpdatingText = true;
-                TxtClienteOrdemCadastrar.Text = clienteSelecionado.NomeSobrenome;
+                TxtClienteOrdemAtualizar.Text = clienteSelecionado.NomeSobrenome;
                 _isUpdatingText = false;
                 LstSugestoesClientes.Visible = false;
                 _clienteId = clienteSelecionado.ClienteId;
@@ -246,7 +248,7 @@ public partial class FormCadastrarOrdem : Form
                 }
                 else
                 {
-                    TxtVeiculoOrdemCadastrar.Text = string.Empty;
+                    TxtVeiculoOrdemAtualizar.Text = string.Empty;
                     LstSugestoesVeiculos.DataSource = null;
                     LstSugestoesVeiculos.Visible = false;
                     _veiculoId = null;
@@ -276,81 +278,81 @@ public partial class FormCadastrarOrdem : Form
         listBox.Visible = true;
     }
 
-    private void FormCadastrarOrdem_Load(object sender, EventArgs e)
+    private void FormAtualizarOrdem_Load(object sender, EventArgs e)
     {
         LstSugestoesClientes.Visible = false;
         LstSugestoesVeiculos.Visible = false;
         LstSugestoesClientes.Width = 208;
         LstSugestoesVeiculos.Width = 156;
-        LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
+        LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem();
         DateTimePickerEstimativaConclusao.MinDate = DateTime.Now;
     }
 
-    private void BtnNovoClienteOrdemCadastrar_Click(object sender, EventArgs e)
+    private void BtnNovoClienteOrdemAtualizar_Click(object sender, EventArgs e)
     {
         var frmCadastrarCliente = _serviceProvider.GetRequiredService<FormCadastrarCliente>();
         var result = frmCadastrarCliente.ShowDialog();
         if (result == DialogResult.OK && !String.IsNullOrWhiteSpace(frmCadastrarCliente.NomeSobrenomeClienteCadastrado))
         {
-            TxtClienteOrdemCadastrar.Text = frmCadastrarCliente.NomeSobrenomeClienteCadastrado;
+            TxtClienteOrdemAtualizar.Text = frmCadastrarCliente.NomeSobrenomeClienteCadastrado;
         }
     }
 
-    private void BtnNovoVeiculoOrdemCadastrar_Click(object sender, EventArgs e)
+    private void BtnNovoVeiculoOrdemAtualizar_Click(object sender, EventArgs e)
     {
-        var frmCadastrarVeiculo = _serviceProvider.GetRequiredService<FormCadastrarVeiculo>();
-        frmCadastrarVeiculo.NomeCliente = TxtClienteOrdemCadastrar.Text;
-        frmCadastrarVeiculo.MatriculaParaCadastro = TxtVeiculoOrdemCadastrar.Text;
-        var result = frmCadastrarVeiculo.ShowDialog();
-        if (result == DialogResult.OK && !String.IsNullOrWhiteSpace(frmCadastrarVeiculo.MatriculaVeiculoCadastrado))
+        var frmAtualizarVeiculo = _serviceProvider.GetRequiredService<FormCadastrarVeiculo>();
+        frmAtualizarVeiculo.NomeCliente = TxtClienteOrdemAtualizar.Text;
+        frmAtualizarVeiculo.MatriculaParaCadastro = TxtVeiculoOrdemAtualizar.Text;
+        var result = frmAtualizarVeiculo.ShowDialog();
+        if (result == DialogResult.OK && !String.IsNullOrWhiteSpace(frmAtualizarVeiculo.MatriculaVeiculoCadastrado))
         {
-            TxtVeiculoOrdemCadastrar.Text = string.Empty;
-            TxtVeiculoOrdemCadastrar.Text = frmCadastrarVeiculo.MatriculaVeiculoCadastrado;
+            TxtVeiculoOrdemAtualizar.Text = string.Empty;
+            TxtVeiculoOrdemAtualizar.Text = frmAtualizarVeiculo.MatriculaVeiculoCadastrado;
         }
     }
 
-    private void BtnNovoOrcamentoOrdemCadastrar_Click(object sender, EventArgs e)
+    private void BtnNovoOrcamentoOrdemAtualizar_Click(object sender, EventArgs e)
     {
-        var frmCadastrarOrcamento = _serviceProvider.GetRequiredService<FormCadastrarOrcamento>();
-        var result = frmCadastrarOrcamento.ShowDialog();
+        var frmAtualizarOrcamento = _serviceProvider.GetRequiredService<FormAtualizarOrcamento>();
+        var result = frmAtualizarOrcamento.ShowDialog();
 
-        if (result == DialogResult.OK && frmCadastrarOrcamento.OrcamentoAtual != null)
+        if (result == DialogResult.OK && frmAtualizarOrcamento.OrcamentoAtual != null)
         {
-            var orcamentoAtual = frmCadastrarOrcamento.OrcamentoAtual;
+            var orcamentoAtual = frmAtualizarOrcamento.OrcamentoAtual;
             orcamentoAtual.Numero = _orcamentos.Count() + 1;
 
             _orcamentos.Add(orcamentoAtual);
 
             MessageBox.Show("Orçamento alterada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
+            LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem();
         }
         else
             MessageBox.Show("Orçamento não alterado, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 
-    private void LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem()
+    private void LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem()
     {
-        DgvOrcamentosCadastrarOrdem.DataSource = null;
-        DgvOrcamentosCadastrarOrdem.DataSource = _orcamentos.ToList();
-        DgvOrcamentosCadastrarOrdem.Columns["OrcamentoId"].Visible = false;
-        DgvOrcamentosCadastrarOrdem.Columns["OrdemDeServicoId"].Visible = false;
-        DgvOrcamentosCadastrarOrdem.Columns["StatusOrcamento"].Visible = true; // converter para texto futuramente
-        DgvOrcamentosCadastrarOrdem.Columns["OrdemDeServico"].Visible = false;
-        DgvOrcamentosCadastrarOrdem.Columns["ItensOrcamento"].Visible = false;
-        DgvOrcamentosCadastrarOrdem.Columns["StatusOrcamento"].Visible = false;
-        DgvOrcamentosCadastrarOrdem.Columns["ValorTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastrarOrdem.Columns["CustoTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastrarOrdem.Columns["LucroTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastrarOrdem.Columns["Numero"].HeaderText = "Número";
-        DgvOrcamentosCadastrarOrdem.Columns["DataCriacao"].HeaderText = "Data de criação";
-        DgvOrcamentosCadastrarOrdem.Columns["Descricao"].HeaderText = "Descrição";
-        DgvOrcamentosCadastrarOrdem.Columns["NumeroDeItens"].HeaderText = "Itens";
-        DgvOrcamentosCadastrarOrdem.Columns["CustoTotal"].HeaderText = "Custo";
-        DgvOrcamentosCadastrarOrdem.Columns["ValorTotal"].HeaderText = "Valor";
-        DgvOrcamentosCadastrarOrdem.Columns["LucroTotal"].HeaderText = "Lucro";
-        DgvOrcamentosCadastrarOrdem.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        DgvOrcamentosCadastrarOrdem.MultiSelect = false;
+        DgvOrcamentosAtualizarOrdem.DataSource = null;
+        DgvOrcamentosAtualizarOrdem.DataSource = _orcamentos.ToList();
+        DgvOrcamentosAtualizarOrdem.Columns["OrcamentoId"].Visible = false;
+        DgvOrcamentosAtualizarOrdem.Columns["OrdemDeServicoId"].Visible = false;
+        DgvOrcamentosAtualizarOrdem.Columns["StatusOrcamento"].Visible = true; // converter para texto futuramente
+        DgvOrcamentosAtualizarOrdem.Columns["OrdemDeServico"].Visible = false;
+        DgvOrcamentosAtualizarOrdem.Columns["ItensOrcamento"].Visible = false;
+        DgvOrcamentosAtualizarOrdem.Columns["StatusOrcamento"].Visible = false;
+        DgvOrcamentosAtualizarOrdem.Columns["ValorTotal"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosAtualizarOrdem.Columns["CustoTotal"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosAtualizarOrdem.Columns["Numero"].HeaderText = "Número";
+        DgvOrcamentosAtualizarOrdem.Columns["DataCriacao"].HeaderText = "Data de criação";
+        DgvOrcamentosAtualizarOrdem.Columns["Descricao"].HeaderText = "Descrição";
+        DgvOrcamentosAtualizarOrdem.Columns["NumeroDeItens"].HeaderText = "Itens";
+        DgvOrcamentosAtualizarOrdem.Columns["CustoTotal"].HeaderText = "Custo";
+        DgvOrcamentosAtualizarOrdem.Columns["ValorTotal"].HeaderText = "Valor";
+        DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].HeaderText = "Lucro";
+        DgvOrcamentosAtualizarOrdem.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        DgvOrcamentosAtualizarOrdem.MultiSelect = false;
     }
 
     private void DateTimePickerEstimativaConclusao_ValueChanged(object sender, EventArgs e)
@@ -368,7 +370,7 @@ public partial class FormCadastrarOrdem : Form
         }
     }
 
-    private void TxtVeiculoOrdemCadastrar_TextChanged(object sender, EventArgs e)
+    private void TxtVeiculoOrdemAtualizar_TextChanged(object sender, EventArgs e)
     {
         _veiculoId = null;
         if (_isUpdatingText) return;
@@ -381,7 +383,7 @@ public partial class FormCadastrarOrdem : Form
 
             try
             {
-                string searchText = TxtVeiculoOrdemCadastrar.Text.Trim();
+                string searchText = TxtVeiculoOrdemAtualizar.Text.Trim();
 
                 if (searchText.Length >= 2)
                 {
@@ -424,7 +426,7 @@ public partial class FormCadastrarOrdem : Form
 
                 if (dialog == DialogResult.No)
                 {
-                    TxtVeiculoOrdemCadastrar.Text = string.Empty;
+                    TxtVeiculoOrdemAtualizar.Text = string.Empty;
                     _veiculoId = null;
                     return;
                 }
@@ -434,13 +436,13 @@ public partial class FormCadastrarOrdem : Form
             {
                 _clienteId = veiculoSelecionado.ClienteId;
                 _isUpdatingText = true;
-                TxtClienteOrdemCadastrar.Text = $"{veiculoSelecionado.Cliente.Nome} {veiculoSelecionado.Cliente.Sobrenome}";
+                TxtClienteOrdemAtualizar.Text = $"{veiculoSelecionado.Cliente.Nome} {veiculoSelecionado.Cliente.Sobrenome}";
                 _isUpdatingText = false;
 
             }
 
             _isUpdatingText = true;
-            TxtVeiculoOrdemCadastrar.Text = veiculoSelecionado.ModeloMatricula;
+            TxtVeiculoOrdemAtualizar.Text = veiculoSelecionado.ModeloMatricula;
             _isUpdatingText = false;
             LstSugestoesVeiculos.Visible = false;
             _veiculoId = veiculoSelecionado.VeiculoId;
@@ -459,7 +461,7 @@ public partial class FormCadastrarOrdem : Form
 
                     if (dialog == DialogResult.No)
                     {
-                        TxtVeiculoOrdemCadastrar.Text = string.Empty;
+                        TxtVeiculoOrdemAtualizar.Text = string.Empty;
                         _veiculoId = null;
                         return;
                     }
@@ -469,13 +471,13 @@ public partial class FormCadastrarOrdem : Form
                 {
                     _clienteId = veiculoSelecionado.ClienteId;
                     _isUpdatingText = true;
-                    TxtClienteOrdemCadastrar.Text = $"{veiculoSelecionado.Cliente.Nome} {veiculoSelecionado.Cliente.Sobrenome}";
+                    TxtClienteOrdemAtualizar.Text = $"{veiculoSelecionado.Cliente.Nome} {veiculoSelecionado.Cliente.Sobrenome}";
                     _isUpdatingText = false;
 
                 }
 
                 _isUpdatingText = true;
-                TxtVeiculoOrdemCadastrar.Text = veiculoSelecionado.ModeloMatricula;
+                TxtVeiculoOrdemAtualizar.Text = veiculoSelecionado.ModeloMatricula;
                 _isUpdatingText = false;
                 LstSugestoesVeiculos.Visible = false;
                 _veiculoId = veiculoSelecionado.VeiculoId;
@@ -483,7 +485,7 @@ public partial class FormCadastrarOrdem : Form
         }
     }
 
-    private void TxtVeiculoOrdemCadastrar_KeyPress(object sender, KeyPressEventArgs e)
+    private void TxtVeiculoOrdemAtualizar_KeyPress(object sender, KeyPressEventArgs e)
     {
         if (char.IsLetter(e.KeyChar))
         {
@@ -491,30 +493,30 @@ public partial class FormCadastrarOrdem : Form
         }
     }
 
-    private void BtnEditarOrcamentoOrdemCadastrar_Click(object sender, EventArgs e)
+    private void BtnEditarOrcamentoOrdemAtualizar_Click(object sender, EventArgs e)
     {
-        if (DgvOrcamentosCadastrarOrdem.SelectedRows.Count > 0)
+        if (DgvOrcamentosAtualizarOrdem.SelectedRows.Count > 0)
         {
-            var numeroOrcamento = (int)DgvOrcamentosCadastrarOrdem.SelectedRows[0].Cells["Numero"].Value;
+            var numeroOrcamento = (int)DgvOrcamentosAtualizarOrdem.SelectedRows[0].Cells["Numero"].Value;
 
             var orcamentoSelecionado = _orcamentos.FirstOrDefault(o => o.Numero == numeroOrcamento);
 
             if (orcamentoSelecionado != null)
             {
-                var frmCadastrarOrcamento = _serviceProvider.GetRequiredService<FormAtualizarOrcamento>();
-                frmCadastrarOrcamento.OrcamentoAtual = orcamentoSelecionado;
+                var frmAtualizarOrcamento = _serviceProvider.GetRequiredService<FormAtualizarOrcamento>();
+                frmAtualizarOrcamento.OrcamentoAtual = orcamentoSelecionado;
 
-                var result = frmCadastrarOrcamento.ShowDialog();
+                var result = frmAtualizarOrcamento.ShowDialog();
 
-                if (result == DialogResult.OK && frmCadastrarOrcamento.OrcamentoAtual != null)
+                if (result == DialogResult.OK && frmAtualizarOrcamento.OrcamentoAtual != null)
                 {
-                    orcamentoSelecionado.StatusOrcamento = frmCadastrarOrcamento.OrcamentoAtual.StatusOrcamento;
-                    orcamentoSelecionado.Descricao = frmCadastrarOrcamento.OrcamentoAtual.Descricao;
-                    orcamentoSelecionado.ItensOrcamento = frmCadastrarOrcamento._items.ToList();
+                    orcamentoSelecionado.StatusOrcamento = frmAtualizarOrcamento.OrcamentoAtual.StatusOrcamento;
+                    orcamentoSelecionado.Descricao = frmAtualizarOrcamento.OrcamentoAtual.Descricao;
+                    orcamentoSelecionado.ItensOrcamento = frmAtualizarOrcamento._items.ToList();
 
                     MessageBox.Show("Orçamento alterado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
+                    LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem();
                 }
                 else
                     MessageBox.Show("As alterações no orçamento não foram salvas, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -526,11 +528,11 @@ public partial class FormCadastrarOrdem : Form
         }
     }
 
-    private void BtnExcluirOrcamentoOrdemCadastrar_Click(object sender, EventArgs e)
+    private void BtnExcluirOrcamentoOrdemAtualizar_Click(object sender, EventArgs e)
     {
-        if (DgvOrcamentosCadastrarOrdem.SelectedRows.Count > 0)
+        if (DgvOrcamentosAtualizarOrdem.SelectedRows.Count > 0)
         {
-            var numeroOrcamento = (int)DgvOrcamentosCadastrarOrdem.SelectedRows[0].Cells["Numero"].Value;
+            var numeroOrcamento = (int)DgvOrcamentosAtualizarOrdem.SelectedRows[0].Cells["Numero"].Value;
 
             var orcamentoSelecionado = _orcamentos.FirstOrDefault(o => o.Numero == numeroOrcamento);
 
@@ -538,15 +540,9 @@ public partial class FormCadastrarOrdem : Form
             {
                 _orcamentos.Remove(orcamentoSelecionado);
 
-                int novoNumero = 1;
-                foreach (var orcamento in _orcamentos.OrderBy(o => o.Numero))
-                {
-                    orcamento.Numero = novoNumero++;
-                }
-
                 MessageBox.Show("Orçamento excluído com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
+                LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem();
             }
             else
                 MessageBox.Show("Erro ao excluir orçamento, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -557,11 +553,11 @@ public partial class FormCadastrarOrdem : Form
         }
     }
 
-    private void BtnAprovarOrcamentoOrdemCadastrar_Click(object sender, EventArgs e)
+    private void BtnAprovarOrcamentoOrdemAtualizar_Click(object sender, EventArgs e)
     {
-        if (DgvOrcamentosCadastrarOrdem.SelectedRows.Count > 0)
+        if (DgvOrcamentosAtualizarOrdem.SelectedRows.Count > 0)
         {
-            var numeroOrcamento = (int)DgvOrcamentosCadastrarOrdem.SelectedRows[0].Cells["Numero"].Value;
+            var numeroOrcamento = (int)DgvOrcamentosAtualizarOrdem.SelectedRows[0].Cells["Numero"].Value;
 
             var orcamentoSelecionado = _orcamentos.FirstOrDefault(o => o.Numero == numeroOrcamento);
 
@@ -571,7 +567,7 @@ public partial class FormCadastrarOrdem : Form
 
                 MessageBox.Show("Orçamento aprovado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
+                LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem();
             }
             else
                 MessageBox.Show("Erro ao aprovar orçamento, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -582,11 +578,11 @@ public partial class FormCadastrarOrdem : Form
         }
     }
 
-    private void BtnReprovarOrcamentoOrdemCadastrar_Click(object sender, EventArgs e)
+    private void BtnReprovarOrcamentoOrdemAtualizar_Click(object sender, EventArgs e)
     {
-        if (DgvOrcamentosCadastrarOrdem.SelectedRows.Count > 0)
+        if (DgvOrcamentosAtualizarOrdem.SelectedRows.Count > 0)
         {
-            var numeroOrcamento = (int)DgvOrcamentosCadastrarOrdem.SelectedRows[0].Cells["Numero"].Value;
+            var numeroOrcamento = (int)DgvOrcamentosAtualizarOrdem.SelectedRows[0].Cells["Numero"].Value;
 
             var orcamentoSelecionado = _orcamentos.FirstOrDefault(o => o.Numero == numeroOrcamento);
 
@@ -596,7 +592,7 @@ public partial class FormCadastrarOrdem : Form
 
                 MessageBox.Show("Orçamento reprovado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();
+                LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem();
             }
             else
                 MessageBox.Show("Erro ao reprovar orçamento, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);

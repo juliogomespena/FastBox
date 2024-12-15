@@ -1,6 +1,7 @@
 ﻿using FastBox.BLL.Services;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
+using FastBox.UI.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.RegularExpressions;
@@ -97,7 +98,7 @@ public partial class FormAtualizarVeiculo : Form
             return;
 
         _debounceTimer?.Stop();
-        _debounceTimer = new System.Windows.Forms.Timer { Interval = 650 };
+        _debounceTimer = new System.Windows.Forms.Timer { Interval = GlobalConfiguration.debounceTimeMiliseconds };
         _debounceTimer.Tick += async (s, ev) =>
         {
             _debounceTimer.Stop();
@@ -131,6 +132,7 @@ public partial class FormAtualizarVeiculo : Form
                         DgvVeiculosClientes.MultiSelect = false;
                         DgvVeiculosClientes.ClearSelection();
                         DgvVeiculosClientes.Rows[0].Selected = true;
+                        DgvVeiculosClientes.Focus();
                     }
                 }
                 else
