@@ -22,6 +22,11 @@ public partial class FormCadastrarVeiculo : Form
         _serviceProvider = serviceProvider;
     }
 
+    public string MatriculaVeiculoCadastrado { get; private set; }
+    public string NomeCliente { get; set; }
+
+    public string MatriculaParaCadastro { get; set; }
+
     private async void BtnCadastrarVeiculo_Click(object sender, EventArgs e)
     {
         if (!CheckFields())
@@ -57,6 +62,8 @@ public partial class FormCadastrarVeiculo : Form
 
             MessageBox.Show("Veículo cadastrado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            MatriculaVeiculoCadastrado = veiculo.Matricula;
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
         catch (DbUpdateException ex)
@@ -184,5 +191,13 @@ public partial class FormCadastrarVeiculo : Form
                 _isUpdatingText = false;
             }
         }
+    }
+
+    private void FormCadastrarVeiculo_Load(object sender, EventArgs e)
+    {
+        if (!String.IsNullOrEmpty(NomeCliente))
+            TxtCliente.Text = NomeCliente;
+        if (!String.IsNullOrEmpty(MatriculaParaCadastro))
+            TxtMskMatricula.Text = MatriculaParaCadastro;
     }
 }

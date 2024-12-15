@@ -13,7 +13,7 @@ public class OrdemDeServicoViewModel
 
     public long StatusOrdemDeServicoId { get; set; }
 
-    public string Status => StatusOrdemDeServico.Descricao;
+    public string Status => StatusOrdemDeServico.Nome;
 
     public long? ClienteId { get; set; }
 

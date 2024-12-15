@@ -20,6 +20,8 @@ public partial class FormCadastrarCliente : Form
         _clienteService = clienteService;
     }
 
+    public string NomeSobrenomeClienteCadastrado { get; private set; }
+
     private async void FormCadastrarCliente_Load(object sender, EventArgs e)
     {
         try
@@ -121,13 +123,16 @@ public partial class FormCadastrarCliente : Form
                 Telemovel = TxtMskTelemovel.Text.Trim(),
                 Email = TxtEmail.Text.Trim(),
                 Nif = TxtMskNif.Text.Trim(),
-                EnderecoId = enderecoId
+                EnderecoId = enderecoId,
+                DataCadastro = DateTime.Now,
             };
 
             await _clienteService.AddClientAsync(cliente);
 
             MessageBox.Show("Cliente cadastrado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            NomeSobrenomeClienteCadastrado = $"{cliente.Nome} {cliente.Sobrenome}";
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
         catch (DbUpdateException ex)

@@ -1,12 +1,19 @@
 ﻿using FastBox.DAL.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace FastBox.BLL.DTOs;
 
 public class VeiculoViewModel
 {
+    private long? _clienteId;
+    private string? _observacoes;
     public long VeiculoId { get; set; }
 
-    public long? ClienteId { get; set; }
+    public long? ClienteId 
+    { 
+        get => _clienteId == null ? null : _clienteId;
+        set => _clienteId = value;
+    }
 
     public string Marca { get; set; } = null!;
 
@@ -16,11 +23,15 @@ public class VeiculoViewModel
 
     public string Matricula { get; set; } = null!;
 
-    public string? NomeCliente { get; set; }
+    public string? NomeCliente => Cliente == null ? "Não cadastrado" : Cliente.ToString();
 
     public int OrdensDeServico => OrdemDeServicos.Count();
 
-    public string? Observacoes { get; set; }
+    public string? Observacoes 
+    {
+        get => string.IsNullOrEmpty(_observacoes) ? "Sem observações" : _observacoes;
+        set => _observacoes = value;
+    }
 
     public string? ModeloMatricula => $"{Modelo} ({Matricula})";
 

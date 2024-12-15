@@ -3,6 +3,7 @@ using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using FastBox.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FastBox.BLL.Services;
 
@@ -15,22 +16,25 @@ public class VeiculoService : IVeiculoService
         _veiculoRepository = veiculoRepository;
     }
 
-    public async Task<IEnumerable<VeiculoViewModel>> GetAllVeiculos()
+    public async Task<IEnumerable<VeiculoViewModel>> GetVeiculosAsync(Expression<Func<Veiculo, bool>>? filter = null)
     {
-        return await _veiculoRepository.Query()
-            .AsNoTracking()
+        var query = _veiculoRepository.Query().AsNoTracking();
+
+        if (filter != null)
+            query = query.Where(filter);
+
+        return await query
             .Include(v => v.Cliente)
             .Include(v => v.OrdemDeServicos)
             .Select(v => new VeiculoViewModel
             {
                 VeiculoId = v.VeiculoId,
-                ClienteId = v.ClienteId == null ? 0 : v.ClienteId,
+                ClienteId = v.ClienteId,
                 Marca = v.Marca,
                 Modelo = v.Modelo,
                 Ano = v.Ano,
                 Matricula = v.Matricula,
-                NomeCliente = v.Cliente == null ? "Não cadastrado" : v.Cliente.ToString(),
-                Observacoes = string.IsNullOrEmpty(v.Observacoes) ? "Sem observações" : v.Observacoes,
+                Observacoes = v.Observacoes,
                 Cliente = v.Cliente,
                 OrdemDeServicos = v.OrdemDeServicos
             })
@@ -42,6 +46,7 @@ public class VeiculoService : IVeiculoService
         return await _veiculoRepository.Query()
         .AsNoTracking()
         .Include(v => v.Cliente)
+        .Include(v => v.OrdemDeServicos)
         .OrderByDescending(v => v.VeiculoId)
         .Skip((page - 1) * size)
         .Take(size)
@@ -52,8 +57,9 @@ public class VeiculoService : IVeiculoService
             Modelo = v.Modelo,
             Ano = v.Ano,
             Matricula = v.Matricula,
-            NomeCliente = v.Cliente == null ? "Não cadastrado" : v.Cliente.ToString(),
-            Observacoes = string.IsNullOrEmpty(v.Observacoes) ? "Sem observações" : v.Observacoes,
+            Observacoes = v.Observacoes,
+            Cliente = v.Cliente,
+            OrdemDeServicos = v.OrdemDeServicos
         })
         .ToListAsync();
     }
@@ -76,8 +82,7 @@ public class VeiculoService : IVeiculoService
             Modelo = veiculoExistente.Modelo,
             Ano = veiculoExistente.Ano,
             Matricula = veiculoExistente.Matricula,
-            NomeCliente = veiculoExistente.Cliente == null ? "Não cadastrado" : veiculoExistente.Cliente.ToString(),
-            Observacoes = string.IsNullOrEmpty(veiculoExistente.Observacoes) ? "Sem observações" : veiculoExistente.Observacoes,
+            Observacoes = veiculoExistente.Observacoes,
             Cliente = veiculoExistente.Cliente,
             OrdemDeServicos = veiculoExistente.OrdemDeServicos
         };

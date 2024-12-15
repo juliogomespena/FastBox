@@ -12,22 +12,44 @@ namespace FastBox.UI.Forms;
 
 public partial class FormCadastrarOrcamento : Form
 {
-    private readonly IOrcamentoService _orcamentoService;
     private readonly IServiceProvider _serviceProvider;
     private System.Windows.Forms.Timer _debounceTimer;
     private ICollection<ItemOrcamentoViewModel> _items = [];
 
-    public FormCadastrarOrcamento(IOrcamentoService orcamentoService, IServiceProvider serviceProvider)
+    public FormCadastrarOrcamento(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-
-        _orcamentoService = orcamentoService;
         _serviceProvider = serviceProvider;
     }
 
+    public OrcamentoViewModel OrcamentoAtual { get; private set; }
+
     private async void BtnGerarOrcamento_Click(object sender, EventArgs e)
     {
+        if (_items == null || !_items.Any())
+        {
+            MessageBox.Show("Adicione pelo menos um item ao orçamento antes de gerar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
 
+        try
+        {
+            OrcamentoAtual = new OrcamentoViewModel
+            {
+                StatusOrcamento = 1,
+                Descricao = RTxtDescricaoCadastroOrcamento.Text,
+                ItensOrcamento = _items.ToList(),
+                DataCriacao = DateTime.Now
+            };
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+        catch (Exception ex)
+        {
+
+            MessageBox.Show($"Erro ao gerar orçamento: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
     private bool CheckFields()
@@ -75,12 +97,15 @@ public partial class FormCadastrarOrcamento : Form
         DgvOrcamentosCadastro.Columns["Orcamento"].Visible = false;
         DgvOrcamentosCadastro.Columns["Margem"].Visible = false;
         DgvOrcamentosCadastro.Columns["PrecoUnitario"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastro.Columns["PrecoFinalUnitario"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastro.Columns["PrecoFinalTotal"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosCadastro.Columns["ValorUnitario"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosCadastro.Columns["ValorTotal"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosCadastro.Columns["CustoTotal"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosCadastro.Columns["Lucro"].DefaultCellStyle.Format = "F2";
         DgvOrcamentosCadastro.Columns["Descricao"].HeaderText = "Item";
-        DgvOrcamentosCadastro.Columns["PrecoUnitario"].HeaderText = "Custo unitário";
-        DgvOrcamentosCadastro.Columns["PrecoFinalUnitario"].HeaderText = "Preço final unitário";
-        DgvOrcamentosCadastro.Columns["PrecoFinalTotal"].HeaderText = "Total";
+        DgvOrcamentosCadastro.Columns["PrecoUnitario"].HeaderText = "Custo";
+        DgvOrcamentosCadastro.Columns["ValorUnitario"].HeaderText = "Valor";
+        DgvOrcamentosCadastro.Columns["ValorTotal"].HeaderText = "Valor total";
+        DgvOrcamentosCadastro.Columns["CustoTotal"].HeaderText = "Custo total";
         DgvOrcamentosCadastro.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         DgvOrcamentosCadastro.MultiSelect = false;
     }
@@ -90,24 +115,32 @@ public partial class FormCadastrarOrcamento : Form
         if (!CheckFields())
             return;
 
-        var item = new ItemOrcamentoViewModel
+        try
         {
-            Descricao = TxtItemCadastroOrcamento.Text.Trim(),
-            Quantidade = int.TryParse(TxtQuantidadeCadastroOrcamento.Text, out int qtd) ? qtd : throw new FormatException("Erro ao processar a quantidade do item."),
-            PrecoUnitario = decimal.TryParse(TxtPrecoUnitarioCadastroOrcamento.Text.Replace('.', ','), out decimal precoUnitario) ? precoUnitario : throw new FormatException("Erro ao processar preço unitário do item."),
-            Margem = decimal.TryParse(TxtMargemCadastroOrdem.Text, out decimal margem) ? margem : throw new FormatException("Erro ao processar a margem do item.")
-        };
+            var item = new ItemOrcamentoViewModel
+            {
+                Descricao = TxtItemCadastroOrcamento.Text.Trim(),
+                Quantidade = int.TryParse(TxtQuantidadeCadastroOrcamento.Text, out int qtd) ? qtd : throw new FormatException("Erro ao processar a quantidade do item."),
+                PrecoUnitario = decimal.TryParse(TxtPrecoUnitarioCadastroOrcamento.Text.Replace('.', ','), out decimal precoUnitario) ? precoUnitario : throw new FormatException("Erro ao processar preço unitário do item."),
+                Margem = decimal.TryParse(TxtMargemCadastroOrdem.Text, out decimal margem) ? margem : throw new FormatException("Erro ao processar a margem do item.")
+            };
 
-        _items.Add(item);
-        LoadItemsIntoDgvOrcamentoCadastro();
+            _items.Add(item);
+            LoadItemsIntoDgvOrcamentoCadastro();
 
-        TxtItemCadastroOrcamento.Clear();
-        TxtQuantidadeCadastroOrcamento.Clear();
-        TxtPrecoUnitarioCadastroOrcamento.Clear();
-        TxtMargemCadastroOrdem.Clear();
-        TxtPrecoUnitarioFinalCadastroOrcamento.Clear();
-        TxtPrecoFinalTotalCadastroOrcamento.Clear();
-        TxtItemCadastroOrcamento.Focus();
+            TxtItemCadastroOrcamento.Clear();
+            TxtQuantidadeCadastroOrcamento.Clear();
+            TxtPrecoUnitarioCadastroOrcamento.Clear();
+            TxtMargemCadastroOrdem.Clear();
+            TxtPrecoUnitarioFinalCadastroOrcamento.Clear();
+            TxtPrecoFinalTotalCadastroOrcamento.Clear();
+            TxtItemCadastroOrcamento.Focus();
+        }
+        catch (Exception ex)
+        {
+
+            MessageBox.Show($"Erro ao incluir item: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
     private void TxtMargemCadastroOrdem_KeyPress(object sender, KeyPressEventArgs e)
@@ -156,18 +189,27 @@ public partial class FormCadastrarOrcamento : Form
             return;
         }
 
-        int selectedIndex = DgvOrcamentosCadastro.CurrentRow.Index;
-
-        if (selectedIndex >= 0 && selectedIndex < _items.Count)
+        try
         {
-            var selectedItem = DgvOrcamentosCadastro.CurrentRow.DataBoundItem as ItemOrcamentoViewModel;
-            if (selectedItem != null)
-            {
-                _items.Remove(selectedItem);
-            }
+            int selectedIndex = DgvOrcamentosCadastro.CurrentRow.Index;
 
-            LoadItemsIntoDgvOrcamentoCadastro();
-            MessageBox.Show("Item excluído com sucesso.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (selectedIndex >= 0 && selectedIndex < _items.Count)
+            {
+                var selectedItem = DgvOrcamentosCadastro.CurrentRow.DataBoundItem as ItemOrcamentoViewModel;
+                if (selectedItem != null)
+                {
+                    _items.Remove(selectedItem);
+                }
+
+                LoadItemsIntoDgvOrcamentoCadastro();
+                MessageBox.Show("Item excluído com sucesso.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
+        catch (Exception ex)
+        {
+
+            MessageBox.Show($"Erro ao excluir item: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
     }
 }

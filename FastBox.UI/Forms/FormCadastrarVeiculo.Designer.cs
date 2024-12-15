@@ -246,6 +246,7 @@
             MinimumSize = new Size(800, 500);
             Name = "FormCadastrarVeiculo";
             Text = "FastBox - Cadastro de veículos";
+            Load += FormCadastrarVeiculo_Load;
             PanelInfoVeiculo.ResumeLayout(false);
             PanelInfoVeiculo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DgvVeiculosClientes).EndInit();

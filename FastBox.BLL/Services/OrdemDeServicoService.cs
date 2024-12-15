@@ -111,18 +111,61 @@ public class OrdemDeServicoService : IOrdemDeServicoService
         };
     }
 
-    public Task AddOrdemAsync(OrdemDeServicoViewModel ordem)
+    public async Task AddOrdemAsync(OrdemDeServicoViewModel ordem)
+    {
+        var ordemConverted = new OrdemDeServico
+        {
+            StatusOrdemDeServicoId = ordem.StatusOrdemDeServicoId,
+            ClienteId = ordem.ClienteId,
+            VeiculoId = ordem.VeiculoId,
+            Descricao = ordem.Descricao,
+            EstimativaConclusao = ordem.EstimativaConclusao,
+            Orcamentos = ordem.Orcamentos.Select(orcamento => new Orcamento
+            {
+                StatusOrcamento = orcamento.StatusOrcamento,
+                DataCriacao = orcamento.DataCriacao,
+                Descricao = orcamento.Descricao,
+                ItensOrcamento = orcamento.ItensOrcamento.Select(itens => new ItemOrcamento
+                {
+                    Descricao = itens.Descricao,
+                    Quantidade = itens.Quantidade,
+                    PrecoUnitario = itens.PrecoUnitario,
+                    Margem = itens.Margem
+                }).ToList()
+            }).ToList()
+        };
+
+        try
+        {
+            await _ordemRepository.AddAsync(ordemConverted);
+        }
+        catch (DbUpdateException ex)
+        {
+
+            if (ex.InnerException?.Message.Contains("UNIQUE") ?? false)
+                throw new InvalidOperationException("Já existe uma ordem com os mesmos dados únicos.");
+
+            throw;
+        }
+        finally
+        {
+            _ordemRepository.DetachEntity(ordemConverted);
+        }
+    }
+
+    public async Task UpdateOrdemAsync(OrdemDeServicoViewModel ordem)
     {
         throw new NotImplementedException();
     }
 
-    public Task UpdateOrdemAsync(OrdemDeServicoViewModel ordem)
+    public async Task DeleteOrdemAsync(OrdemDeServicoViewModel ordem)
     {
-        throw new NotImplementedException();
-    }
+        var ordemExistente = await _ordemRepository.GetByIdAsync(ordem.OrdemDeServicoId);
 
-    public Task DeleteOrdemAsync(OrdemDeServicoViewModel ordem)
-    {
-        throw new NotImplementedException();
+        if (ordemExistente == null)
+            throw new Exception("Ordem de serviço não encontrada.");
+
+        await _ordemRepository.DeleteAsync(ordemExistente);
+        _ordemRepository.DetachEntity(ordemExistente);
     }
 }

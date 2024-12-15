@@ -30,6 +30,9 @@
         {
             LblItemCadastroOrcamento = new Label();
             PanelInfoOrcamentoCadastro = new Panel();
+            LblDescricaoCadastroOrcamento = new Label();
+            panel1 = new Panel();
+            RTxtDescricaoCadastroOrcamento = new RichTextBox();
             TxtPrecoUnitarioFinalCadastroOrcamento = new TextBox();
             LblPrecoFinalTotalCadastroOrcamento = new Label();
             TxtPrecoFinalTotalCadastroOrcamento = new TextBox();
@@ -47,6 +50,7 @@
             LblInfoOrcamentoCadastro = new Label();
             BtnGerarOrcamentoCadastro = new Button();
             PanelInfoOrcamentoCadastro.SuspendLayout();
+            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvOrcamentosCadastro).BeginInit();
             SuspendLayout();
             // 
@@ -63,6 +67,8 @@
             // PanelInfoOrcamentoCadastro
             // 
             PanelInfoOrcamentoCadastro.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrcamentoCadastro.Controls.Add(LblDescricaoCadastroOrcamento);
+            PanelInfoOrcamentoCadastro.Controls.Add(panel1);
             PanelInfoOrcamentoCadastro.Controls.Add(TxtPrecoUnitarioFinalCadastroOrcamento);
             PanelInfoOrcamentoCadastro.Controls.Add(LblPrecoFinalTotalCadastroOrcamento);
             PanelInfoOrcamentoCadastro.Controls.Add(TxtPrecoFinalTotalCadastroOrcamento);
@@ -82,6 +88,33 @@
             PanelInfoOrcamentoCadastro.Name = "PanelInfoOrcamentoCadastro";
             PanelInfoOrcamentoCadastro.Size = new Size(778, 463);
             PanelInfoOrcamentoCadastro.TabIndex = 10;
+            // 
+            // LblDescricaoCadastroOrcamento
+            // 
+            LblDescricaoCadastroOrcamento.AutoSize = true;
+            LblDescricaoCadastroOrcamento.Location = new Point(8, 357);
+            LblDescricaoCadastroOrcamento.Name = "LblDescricaoCadastroOrcamento";
+            LblDescricaoCadastroOrcamento.Size = new Size(65, 17);
+            LblDescricaoCadastroOrcamento.TabIndex = 12;
+            LblDescricaoCadastroOrcamento.Text = "Descrição";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(RTxtDescricaoCadastroOrcamento);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 377);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(774, 82);
+            panel1.TabIndex = 38;
+            // 
+            // RTxtDescricaoCadastroOrcamento
+            // 
+            RTxtDescricaoCadastroOrcamento.Dock = DockStyle.Bottom;
+            RTxtDescricaoCadastroOrcamento.Location = new Point(0, 3);
+            RTxtDescricaoCadastroOrcamento.Name = "RTxtDescricaoCadastroOrcamento";
+            RTxtDescricaoCadastroOrcamento.Size = new Size(774, 79);
+            RTxtDescricaoCadastroOrcamento.TabIndex = 0;
+            RTxtDescricaoCadastroOrcamento.Text = "";
             // 
             // TxtPrecoUnitarioFinalCadastroOrcamento
             // 
@@ -190,13 +223,13 @@
             DgvOrcamentosCadastro.AllowUserToDeleteRows = false;
             DgvOrcamentosCadastro.AllowUserToResizeColumns = false;
             DgvOrcamentosCadastro.AllowUserToResizeRows = false;
+            DgvOrcamentosCadastro.Anchor = AnchorStyles.Bottom;
             DgvOrcamentosCadastro.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvOrcamentosCadastro.Dock = DockStyle.Bottom;
-            DgvOrcamentosCadastro.Location = new Point(0, 159);
+            DgvOrcamentosCadastro.Location = new Point(2, 180);
             DgvOrcamentosCadastro.Name = "DgvOrcamentosCadastro";
             DgvOrcamentosCadastro.ReadOnly = true;
             DgvOrcamentosCadastro.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvOrcamentosCadastro.Size = new Size(774, 300);
+            DgvOrcamentosCadastro.Size = new Size(774, 168);
             DgvOrcamentosCadastro.TabIndex = 17;
             // 
             // BtnIncluirItemCadastroOrcamento
@@ -270,6 +303,7 @@
             Load += FormCadastrarOrcamento_Load;
             PanelInfoOrcamentoCadastro.ResumeLayout(false);
             PanelInfoOrcamentoCadastro.PerformLayout();
+            panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DgvOrcamentosCadastro).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -312,5 +346,8 @@
         private Label LblPrecoFinalTotalCadastroOrcamento;
         private TextBox TxtPrecoFinalTotalCadastroOrcamento;
         private Label LblPrecoFinalUnitarioCadastroOrcamento;
+        private Panel panel1;
+        private Label LblDescricaoCadastroOrcamento;
+        private RichTextBox RTxtDescricaoCadastroOrcamento;
     }
 }

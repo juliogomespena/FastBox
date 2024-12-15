@@ -149,7 +149,7 @@ public partial class FormOrdensDeServico : Form
                 if (ordem == null)
                     throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
 
-                var dialog = MessageBox.Show($"Tem certeza que deseja excluir a ordem de serviço: {ordem.Descricao}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var dialog = MessageBox.Show($"Tem certeza que deseja excluir a ordem de serviço {ordem.OrdemDeServicoId} do veículo {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialog == DialogResult.Yes)
                 {
