@@ -1,4 +1,5 @@
-﻿using FastBox.BLL.Services.Interfaces;
+﻿using FastBox.BLL.DTOs.Filters;
+using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,14 +28,24 @@ public partial class FormOrdensDeServico : Form
     private async void FormOrdensDeServico_Load(object sender, EventArgs e)
     {
         await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+        TspCmbValorTotalOpcao.SelectedIndex = 0;
+        TspCmbStatus.Items.Add("Status");
+        using (var scope = _serviceProvider.CreateScope())
+        {
+            var statusService = scope.ServiceProvider.GetRequiredService<IStatusOrdemDeServicoService>();
+            var status = await statusService.GetAllStatusAsync();
+
+            TspCmbStatus.Items.AddRange(status.Select(s => s.Nome).ToArray());
+        }
+        TspCmbStatus.SelectedIndex = 0;
     }
 
-    private async Task LoadOrdensDeServicoIntoDgvAsync(int page, int size)
+    private async Task LoadOrdensDeServicoIntoDgvAsync(int page, int size, OrdemDeServicoFilter? filter = null)
     {
         try
         {
             ControlButtonsForDatabaseOperations();
-            var ordensDeServico = await _ordemDeServicoService.GetOrdensInPagesAsync(page, size);
+            var ordensDeServico = await _ordemDeServicoService.GetOrdensInPagesAsync(page, size, filter);
             DgvOrdensDeServico.DataSource = ordensDeServico;
             DgvOrdensDeServico.Columns["ClienteId"].Visible = false;
             DgvOrdensDeServico.Columns["VeiculoId"].Visible = false;
@@ -120,6 +131,7 @@ public partial class FormOrdensDeServico : Form
     private async void BtnRefresh_Click(object sender, EventArgs e)
     {
         await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+        ResetFilterFields();
     }
 
     private async void BtnAtualizarOrdemDeServico_Click(object sender, EventArgs e)
@@ -302,4 +314,156 @@ public partial class FormOrdensDeServico : Form
         else
             MessageBox.Show("Selecione uma ordem para finalizar serviços.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
+
+    private void TspTxtCliente_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtCliente.Text == "Cliente")
+        {
+            TspTxtCliente.Text = null;
+            TspTxtCliente.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtCliente_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtCliente.Text))
+        {
+            TspTxtCliente.Text = "Cliente";
+            TspTxtCliente.ForeColor = Color.Gray;
+        }
+    }
+
+    private async void TspBtnAplicar_Click(object sender, EventArgs e)
+    {
+        var filter = new OrdemDeServicoFilter
+        {
+            Status = TspCmbStatus.SelectedIndex > 0 && TspCmbStatus.SelectedItem != null ? TspCmbStatus.SelectedItem.ToString() : null, //aqui
+            Cliente = TspTxtCliente.Text == "Cliente" ? null : TspTxtCliente.Text,
+            Veiculo = TspTxtVeiculo.Text == "Veículo" ? null : TspTxtVeiculo.Text,
+            Descricao = TspTxtDescricao.Text == "Descrição" ? null : TspTxtDescricao.Text,
+            DataAbertura = DateTime.TryParse(TspTxtAbertura.Text, out DateTime dataAbertura) ? new DateTime(dataAbertura.Year, dataAbertura.Month, dataAbertura.Day) : null,
+            PrazoEstimado = DateTime.TryParse(TspTxtPrazo.Text, out DateTime dataPrazoEstimado) ? new DateTime(dataPrazoEstimado.Year, dataPrazoEstimado.Month, dataPrazoEstimado.Day) : null,
+            ValorTotalMaiorOuIgual = TspCmbValorTotalOpcao.SelectedIndex == 0 ? true : false,
+            ValorTotal = decimal.TryParse(TspTxtValorTotal.Text, out decimal valorTotal) ? valorTotal : null,
+        };
+
+        await LoadOrdensDeServicoIntoDgvAsync(1, pageSize, filter);
+
+        ResetFilterFields();
+    }
+
+    private void TspTxtVeiculo_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtVeiculo.Text == "Veículo")
+        {
+            TspTxtVeiculo.Text = null;
+            TspTxtVeiculo.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtVeiculo_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtVeiculo.Text))
+        {
+            TspTxtVeiculo.Text = "Veículo";
+            TspTxtVeiculo.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtDescricao_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtDescricao.Text == "Descrição")
+        {
+            TspTxtDescricao.Text = null;
+            TspTxtDescricao.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtDescricao_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtDescricao.Text))
+        {
+            TspTxtDescricao.Text = "Descrição";
+            TspTxtDescricao.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtAbertura_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtAbertura.Text == "Data de abertura")
+        {
+            TspTxtAbertura.Text = null;
+            TspTxtAbertura.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtAbertura_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtAbertura.Text))
+        {
+            TspTxtAbertura.Text = "Data de abertura";
+            TspTxtAbertura.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtPrazo_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtPrazo.Text == "Prazo estimado")
+        {
+            TspTxtPrazo.Text = null;
+            TspTxtPrazo.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtPrazo_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtPrazo.Text))
+        {
+            TspTxtPrazo.Text = "Prazo estimado";
+            TspTxtPrazo.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtValorTotal_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtValorTotal.Text == "Valor total")
+        {
+            TspTxtValorTotal.Text = null;
+            TspTxtValorTotal.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtValorTotal_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtValorTotal.Text))
+        {
+            TspTxtValorTotal.Text = "Valor total";
+            TspTxtValorTotal.ForeColor = Color.Gray;
+        }
+    }
+
+    private void ResetFilterFields()
+    {
+        TspCmbStatus.SelectedIndex = 0;
+        TspCmbValorTotalOpcao.SelectedIndex = 0;
+
+        TspTxtCliente.Text = "Cliente";
+        TspTxtCliente.ForeColor = Color.Gray;
+
+        TspTxtVeiculo.Text = "Veículo";
+        TspTxtVeiculo.ForeColor = Color.Gray;
+
+        TspTxtDescricao.Text = "Descrição";
+        TspTxtDescricao.ForeColor = Color.Gray;
+
+        TspTxtAbertura.Text = "Data de abertura";
+        TspTxtAbertura.ForeColor = Color.Gray;
+
+        TspTxtPrazo.Text = "Prazo estimado";
+        TspTxtPrazo.ForeColor = Color.Gray;
+
+        TspTxtValorTotal.Text = "Valor total";
+        TspTxtValorTotal.ForeColor = Color.Gray;
+    }
+
 }

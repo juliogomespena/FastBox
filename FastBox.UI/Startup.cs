@@ -23,6 +23,7 @@ internal class Startup
         services.AddScoped<IEnderecoService, EnderecoService>();
         services.AddScoped<IVeiculoService, VeiculoService>();
         services.AddScoped<IOrdemDeServicoService, OrdemDeServicoService>();
+        services.AddScoped<IStatusOrdemDeServicoService, StatusOrdemDeServicoService>();
         //services.AddScoped<IRelatorioService, RelatorioService>();
 
         services.AddTransient<FormLogin>();

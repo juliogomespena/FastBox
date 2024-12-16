@@ -1,8 +1,10 @@
 ﻿using FastBox.BLL.DTOs;
+using FastBox.BLL.DTOs.Filters;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using FastBox.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace FastBox.BLL.Services;
 
@@ -50,9 +52,31 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<OrdemDeServicoViewModel>> GetOrdensInPagesAsync(int page, int size)
+    public async Task<IEnumerable<OrdemDeServicoViewModel>> GetOrdensInPagesAsync(int page, int size, OrdemDeServicoFilter? filter = null)
     {
-        return await _ordemRepository.Query()
+        var query = _ordemRepository.Query().AsNoTracking();
+
+        if(filter != null)
+        {
+            if (!String.IsNullOrWhiteSpace(filter.Status))
+                query = query.Where(ordem => ordem.StatusOrdemDeServico.Nome.Equals(filter.Status));
+            if (!String.IsNullOrWhiteSpace(filter.Cliente))
+                query = query.Where(ordem => ordem.Cliente != null && (ordem.Cliente.Nome + " " + ordem.Cliente.Sobrenome).Contains(filter.Cliente));
+            if (!String.IsNullOrWhiteSpace(filter.Veiculo))
+                query = query.Where(ordem => ordem.Veiculo != null && (ordem.Veiculo.Modelo + " " + ordem.Veiculo.Marca + " " + ordem.Veiculo.Matricula).Contains(filter.Veiculo));
+            if (!String.IsNullOrWhiteSpace(filter.Descricao))
+                query = query.Where(ordem => ordem.Descricao.Contains(filter.Descricao));
+            if (filter.DataAbertura != null)
+                query = query.Where(ordem => ordem.DataAbertura.Date == filter.DataAbertura.Value.Date);
+            if (filter.PrazoEstimado != null)
+                query = query.Where(ordem => ordem.EstimativaConclusao != null && ordem.EstimativaConclusao.Value.Date == filter.PrazoEstimado.Value.Date);
+            if (filter.ValorTotal != null && filter.ValorTotalMaiorOuIgual == true)
+                query = query.Where(ordem => ordem.ValorTotal >= filter.ValorTotal);
+            if (filter.ValorTotal != null && filter.ValorTotalMaiorOuIgual == false)
+                query = query.Where(ordem => ordem.ValorTotal <= filter.ValorTotal);            
+        }
+
+        return await query
             .AsNoTracking()
             .Include(o => o.Cliente)
             .Include(o => o.Orcamentos)

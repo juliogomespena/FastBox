@@ -1,11 +1,12 @@
 ﻿using FastBox.BLL.DTOs;
+using FastBox.BLL.DTOs.Filters;
 
 namespace FastBox.BLL.Services.Interfaces;
 
 public interface IOrdemDeServicoService
 {
     Task<IEnumerable<OrdemDeServicoViewModel>> GetAllOrdens();
-    Task<IEnumerable<OrdemDeServicoViewModel>> GetOrdensInPagesAsync(int page, int size);
+    Task<IEnumerable<OrdemDeServicoViewModel>> GetOrdensInPagesAsync(int page, int size, OrdemDeServicoFilter? filter = null);
     Task<OrdemDeServicoViewModel> GetOrdemByIdAsync(long id);
     Task AddOrdemAsync(OrdemDeServicoViewModel ordem);
     Task UpdateOrdemAsync(OrdemDeServicoViewModel ordem);

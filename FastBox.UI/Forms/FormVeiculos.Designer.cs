@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVeiculos));
             DgvVeiculos = new DataGridView();
             PanelVeiculosBotoes = new Panel();
             BtnRefresh = new Button();
@@ -37,9 +38,24 @@
             BtnAtualizarVeiculo = new Button();
             BtnCadastrarVeiculo = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
+            TspBusca = new ToolStrip();
+            TxtInfoTspBuscca = new ToolStripLabel();
+            TspTxtMarca = new ToolStripTextBox();
+            toolStripSeparator1 = new ToolStripSeparator();
+            TspTxtModelo = new ToolStripTextBox();
+            toolStripSeparator2 = new ToolStripSeparator();
+            TspTxtAno = new ToolStripTextBox();
+            toolStripSeparator3 = new ToolStripSeparator();
+            TspTxtMatricula = new ToolStripTextBox();
+            toolStripSeparator4 = new ToolStripSeparator();
+            TspTxtCliente = new ToolStripTextBox();
+            toolStripSeparator5 = new ToolStripSeparator();
+            TspTxtObservacoes = new ToolStripTextBox();
+            TspBtnAplicar = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)DgvVeiculos).BeginInit();
             PanelVeiculosBotoes.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
+            TspBusca.SuspendLayout();
             SuspendLayout();
             // 
             // DgvVeiculos
@@ -52,7 +68,7 @@
             DgvVeiculos.Name = "DgvVeiculos";
             DgvVeiculos.ReadOnly = true;
             DgvVeiculos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvVeiculos.Size = new Size(1258, 600);
+            DgvVeiculos.Size = new Size(1258, 580);
             DgvVeiculos.TabIndex = 0;
             // 
             // PanelVeiculosBotoes
@@ -65,9 +81,9 @@
             PanelVeiculosBotoes.Controls.Add(BtnAtualizarVeiculo);
             PanelVeiculosBotoes.Controls.Add(BtnCadastrarVeiculo);
             PanelVeiculosBotoes.Dock = DockStyle.Fill;
-            PanelVeiculosBotoes.Location = new Point(3, 609);
+            PanelVeiculosBotoes.Location = new Point(3, 614);
             PanelVeiculosBotoes.Name = "PanelVeiculosBotoes";
-            PanelVeiculosBotoes.Size = new Size(1258, 69);
+            PanelVeiculosBotoes.Size = new Size(1258, 64);
             PanelVeiculosBotoes.TabIndex = 1;
             // 
             // BtnRefresh
@@ -77,9 +93,9 @@
             BtnRefresh.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnRefresh.BackColor = SystemColors.ControlLight;
             BtnRefresh.Font = new Font("Segoe UI Variable Display Semib", 26F, FontStyle.Bold);
-            BtnRefresh.Location = new Point(1052, 0);
+            BtnRefresh.Location = new Point(1027, 6);
             BtnRefresh.Name = "BtnRefresh";
-            BtnRefresh.Size = new Size(72, 69);
+            BtnRefresh.Size = new Size(72, 55);
             BtnRefresh.TabIndex = 5;
             BtnRefresh.Text = "⟳";
             BtnRefresh.UseVisualStyleBackColor = false;
@@ -92,9 +108,9 @@
             BtnNextPage.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnNextPage.BackColor = SystemColors.ControlLight;
             BtnNextPage.Font = new Font("Segoe UI Variable Display Semib", 30F, FontStyle.Bold);
-            BtnNextPage.Location = new Point(1189, 0);
+            BtnNextPage.Location = new Point(1180, 6);
             BtnNextPage.Name = "BtnNextPage";
-            BtnNextPage.Size = new Size(69, 69);
+            BtnNextPage.Size = new Size(69, 55);
             BtnNextPage.TabIndex = 4;
             BtnNextPage.Text = "→";
             BtnNextPage.UseVisualStyleBackColor = false;
@@ -107,9 +123,9 @@
             BtnPreviousPage.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnPreviousPage.BackColor = SystemColors.ControlLight;
             BtnPreviousPage.Font = new Font("Segoe UI Variable Display Semib", 30F, FontStyle.Bold);
-            BtnPreviousPage.Location = new Point(1122, 0);
+            BtnPreviousPage.Location = new Point(1105, 6);
             BtnPreviousPage.Name = "BtnPreviousPage";
-            BtnPreviousPage.Size = new Size(69, 69);
+            BtnPreviousPage.Size = new Size(69, 55);
             BtnPreviousPage.TabIndex = 3;
             BtnPreviousPage.Text = "←";
             BtnPreviousPage.UseVisualStyleBackColor = false;
@@ -122,9 +138,9 @@
             BtnExcluirVeiculo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnExcluirVeiculo.BackColor = SystemColors.ControlLight;
             BtnExcluirVeiculo.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnExcluirVeiculo.Location = new Point(418, 0);
+            BtnExcluirVeiculo.Location = new Point(427, 6);
             BtnExcluirVeiculo.Name = "BtnExcluirVeiculo";
-            BtnExcluirVeiculo.Size = new Size(203, 69);
+            BtnExcluirVeiculo.Size = new Size(203, 55);
             BtnExcluirVeiculo.TabIndex = 2;
             BtnExcluirVeiculo.Text = "Excluir";
             BtnExcluirVeiculo.UseVisualStyleBackColor = false;
@@ -137,9 +153,9 @@
             BtnAtualizarVeiculo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnAtualizarVeiculo.BackColor = SystemColors.ControlLight;
             BtnAtualizarVeiculo.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnAtualizarVeiculo.Location = new Point(209, 0);
+            BtnAtualizarVeiculo.Location = new Point(218, 6);
             BtnAtualizarVeiculo.Name = "BtnAtualizarVeiculo";
-            BtnAtualizarVeiculo.Size = new Size(203, 69);
+            BtnAtualizarVeiculo.Size = new Size(203, 55);
             BtnAtualizarVeiculo.TabIndex = 1;
             BtnAtualizarVeiculo.Text = "Atualizar";
             BtnAtualizarVeiculo.UseVisualStyleBackColor = false;
@@ -152,9 +168,9 @@
             BtnCadastrarVeiculo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnCadastrarVeiculo.BackColor = SystemColors.ControlLight;
             BtnCadastrarVeiculo.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnCadastrarVeiculo.Location = new Point(0, 0);
+            BtnCadastrarVeiculo.Location = new Point(9, 6);
             BtnCadastrarVeiculo.Name = "BtnCadastrarVeiculo";
-            BtnCadastrarVeiculo.Size = new Size(203, 69);
+            BtnCadastrarVeiculo.Size = new Size(203, 55);
             BtnCadastrarVeiculo.TabIndex = 0;
             BtnCadastrarVeiculo.Text = "Cadastrar";
             BtnCadastrarVeiculo.UseVisualStyleBackColor = false;
@@ -165,16 +181,122 @@
             tableLayoutPanel1.BackColor = SystemColors.ControlLight;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(TspBusca, 0, 1);
             tableLayoutPanel1.Controls.Add(DgvVeiculos, 0, 0);
-            tableLayoutPanel1.Controls.Add(PanelVeiculosBotoes, 0, 1);
+            tableLayoutPanel1.Controls.Add(PanelVeiculosBotoes, 0, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 75F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             tableLayoutPanel1.Size = new Size(1264, 681);
             tableLayoutPanel1.TabIndex = 5;
+            // 
+            // TspBusca
+            // 
+            TspBusca.Items.AddRange(new ToolStripItem[] { TxtInfoTspBuscca, TspTxtMarca, toolStripSeparator1, TspTxtModelo, toolStripSeparator2, TspTxtAno, toolStripSeparator3, TspTxtMatricula, toolStripSeparator4, TspTxtCliente, toolStripSeparator5, TspTxtObservacoes, TspBtnAplicar });
+            TspBusca.Location = new Point(0, 586);
+            TspBusca.Name = "TspBusca";
+            TspBusca.Size = new Size(1264, 25);
+            TspBusca.TabIndex = 3;
+            TspBusca.Text = "toolStrip1";
+            // 
+            // TxtInfoTspBuscca
+            // 
+            TxtInfoTspBuscca.Name = "TxtInfoTspBuscca";
+            TxtInfoTspBuscca.Size = new Size(53, 22);
+            TxtInfoTspBuscca.Text = "Buscar: ";
+            // 
+            // TspTxtMarca
+            // 
+            TspTxtMarca.ForeColor = Color.Gray;
+            TspTxtMarca.Name = "TspTxtMarca";
+            TspTxtMarca.Size = new Size(100, 25);
+            TspTxtMarca.Text = "Marca";
+            TspTxtMarca.Enter += TspTxtMarca_Enter;
+            TspTxtMarca.Leave += TspTxtMarca_Leave;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 25);
+            // 
+            // TspTxtModelo
+            // 
+            TspTxtModelo.ForeColor = Color.Gray;
+            TspTxtModelo.Name = "TspTxtModelo";
+            TspTxtModelo.Size = new Size(100, 25);
+            TspTxtModelo.Text = "Modelo";
+            TspTxtModelo.Enter += TspTxtModelo_Enter;
+            TspTxtModelo.Leave += TspTxtModelo_Leave;
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(6, 25);
+            // 
+            // TspTxtAno
+            // 
+            TspTxtAno.ForeColor = Color.Gray;
+            TspTxtAno.Name = "TspTxtAno";
+            TspTxtAno.Size = new Size(50, 25);
+            TspTxtAno.Text = "Ano";
+            TspTxtAno.Enter += TspTxtAno_Enter;
+            TspTxtAno.Leave += TspTxtAno_Leave;
+            // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(6, 25);
+            // 
+            // TspTxtMatricula
+            // 
+            TspTxtMatricula.ForeColor = Color.Gray;
+            TspTxtMatricula.Name = "TspTxtMatricula";
+            TspTxtMatricula.Size = new Size(100, 25);
+            TspTxtMatricula.Text = "Matrícula";
+            TspTxtMatricula.Enter += TspTxtMatricula_Enter;
+            TspTxtMatricula.Leave += TspTxtMatricula_Leave;
+            // 
+            // toolStripSeparator4
+            // 
+            toolStripSeparator4.Name = "toolStripSeparator4";
+            toolStripSeparator4.Size = new Size(6, 25);
+            // 
+            // TspTxtCliente
+            // 
+            TspTxtCliente.ForeColor = Color.Gray;
+            TspTxtCliente.Name = "TspTxtCliente";
+            TspTxtCliente.Size = new Size(150, 25);
+            TspTxtCliente.Text = "Cliente";
+            TspTxtCliente.Enter += TspTxtCliente_Enter;
+            TspTxtCliente.Leave += TspTxtCliente_Leave;
+            // 
+            // toolStripSeparator5
+            // 
+            toolStripSeparator5.Name = "toolStripSeparator5";
+            toolStripSeparator5.Size = new Size(6, 25);
+            // 
+            // TspTxtObservacoes
+            // 
+            TspTxtObservacoes.ForeColor = Color.Gray;
+            TspTxtObservacoes.Name = "TspTxtObservacoes";
+            TspTxtObservacoes.Size = new Size(150, 25);
+            TspTxtObservacoes.Text = "Observações";
+            TspTxtObservacoes.Enter += TspTxtObservacoes_Enter;
+            TspTxtObservacoes.Leave += TspTxtObservacoes_Leave;
+            // 
+            // TspBtnAplicar
+            // 
+            TspBtnAplicar.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            TspBtnAplicar.Image = (Image)resources.GetObject("TspBtnAplicar.Image");
+            TspBtnAplicar.ImageTransparentColor = Color.Magenta;
+            TspBtnAplicar.Name = "TspBtnAplicar";
+            TspBtnAplicar.Size = new Size(52, 22);
+            TspBtnAplicar.Text = "Aplicar";
+            TspBtnAplicar.Click += TspBtnAplicar_Click;
             // 
             // FormVeiculos
             // 
@@ -188,6 +310,9 @@
             ((System.ComponentModel.ISupportInitialize)DgvVeiculos).EndInit();
             PanelVeiculosBotoes.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
+            TspBusca.ResumeLayout(false);
+            TspBusca.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -202,5 +327,19 @@
         private Button BtnNextPage;
         private TableLayoutPanel tableLayoutPanel1;
         private Button BtnRefresh;
+        private ToolStrip TspBusca;
+        private ToolStripLabel TxtInfoTspBuscca;
+        private ToolStripTextBox TspTxtMarca;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripTextBox TspTxtModelo;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripTextBox TspTxtAno;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripTextBox TspTxtMatricula;
+        private ToolStripSeparator toolStripSeparator4;
+        private ToolStripTextBox TspTxtCliente;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripTextBox TspTxtObservacoes;
+        private ToolStripButton TspBtnAplicar;
     }
 }

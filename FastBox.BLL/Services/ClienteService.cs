@@ -1,4 +1,5 @@
 ﻿using FastBox.BLL.DTOs;
+using FastBox.BLL.DTOs.Filters;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using FastBox.DAL.Repositories;
@@ -43,10 +44,34 @@ public class ClienteService : IClienteService
         ToListAsync();
     }
 
-    public async Task<IEnumerable<ClienteViewModel>> GetClientsInPagesAsync(int page, int size)
+    public async Task<IEnumerable<ClienteViewModel>> GetClientsInPagesAsync(int page, int size, ClienteFilter? filter = null)
     {
-        return await _clienteRepository.Query()
-            .AsNoTracking()
+        var query = _clienteRepository.Query().AsNoTracking();
+        if (filter != null)
+        {
+            if (!String.IsNullOrWhiteSpace(filter.NomeSobrenome))
+                query = query.Where(cliente => (cliente.Nome + " " + cliente.Sobrenome).Contains(filter.NomeSobrenome));
+
+            if (!String.IsNullOrWhiteSpace(filter.Nif))
+                query = query.Where(cliente => cliente.Nif != null && cliente.Nif.Contains(filter.Nif));
+
+            if (!String.IsNullOrWhiteSpace(filter.Telemovel))
+                query = query.Where(cliente => cliente.Telemovel.Contains(filter.Telemovel));
+
+            if (!String.IsNullOrWhiteSpace(filter.Email))
+                query = query.Where(cliente => cliente.Email != null && cliente.Email.Contains(filter.Email));
+
+            if (filter.DataCadastroInicio != null && filter.DataCadastroFim != null)
+                query = query.Where(cliente => cliente.DataCadastro >= filter.DataCadastroInicio && cliente.DataCadastro <= filter.DataCadastroFim);
+
+            if (!String.IsNullOrWhiteSpace(filter.MatriculaVeiculo))
+                query = query.Where(cliente => cliente.Veiculos.Any(veiculo => veiculo.Matricula.Contains(filter.MatriculaVeiculo)));
+
+            if (!String.IsNullOrWhiteSpace(filter.EnderecoCompleto))
+                query = query.Where(cliente => cliente.Endereco != null && (cliente.Endereco.Pais + " " + cliente.Endereco.Concelho.Distrito.Nome + " " + cliente.Endereco.Concelho.Nome + " " + cliente.Endereco.Freguesia + " " + cliente.Endereco.Logradouro + " " + cliente.Endereco.Numero + " " + cliente.Endereco.Complemento + " " + cliente.Endereco.CodigoPostal).Contains(filter.EnderecoCompleto));
+        }
+
+        return await query
             .Include(c => c.Endereco)
             .Include(c => c.Endereco.Concelho)
             .Include(c => c.Endereco.Concelho.Distrito)

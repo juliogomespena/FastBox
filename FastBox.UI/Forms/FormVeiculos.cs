@@ -1,4 +1,5 @@
-﻿using FastBox.BLL.Services.Interfaces;
+﻿using FastBox.BLL.DTOs.Filters;
+using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,12 +29,12 @@ public partial class FormVeiculos : Form
         await LoadVehiclesIntoDgvAsync(1, pageSize);
     }
 
-    private async Task LoadVehiclesIntoDgvAsync(int page, int size)
+    private async Task LoadVehiclesIntoDgvAsync(int page, int size, VeiculoFilter? filter = null)
     {
         try
         {
             ControlButtonsForDatabaseOperations();
-            var veiculos = await _veiculoService.GetVeiculosInPagesAsync(page, size);
+            var veiculos = await _veiculoService.GetVeiculosInPagesAsync(page, size, filter);
             DgvVeiculos.DataSource = veiculos;
             DgvVeiculos.Columns["ClienteId"].Visible = false;
             DgvVeiculos.Columns["Cliente"].Visible = false;
@@ -110,6 +111,7 @@ public partial class FormVeiculos : Form
     private async void BtnRefresh_Click(object sender, EventArgs e)
     {
         await LoadVehiclesIntoDgvAsync(1, pageSize);
+        ResetFilterFields();
     }
 
     private async void BtnAtualizarVeiculo_Click(object sender, EventArgs e)
@@ -148,7 +150,7 @@ public partial class FormVeiculos : Form
                     MessageBox.Show("Veículo deletado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateException ex)
             {
                 if (ex.InnerException == null)
                     MessageBox.Show($"Erro ao deletar veículo: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -160,7 +162,7 @@ public partial class FormVeiculos : Form
 
                 MessageBox.Show($"Erro ao deletar veículo: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
 
             await LoadVehiclesIntoDgvAsync(1, pageSize);
         }
@@ -181,4 +183,150 @@ public partial class FormVeiculos : Form
         BtnCadastrarVeiculo.Enabled = buttonState;
         BtnExcluirVeiculo.Enabled = buttonState;
     }
+
+    private void TspTxtMarca_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtMarca.Text == "Marca")
+        {
+            TspTxtMarca.Text = null;
+            TspTxtMarca.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtMarca_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtMarca.Text))
+        {
+            TspTxtMarca.Text = "Marca";
+            TspTxtMarca.ForeColor = Color.Gray;
+        }
+    }
+
+    private async void TspBtnAplicar_Click(object sender, EventArgs e)
+    {
+        var filter = new VeiculoFilter
+        {
+            Marca = TspTxtMarca.Text == "Marca" ? null : TspTxtMarca.Text,
+            Modelo = TspTxtModelo.Text == "Modelo" ? null : TspTxtModelo.Text,
+            Ano = int.TryParse(TspTxtAno.Text, out int anoCarro) ? anoCarro : null,
+            Matricula = TspTxtMatricula.Text == "Matrícula" ? null : TspTxtMatricula.Text,
+            NomeCliente = TspTxtCliente.Text == "Cliente" ? null : TspTxtCliente.Text,
+            Observacoes = TspTxtObservacoes.Text == "Observações" ? null : TspTxtObservacoes.Text,
+        };
+
+        await LoadVehiclesIntoDgvAsync(1, pageSize, filter);
+        ResetFilterFields();
+    }
+
+    private void TspTxtModelo_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtModelo.Text == "Modelo")
+        {
+            TspTxtModelo.Text = null;
+            TspTxtModelo.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtModelo_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtModelo.Text))
+        {
+            TspTxtModelo.Text = "Modelo";
+            TspTxtModelo.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtAno_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtAno.Text == "Ano")
+        {
+            TspTxtAno.Text = null;
+            TspTxtAno.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtAno_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtAno.Text))
+        {
+            TspTxtAno.Text = "Ano";
+            TspTxtAno.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtMatricula_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtMatricula.Text == "Matrícula")
+        {
+            TspTxtMatricula.Text = null;
+            TspTxtMatricula.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtMatricula_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtMatricula.Text))
+        {
+            TspTxtMatricula.Text = "Matrícula";
+            TspTxtMatricula.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtCliente_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtCliente.Text == "Cliente")
+        {
+            TspTxtCliente.Text = null;
+            TspTxtCliente.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtCliente_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtCliente.Text))
+        {
+            TspTxtCliente.Text = "Cliente";
+            TspTxtCliente.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtObservacoes_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtObservacoes.Text == "Observações")
+        {
+            TspTxtObservacoes.Text = null;
+            TspTxtObservacoes.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtObservacoes_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtObservacoes.Text))
+        {
+            TspTxtObservacoes.Text = "Observações";
+            TspTxtObservacoes.ForeColor = Color.Gray;
+        }
+    }
+
+    private void ResetFilterFields()
+    {
+        TspTxtMarca.Text = "Marca";
+        TspTxtMarca.ForeColor = Color.Gray;
+
+        TspTxtModelo.Text = "Modelo";
+        TspTxtModelo.ForeColor = Color.Gray;
+
+        TspTxtAno.Text = "Ano";
+        TspTxtAno.ForeColor = Color.Gray;
+
+        TspTxtMatricula.Text = "Matrícula";
+        TspTxtMatricula.ForeColor = Color.Gray;
+
+        TspTxtCliente.Text = "Cliente";
+        TspTxtCliente.ForeColor = Color.Gray;
+
+        TspTxtObservacoes.Text = "Observações";
+        TspTxtObservacoes.ForeColor = Color.Gray;
+    }
+
 }

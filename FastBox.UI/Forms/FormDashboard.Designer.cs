@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             PanelTopMenu = new Panel();
             PanelTopMenuBorder = new Panel();
+            LblPagina = new Label();
             LblDataHora = new Label();
             LblTitulo = new Label();
             LblBemVindo = new Label();
@@ -44,7 +45,6 @@
             BtnClientes = new Button();
             PanelMain = new Panel();
             DataHora = new System.Windows.Forms.Timer(components);
-            LblPagina = new Label();
             PanelTopMenu.SuspendLayout();
             PanelTopMenuBorder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PicBoxLogo).BeginInit();
@@ -60,7 +60,7 @@
             PanelTopMenu.Dock = DockStyle.Top;
             PanelTopMenu.Location = new Point(0, 0);
             PanelTopMenu.Name = "PanelTopMenu";
-            PanelTopMenu.Size = new Size(1264, 79);
+            PanelTopMenu.Size = new Size(1472, 79);
             PanelTopMenu.TabIndex = 0;
             // 
             // PanelTopMenuBorder
@@ -75,15 +75,25 @@
             PanelTopMenuBorder.Dock = DockStyle.Fill;
             PanelTopMenuBorder.Location = new Point(233, 0);
             PanelTopMenuBorder.Name = "PanelTopMenuBorder";
-            PanelTopMenuBorder.Size = new Size(1027, 75);
+            PanelTopMenuBorder.Size = new Size(1235, 75);
             PanelTopMenuBorder.TabIndex = 4;
+            // 
+            // LblPagina
+            // 
+            LblPagina.Anchor = AnchorStyles.Left;
+            LblPagina.AutoSize = true;
+            LblPagina.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            LblPagina.Location = new Point(446, 16);
+            LblPagina.Name = "LblPagina";
+            LblPagina.Size = new Size(0, 30);
+            LblPagina.TabIndex = 5;
             // 
             // LblDataHora
             // 
             LblDataHora.Anchor = AnchorStyles.Right;
             LblDataHora.AutoSize = true;
             LblDataHora.Font = new Font("Segoe UI", 20F);
-            LblDataHora.Location = new Point(747, 15);
+            LblDataHora.Location = new Point(955, 15);
             LblDataHora.Name = "LblDataHora";
             LblDataHora.Size = new Size(0, 37);
             LblDataHora.TabIndex = 4;
@@ -228,7 +238,7 @@
             PanelMain.Dock = DockStyle.Fill;
             PanelMain.Location = new Point(235, 79);
             PanelMain.Name = "PanelMain";
-            PanelMain.Size = new Size(1029, 602);
+            PanelMain.Size = new Size(1237, 602);
             PanelMain.TabIndex = 2;
             // 
             // DataHora
@@ -237,24 +247,15 @@
             DataHora.Interval = 1000;
             DataHora.Tick += DataHora_Tick;
             // 
-            // LblPagina
-            // 
-            LblPagina.Anchor = AnchorStyles.Left;
-            LblPagina.AutoSize = true;
-            LblPagina.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LblPagina.Location = new Point(446, 16);
-            LblPagina.Name = "LblPagina";
-            LblPagina.Size = new Size(0, 30);
-            LblPagina.TabIndex = 5;
-            // 
             // FormDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1264, 681);
+            ClientSize = new Size(1472, 681);
             Controls.Add(PanelMain);
             Controls.Add(PanelSideMenu);
             Controls.Add(PanelTopMenu);
+            MinimumSize = new Size(1488, 0);
             Name = "FormDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FastBox - Dashboard";

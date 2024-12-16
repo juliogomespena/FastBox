@@ -1,4 +1,5 @@
-﻿using FastBox.BLL.Services.Interfaces;
+﻿using FastBox.BLL.DTOs.Filters;
+using FastBox.BLL.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ public partial class FormClientes : Form
     private readonly IServiceProvider _serviceProvider;
     private int currentPage = 1;
     private readonly int pageSize = 30;
+    private bool isClicking = false;
     public FormClientes(IClienteService clienteService, IServiceProvider serviceProvider)
     {
         InitializeComponent();
@@ -27,12 +29,12 @@ public partial class FormClientes : Form
         await LoadClientsIntoDgvAsync(1, pageSize);
     }
 
-    private async Task LoadClientsIntoDgvAsync(int page, int size)
+    private async Task LoadClientsIntoDgvAsync(int page, int size, ClienteFilter? filter = null)
     {
         try
         {
             ControlButtonsForDatabaseOperations();
-            var clientes = await _clienteService.GetClientsInPagesAsync(page, size);
+            var clientes = await _clienteService.GetClientsInPagesAsync(page, size, filter);
             DgvClientes.DataSource = clientes;
             DgvClientes.Columns["EnderecoCompleto"].Visible = false;
             DgvClientes.Columns["EnderecoId"].Visible = false;
@@ -46,7 +48,7 @@ public partial class FormClientes : Form
             DgvClientes.Columns["EnderecoResumido"].HeaderText = "Endereço";
             DgvClientes.Columns["DataCadastro"].HeaderText = "Data de cadastro";
             DgvClientes.Columns["OrdensDeServicoCount"].HeaderText = "Ordens de serviço";
-            DgvClientes.Columns["VeiculosCount"].HeaderText = "Veículos";
+            DgvClientes.Columns["VeiculosMatricula"].HeaderText = "Veículos";
             DgvClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
             DgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvClientes.MultiSelect = false;
@@ -128,6 +130,7 @@ public partial class FormClientes : Form
     private async void BtnRefresh_Click(object sender, EventArgs e)
     {
         await LoadClientsIntoDgvAsync(1, pageSize);
+        ResetFilterFields();
     }
 
     private async void BtnAtualizarCliente_Click(object sender, EventArgs e)
@@ -199,4 +202,194 @@ public partial class FormClientes : Form
         BtnCadastrarCliente.Enabled = buttonState;
         BtnExcluirCliente.Enabled = buttonState;
     }
+
+    private async void TspBtnAplicar_Click(object sender, EventArgs e)
+    {
+        var filter = new ClienteFilter
+        {
+            NomeSobrenome = TspTxtNome.Text == "Nome completo" ? null : TspTxtNome.Text,
+            Nif = TspTxtNif.Text == "NIF" ? null : TspTxtNif.Text,
+            Telemovel = TspTxtTelemovel.Text == "Telemóvel" ? null : TspTxtTelemovel.Text,
+            Email = TspTxtEmail.Text == "Email" ? null : TspTxtEmail.Text,
+            DataCadastroInicio = DateTime.TryParse(TspTxtDataInicial.Text, out DateTime inicioData)? new DateTime(inicioData.Year, inicioData.Month, inicioData.Day, inicioData.Hour, inicioData.Minute, 0) : null,
+            DataCadastroFim = DateTime.TryParse(TspTxtDataFinal.Text, out DateTime fimData) ? new DateTime(fimData.Year, fimData.Month, fimData.Day, fimData.Hour, fimData.Minute, 59) : null,
+            MatriculaVeiculo = TspTxtMatricula.Text == "Matrícula" ? null : TspTxtMatricula.Text,
+            EnderecoCompleto = TspTxtEndereco.Text == "Endereço" ? null : TspTxtEndereco.Text,
+        };
+
+        await LoadClientsIntoDgvAsync(1, pageSize, filter);
+        ResetFilterFields();
+    }
+
+    private void TspTxtNome_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtNome.Text == "Nome completo")
+        {
+            TspTxtNome.Text = null;
+            TspTxtNome.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtNome_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtNome.Text))
+        {
+            TspTxtNome.Text = "Nome completo";
+            TspTxtNome.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtNif_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtNif.Text == "NIF")
+        {
+            TspTxtNif.Text = null;
+            TspTxtNif.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtNif_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtNif.Text))
+        {
+            TspTxtNif.Text = "NIF";
+            TspTxtNif.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtTelemovel_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtTelemovel.Text == "Telemóvel")
+        {
+            TspTxtTelemovel.Text = null;
+            TspTxtTelemovel.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtTelemovel_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtTelemovel.Text))
+        {
+            TspTxtTelemovel.Text = "Telemóvel";
+            TspTxtTelemovel.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtEmail_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtEmail.Text == "Email")
+        {
+            TspTxtEmail.Text = null;
+            TspTxtEmail.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtEmail_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtEmail.Text))
+        {
+            TspTxtEmail.Text = "Email";
+            TspTxtEmail.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtDataInicial_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtDataInicial.Text == "Data inicial")
+        {
+            TspTxtDataInicial.Text = null;
+            TspTxtDataInicial.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtDataInicial_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtDataInicial.Text))
+        {
+            TspTxtDataInicial.Text = "Data inicial";
+            TspTxtDataInicial.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtDataFinal_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtDataFinal.Text == "Data final")
+        {
+            TspTxtDataFinal.Text = null;
+            TspTxtDataFinal.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtDataFinal_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtDataFinal.Text))
+        {
+            TspTxtDataFinal.Text = "Data final";
+            TspTxtDataFinal.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtMatricula_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtMatricula.Text == "Matrícula")
+        {
+            TspTxtMatricula.Text = null;
+            TspTxtMatricula.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtMatricula_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtMatricula.Text))
+        {
+            TspTxtMatricula.Text = "Matrícula";
+            TspTxtMatricula.ForeColor = Color.Gray;
+        }
+    }
+
+    private void TspTxtEndereco_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtEndereco.Text == "Endereço")
+        {
+            TspTxtEndereco.Text = null;
+            TspTxtEndereco.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtEndereco_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtEndereco.Text))
+        {
+            TspTxtEndereco.Text = "Endereço";
+            TspTxtEndereco.ForeColor = Color.Gray;
+        }
+    }
+
+    private void ResetFilterFields()
+    {
+        TspTxtNome.Text = "Nome completo";
+        TspTxtNome.ForeColor = Color.Gray;
+
+        TspTxtNif.Text = "NIF";
+        TspTxtNif.ForeColor = Color.Gray;
+
+        TspTxtTelemovel.Text = "Telemóvel";
+        TspTxtTelemovel.ForeColor = Color.Gray;
+
+        TspTxtEmail.Text = "Email";
+        TspTxtEmail.ForeColor = Color.Gray;
+
+        TspTxtDataInicial.Text = "Data inicial";
+        TspTxtDataInicial.ForeColor = Color.Gray;
+
+        TspTxtDataFinal.Text = "Data final";
+        TspTxtDataFinal.ForeColor = Color.Gray;
+
+        TspTxtMatricula.Text = "Matrícula";
+        TspTxtMatricula.ForeColor = Color.Gray;
+
+        TspTxtEndereco.Text = "Endereço";
+        TspTxtEndereco.ForeColor = Color.Gray;
+    }
+
 }

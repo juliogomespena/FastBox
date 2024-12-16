@@ -1,4 +1,5 @@
 ﻿using FastBox.BLL.DTOs;
+using FastBox.BLL.DTOs.Filters;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using FastBox.DAL.Repositories;
@@ -41,10 +42,27 @@ public class VeiculoService : IVeiculoService
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<VeiculoViewModel>> GetVeiculosInPagesAsync(int page, int size)
+    public async Task<IEnumerable<VeiculoViewModel>> GetVeiculosInPagesAsync(int page, int size, VeiculoFilter? filter = null)
     {
-        return await _veiculoRepository.Query()
-        .AsNoTracking()
+        var query = _veiculoRepository.Query().AsNoTracking();
+
+        if (filter != null)
+        {
+            if(!String.IsNullOrWhiteSpace(filter.Marca))
+                query = query.Where(veiculo => veiculo.Marca.Contains(filter.Marca));
+            if (!String.IsNullOrWhiteSpace(filter.Modelo))
+                query = query.Where(veiculo => veiculo.Modelo.Contains(filter.Modelo));
+            if (!String.IsNullOrWhiteSpace(filter.Ano.ToString()))
+                query = query.Where(veiculo => veiculo.Ano == filter.Ano);
+            if (!String.IsNullOrWhiteSpace(filter.Matricula))
+                query = query.Where(veiculo => veiculo.Matricula.Contains(filter.Matricula));
+            if (!String.IsNullOrWhiteSpace(filter.NomeCliente))
+                query = query.Where(veiculo => veiculo.Cliente != null && (veiculo.Cliente.Nome + " " + veiculo.Cliente.Sobrenome).Contains(filter.NomeCliente));
+            if (!String.IsNullOrWhiteSpace(filter.Observacoes))
+                query = query.Where(veiculo => veiculo.Observacoes != null && veiculo.Observacoes.Contains(filter.Observacoes));
+        }
+
+        return await query
         .Include(v => v.Cliente)
         .Include(v => v.OrdemDeServicos)
         .OrderByDescending(v => v.VeiculoId)
