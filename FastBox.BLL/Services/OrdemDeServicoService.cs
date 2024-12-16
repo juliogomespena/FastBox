@@ -38,6 +38,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                 DataAbertura = o.DataAbertura,
                 EstimativaConclusao = o.EstimativaConclusao,
                 DataConclusao = o.DataConclusao,
+                ValorTotal  = o.ValorTotal,
                 GarantiaEmDias = o.GarantiaEmDias,
                 ObservacoesGarantia = o.ObservacoesGarantia,
                 Cliente = o.Cliente,
@@ -71,6 +72,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                 DataAbertura = o.DataAbertura,
                 EstimativaConclusao = o.EstimativaConclusao,
                 DataConclusao = o.DataConclusao,
+                ValorTotal = o.ValorTotal,
                 GarantiaEmDias = o.GarantiaEmDias,
                 ObservacoesGarantia = o.ObservacoesGarantia,
                 Cliente = o.Cliente,
@@ -106,6 +108,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             DataAbertura = ordemExistente.DataAbertura,
             EstimativaConclusao = ordemExistente.EstimativaConclusao,
             DataConclusao = ordemExistente.DataConclusao,
+            ValorTotal = ordemExistente.ValorTotal,
             GarantiaEmDias = ordemExistente.GarantiaEmDias,
             ObservacoesGarantia = ordemExistente.ObservacoesGarantia,
             Cliente = ordemExistente.Cliente,
@@ -125,6 +128,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             VeiculoId = ordem.VeiculoId,
             Descricao = ordem.Descricao,
             EstimativaConclusao = ordem.EstimativaConclusao,
+            ValorTotal = ordem.ValorTotal,
             Orcamentos = ordem.Orcamentos.Select(orcamento => new Orcamento
             {
                 StatusOrcamento = orcamento.StatusOrcamento,
@@ -177,6 +181,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             ordemExistente.VeiculoId = ordem.VeiculoId;
             ordemExistente.Descricao = ordem.Descricao;
             ordemExistente.EstimativaConclusao = ordem.EstimativaConclusao;
+            ordemExistente.ValorTotal = ordem.ValorTotal;
 
             foreach (var orcamentoViewModel in ordem.Orcamentos)
             {

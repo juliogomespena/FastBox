@@ -4,6 +4,7 @@ using FastBox.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastBox.DAL.Migrations
 {
     [DbContext(typeof(FastBoxDbContext))]
-    partial class FastBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241216014541_AddMetodoPagamentoSeedData")]
+    partial class AddMetodoPagamentoSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,11 +429,6 @@ namespace FastBox.DAL.Migrations
 
                     b.Property<long>("StatusOrdemDeServicoId")
                         .HasColumnType("bigint");
-
-                    b.Property<decimal?>("ValorTotal")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(10, 2)")
-                        .HasDefaultValueSql("(NULL)");
 
                     b.Property<long?>("VeiculoId")
                         .ValueGeneratedOnAdd()

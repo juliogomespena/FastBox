@@ -140,7 +140,7 @@ public partial class FormVeiculos : Form
                 if (veiculo == null)
                     throw new Exception("Não foi possível selecionar veículo, tente novamente.");
 
-                var dialog = MessageBox.Show($"Tem certeza que deseja excluir o veículo {veiculo.Marca} {veiculo.Modelo}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var dialog = MessageBox.Show($"Deseja excluir o veículo {veiculo.Modelo} ({veiculo.Matricula})?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialog == DialogResult.Yes)
                 {

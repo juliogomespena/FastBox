@@ -54,6 +54,7 @@ public partial class FormCadastrarOrdem : Form
                 VeiculoId = _veiculoId,
                 Descricao = RTxtDescricaoOrdemCadastrar.Text.Trim(),
                 EstimativaConclusao = DateTimePickerEstimativaConclusao.Value,
+                ValorTotal = _orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade),
                 Orcamentos = _orcamentos.Select(orcamento => new Orcamento
                 {
                     StatusOrcamento = orcamento.StatusOrcamento,
@@ -119,7 +120,7 @@ public partial class FormCadastrarOrdem : Form
 
         if (String.IsNullOrWhiteSpace(TxtClienteOrdemCadastrar.Text))
         {
-            var dialog = MessageBox.Show("Tem certeza que deseja continuar sem selecionar um cliente?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            var dialog = MessageBox.Show("Deseja continuar sem selecionar um cliente?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
             if (dialog == DialogResult.No)
                 return false;
@@ -128,7 +129,7 @@ public partial class FormCadastrarOrdem : Form
 
         if (!_orcamentos.Any())
         {
-            var dialog = MessageBox.Show("Tem certeza que deseja continuar sem cadastrar um orçamento?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            var dialog = MessageBox.Show("Deseja continuar sem cadastrar um orçamento?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
             if (dialog == DialogResult.No)
                 return false;
@@ -345,9 +346,9 @@ public partial class FormCadastrarOrdem : Form
         DgvOrcamentosCadastrarOrdem.Columns["OrdemDeServico"].Visible = false;
         DgvOrcamentosCadastrarOrdem.Columns["ItensOrcamento"].Visible = false;
         DgvOrcamentosCadastrarOrdem.Columns["StatusOrcamento"].Visible = false;
-        DgvOrcamentosCadastrarOrdem.Columns["ValorTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastrarOrdem.Columns["CustoTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastrarOrdem.Columns["LucroTotal"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosCadastrarOrdem.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosCadastrarOrdem.Columns["CustoTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosCadastrarOrdem.Columns["LucroTotal"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosCadastrarOrdem.Columns["Numero"].HeaderText = "Número";
         DgvOrcamentosCadastrarOrdem.Columns["DataCriacao"].HeaderText = "Data de criação";
         DgvOrcamentosCadastrarOrdem.Columns["Descricao"].HeaderText = "Descrição";
@@ -521,7 +522,7 @@ public partial class FormCadastrarOrdem : Form
                     MessageBox.Show("Orçamento alterado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
-                    MessageBox.Show("As alterações no orçamento não foram salvas, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("As alterações no orçamento não foram salvas!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             LoadOrcamentosIntoDgvOrcamentosCadastrarOrdem();

@@ -123,7 +123,7 @@
             BtnExcluirCliente.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnExcluirCliente.BackColor = SystemColors.ControlLight;
             BtnExcluirCliente.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnExcluirCliente.Location = new Point(404, 0);
+            BtnExcluirCliente.Location = new Point(418, 0);
             BtnExcluirCliente.Name = "BtnExcluirCliente";
             BtnExcluirCliente.Size = new Size(203, 69);
             BtnExcluirCliente.TabIndex = 2;
@@ -138,7 +138,7 @@
             BtnAtualizarCliente.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnAtualizarCliente.BackColor = SystemColors.ControlLight;
             BtnAtualizarCliente.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnAtualizarCliente.Location = new Point(202, 0);
+            BtnAtualizarCliente.Location = new Point(209, 0);
             BtnAtualizarCliente.Name = "BtnAtualizarCliente";
             BtnAtualizarCliente.Size = new Size(203, 69);
             BtnAtualizarCliente.TabIndex = 1;

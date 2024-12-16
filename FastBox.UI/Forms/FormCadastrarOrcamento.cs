@@ -96,11 +96,11 @@ public partial class FormCadastrarOrcamento : Form
         DgvOrcamentosCadastro.Columns["OrcamentoId"].Visible = false;
         DgvOrcamentosCadastro.Columns["Orcamento"].Visible = false;
         DgvOrcamentosCadastro.Columns["Margem"].Visible = false;
-        DgvOrcamentosCadastro.Columns["PrecoUnitario"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastro.Columns["ValorUnitario"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastro.Columns["ValorTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastro.Columns["CustoTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosCadastro.Columns["Lucro"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosCadastro.Columns["PrecoUnitario"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosCadastro.Columns["ValorUnitario"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosCadastro.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosCadastro.Columns["CustoTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosCadastro.Columns["Lucro"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosCadastro.Columns["Descricao"].HeaderText = "Item";
         DgvOrcamentosCadastro.Columns["PrecoUnitario"].HeaderText = "Custo";
         DgvOrcamentosCadastro.Columns["ValorUnitario"].HeaderText = "Valor";
@@ -135,6 +135,7 @@ public partial class FormCadastrarOrcamento : Form
             TxtPrecoUnitarioFinalCadastroOrcamento.Clear();
             TxtPrecoFinalTotalCadastroOrcamento.Clear();
             TxtItemCadastroOrcamento.Focus();
+            ChkMaoDeObra.Checked = false;
         }
         catch (Exception ex)
         {
@@ -211,5 +212,14 @@ public partial class FormCadastrarOrcamento : Form
             MessageBox.Show($"Erro ao excluir item: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+    }
+
+    private void ChkMaoDeObra_CheckedChanged(object sender, EventArgs e)
+    {
+        TxtItemCadastroOrcamento.Enabled = !ChkMaoDeObra.Checked;
+        TxtMargemCadastroOrdem.Enabled = !ChkMaoDeObra.Checked;
+
+        TxtItemCadastroOrcamento.Text = ChkMaoDeObra.Checked ? "Mão de obra" : "";
+        TxtMargemCadastroOrdem.Text = ChkMaoDeObra.Checked ? "0" : "";
     }
 }

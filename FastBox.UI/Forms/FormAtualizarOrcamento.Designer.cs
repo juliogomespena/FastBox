@@ -49,6 +49,7 @@
             TxtItemAtualizarOrcamento = new TextBox();
             LblInfoOrcamentoAtualizar = new Label();
             BtnAtualizarOrcamento = new Button();
+            ChkMaoDeObra = new CheckBox();
             PanelInfoOrcamentoAtualizar.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvOrcamentosAtualizar).BeginInit();
@@ -67,6 +68,7 @@
             // PanelInfoOrcamentoAtualizar
             // 
             PanelInfoOrcamentoAtualizar.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrcamentoAtualizar.Controls.Add(ChkMaoDeObra);
             PanelInfoOrcamentoAtualizar.Controls.Add(LblDescricaoAtualizarOrcamento);
             PanelInfoOrcamentoAtualizar.Controls.Add(panel1);
             PanelInfoOrcamentoAtualizar.Controls.Add(TxtPrecoUnitarioFinalAtualizarOrcamento);
@@ -262,7 +264,7 @@
             TxtItemAtualizarOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtItemAtualizarOrcamento.Location = new Point(66, 11);
             TxtItemAtualizarOrcamento.Name = "TxtItemAtualizarOrcamento";
-            TxtItemAtualizarOrcamento.Size = new Size(507, 33);
+            TxtItemAtualizarOrcamento.Size = new Size(396, 33);
             TxtItemAtualizarOrcamento.TabIndex = 1;
             // 
             // LblInfoOrcamentoAtualizar
@@ -286,6 +288,17 @@
             BtnAtualizarOrcamento.Text = "Atualizar orçamento";
             BtnAtualizarOrcamento.UseVisualStyleBackColor = false;
             BtnAtualizarOrcamento.Click += BtnAtualizarOrcamento_Click;
+            // 
+            // ChkMaoDeObra
+            // 
+            ChkMaoDeObra.AutoSize = true;
+            ChkMaoDeObra.Location = new Point(468, 20);
+            ChkMaoDeObra.Name = "ChkMaoDeObra";
+            ChkMaoDeObra.Size = new Size(105, 21);
+            ChkMaoDeObra.TabIndex = 39;
+            ChkMaoDeObra.Text = "Mão de obra";
+            ChkMaoDeObra.UseVisualStyleBackColor = true;
+            ChkMaoDeObra.CheckedChanged += ChkMaoDeObra_CheckedChanged;
             // 
             // FormAtualizarOrcamento
             // 
@@ -350,5 +363,6 @@
         private Panel panel1;
         private Label LblDescricaoAtualizarOrcamento;
         private RichTextBox RTxtDescricaoAtualizarOrcamento;
+        private CheckBox ChkMaoDeObra;
     }
 }

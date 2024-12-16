@@ -98,11 +98,11 @@ public partial class FormAtualizarOrcamento : Form
         DgvOrcamentosAtualizar.Columns["OrcamentoId"].Visible = false;
         DgvOrcamentosAtualizar.Columns["Orcamento"].Visible = false;
         DgvOrcamentosAtualizar.Columns["Margem"].Visible = false;
-        DgvOrcamentosAtualizar.Columns["PrecoUnitario"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosAtualizar.Columns["ValorUnitario"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosAtualizar.Columns["ValorTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosAtualizar.Columns["CustoTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosAtualizar.Columns["Lucro"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosAtualizar.Columns["PrecoUnitario"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizar.Columns["ValorUnitario"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizar.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizar.Columns["CustoTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizar.Columns["Lucro"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizar.Columns["Descricao"].HeaderText = "Item";
         DgvOrcamentosAtualizar.Columns["PrecoUnitario"].HeaderText = "Custo";
         DgvOrcamentosAtualizar.Columns["ValorUnitario"].HeaderText = "Valor";
@@ -137,6 +137,7 @@ public partial class FormAtualizarOrcamento : Form
             TxtPrecoUnitarioFinalAtualizarOrcamento.Clear();
             TxtPrecoFinalTotalAtualizarOrcamento.Clear();
             TxtItemAtualizarOrcamento.Focus();
+            ChkMaoDeObra.Checked = false;
         }
         catch (Exception ex)
         {
@@ -213,5 +214,14 @@ public partial class FormAtualizarOrcamento : Form
             MessageBox.Show($"Erro ao excluir item: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+    }
+
+    private void ChkMaoDeObra_CheckedChanged(object sender, EventArgs e)
+    {
+        TxtItemAtualizarOrcamento.Enabled = !ChkMaoDeObra.Checked;
+        TxtMargemAtualizarOrdem.Enabled = !ChkMaoDeObra.Checked;
+
+        TxtItemAtualizarOrcamento.Text = ChkMaoDeObra.Checked ? "Mão de obra" : "";
+        TxtMargemAtualizarOrdem.Text = ChkMaoDeObra.Checked ? "0" : "";
     }
 }

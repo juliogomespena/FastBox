@@ -44,6 +44,7 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.Columns["Orcamentos"].Visible = false;
             DgvOrdensDeServico.Columns["Pagamentos"].Visible = false;
             DgvOrdensDeServico.Columns["Veiculo"].Visible = false;
+            DgvOrdensDeServico.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
             DgvOrdensDeServico.Columns["StatusOrdemDeServicoId"].Visible = false;
             DgvOrdensDeServico.Columns["StatusOrdemDeServico"].Visible = false;
             DgvOrdensDeServico.Columns["DataConclusao"].Visible = false;
@@ -53,6 +54,7 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.Columns["Descricao"].HeaderText = "Descrição";
             DgvOrdensDeServico.Columns["DataAbertura"].HeaderText = "Abertura";
             DgvOrdensDeServico.Columns["EstimativaConclusao"].HeaderText = "Prazo estimado";
+            DgvOrdensDeServico.Columns["ValorTotal"].HeaderText = "Valor total";
             DgvOrdensDeServico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvOrdensDeServico.MultiSelect = false;
         }
@@ -140,7 +142,7 @@ public partial class FormOrdensDeServico : Form
         else
             MessageBox.Show("Selecione uma ordem de serviço para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
-    
+
 
     private async void BtnExcluirOrdemDeServico_Click(object sender, EventArgs e)
     {
@@ -155,27 +157,30 @@ public partial class FormOrdensDeServico : Form
                 if (ordem == null)
                     throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
 
-                var dialog = MessageBox.Show($"Tem certeza que deseja excluir a ordem de serviço {ordem.OrdemDeServicoId} do veículo {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var dialog = MessageBox.Show($"Deseja excluir a ordem {ordem.OrdemDeServicoId} - veículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialog == DialogResult.Yes)
                 {
                     await _ordemDeServicoService.DeleteOrdemAsync(ordem);
-                    MessageBox.Show("Ordem de serviço deletada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Ordem de serviço excluída com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (DbUpdateException ex)
             {
                 if (ex.InnerException == null)
-                    MessageBox.Show($"Erro ao deletar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Erro ao excluir ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                    MessageBox.Show($"Erro ao deletar ordem de serviço: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Erro ao excluir ordem de serviço: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao deletar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Erro ao excluir ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+            finally
+            {
+                await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+                ControlButtonsForDatabaseOperations(true);
+            }
         }
         else
             MessageBox.Show("Selecione uma ordem de serviço para excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -193,5 +198,108 @@ public partial class FormOrdensDeServico : Form
         BtnAtualizarOrdemDeServico.Enabled = buttonState;
         BtnCadastrarOrdemDeServico.Enabled = buttonState;
         BtnExcluirOrdemDeServico.Enabled = buttonState;
+        BtnFinalizarServico.Enabled = buttonState;
+        BtnConcluirOrdem.Enabled = buttonState;
+    }
+
+    private async void BtnFinalizarServico_Click(object sender, EventArgs e)
+    {
+        if (DgvOrdensDeServico.SelectedRows.Count > 0)
+        {
+            try
+            {
+                ControlButtonsForDatabaseOperations();
+                var ordemId = (long)DgvOrdensDeServico.SelectedRows[0].Cells["OrdemDeServicoId"].Value;
+                var ordem = await _ordemDeServicoService.GetOrdemByIdAsync(ordemId);
+
+                if (ordem == null)
+                    throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
+
+                if (ordem.StatusOrdemDeServicoId != 3)
+                {
+                    MessageBox.Show($"A ordem precisa estar em serviço para ser finalizada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var dialog = MessageBox.Show($"Deseja finalizar os serviços da ordem: {ordem.OrdemDeServicoId}?\nVeículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (dialog == DialogResult.Yes)
+                {
+                    ordem.StatusOrdemDeServicoId = 4;
+                    ordem.ValorTotal = ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade);
+                    await _ordemDeServicoService.UpdateOrdemAsync(ordem);
+                    MessageBox.Show("Serviços da ordem concluídos.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException == null)
+                    MessageBox.Show($"Erro ao finalizar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    MessageBox.Show($"Erro ao finalizar ordem de serviço: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao finalizar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+                ControlButtonsForDatabaseOperations(true);
+            }
+        }
+        else
+            MessageBox.Show("Selecione uma ordem para finalizar serviços.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+
+    private async void BtnConcluirOrdem_Click(object sender, EventArgs e)
+    {
+        if (DgvOrdensDeServico.SelectedRows.Count > 0)
+        {
+            try
+            {
+                ControlButtonsForDatabaseOperations();
+                var ordemId = (long)DgvOrdensDeServico.SelectedRows[0].Cells["OrdemDeServicoId"].Value;
+                var ordem = await _ordemDeServicoService.GetOrdemByIdAsync(ordemId);
+
+                if (ordem == null)
+                    throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
+
+                if (ordem.StatusOrdemDeServicoId != 4)
+                {
+                    MessageBox.Show($"A ordem precisa estar aguardando retirada para ser concluída.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var dialog = MessageBox.Show($"Deseja concluir a ordem de serviço: {ordem.OrdemDeServicoId}?\nVeículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (dialog == DialogResult.Yes)
+                {
+                    MessageBox.Show($"Valor devido: {ordem.ValorTotal}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    //ordem.StatusOrdemDeServicoId = 4;
+                    //ordem.ValorTotal = ordem.Orcamentos.SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade);
+                    //await _ordemDeServicoService.UpdateOrdemAsync(ordem);
+                    //MessageBox.Show("A ordem de serviço foi concluída.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException == null)
+                    MessageBox.Show($"Erro ao finalizar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    MessageBox.Show($"Erro ao finalizar ordem de serviço: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao finalizar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+                ControlButtonsForDatabaseOperations(true);
+            }
+        }
+        else
+            MessageBox.Show("Selecione uma ordem para finalizar serviços.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 }

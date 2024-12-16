@@ -20,6 +20,8 @@ public partial class OrdemDeServico
 
     public DateTime? DataConclusao { get; set; }
 
+    public decimal? ValorTotal { get; set; }
+
     public int? GarantiaEmDias { get; set; }
 
     public string? ObservacoesGarantia { get; set; }

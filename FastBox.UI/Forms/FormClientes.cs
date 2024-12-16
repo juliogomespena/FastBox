@@ -158,7 +158,7 @@ public partial class FormClientes : Form
                 if (cliente == null)
                     throw new Exception("Não foi possível selecionar cliente, tente novamente.");
 
-                var dialog = MessageBox.Show($"Tem certeza que deseja excluir o cliente {cliente.Nome} {cliente.Sobrenome}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var dialog = MessageBox.Show($"Deseja excluir o cliente {cliente.Nome} {cliente.Sobrenome}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialog == DialogResult.Yes)
                 {

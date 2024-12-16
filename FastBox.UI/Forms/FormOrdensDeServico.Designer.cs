@@ -30,6 +30,8 @@
         {
             DgvOrdensDeServico = new DataGridView();
             PanelOrdensDeServicoBotoes = new Panel();
+            BtnConcluirOrdem = new Button();
+            BtnFinalizarServico = new Button();
             BtnRefresh = new Button();
             BtnNextPage = new Button();
             BtnPreviousPage = new Button();
@@ -58,6 +60,8 @@
             // PanelOrdensDeServicoBotoes
             // 
             PanelOrdensDeServicoBotoes.BackColor = SystemColors.ControlLight;
+            PanelOrdensDeServicoBotoes.Controls.Add(BtnConcluirOrdem);
+            PanelOrdensDeServicoBotoes.Controls.Add(BtnFinalizarServico);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnRefresh);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnNextPage);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnPreviousPage);
@@ -69,6 +73,36 @@
             PanelOrdensDeServicoBotoes.Name = "PanelOrdensDeServicoBotoes";
             PanelOrdensDeServicoBotoes.Size = new Size(1258, 69);
             PanelOrdensDeServicoBotoes.TabIndex = 1;
+            // 
+            // BtnConcluirOrdem
+            // 
+            BtnConcluirOrdem.Anchor = AnchorStyles.Left;
+            BtnConcluirOrdem.AutoEllipsis = true;
+            BtnConcluirOrdem.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnConcluirOrdem.BackColor = SystemColors.ControlLight;
+            BtnConcluirOrdem.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnConcluirOrdem.Location = new Point(627, 0);
+            BtnConcluirOrdem.Name = "BtnConcluirOrdem";
+            BtnConcluirOrdem.Size = new Size(203, 69);
+            BtnConcluirOrdem.TabIndex = 7;
+            BtnConcluirOrdem.Text = "Concluir";
+            BtnConcluirOrdem.UseVisualStyleBackColor = false;
+            BtnConcluirOrdem.Click += BtnConcluirOrdem_Click;
+            // 
+            // BtnFinalizarServico
+            // 
+            BtnFinalizarServico.Anchor = AnchorStyles.Left;
+            BtnFinalizarServico.AutoEllipsis = true;
+            BtnFinalizarServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnFinalizarServico.BackColor = SystemColors.ControlLight;
+            BtnFinalizarServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnFinalizarServico.Location = new Point(418, 0);
+            BtnFinalizarServico.Name = "BtnFinalizarServico";
+            BtnFinalizarServico.Size = new Size(203, 69);
+            BtnFinalizarServico.TabIndex = 6;
+            BtnFinalizarServico.Text = "Finalizar serviço";
+            BtnFinalizarServico.UseVisualStyleBackColor = false;
+            BtnFinalizarServico.Click += BtnFinalizarServico_Click;
             // 
             // BtnRefresh
             // 
@@ -122,7 +156,7 @@
             BtnExcluirOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnExcluirOrdemDeServico.BackColor = SystemColors.ControlLight;
             BtnExcluirOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnExcluirOrdemDeServico.Location = new Point(404, 0);
+            BtnExcluirOrdemDeServico.Location = new Point(836, 0);
             BtnExcluirOrdemDeServico.Name = "BtnExcluirOrdemDeServico";
             BtnExcluirOrdemDeServico.Size = new Size(203, 69);
             BtnExcluirOrdemDeServico.TabIndex = 2;
@@ -137,7 +171,7 @@
             BtnAtualizarOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnAtualizarOrdemDeServico.BackColor = SystemColors.ControlLight;
             BtnAtualizarOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnAtualizarOrdemDeServico.Location = new Point(202, 0);
+            BtnAtualizarOrdemDeServico.Location = new Point(209, 0);
             BtnAtualizarOrdemDeServico.Name = "BtnAtualizarOrdemDeServico";
             BtnAtualizarOrdemDeServico.Size = new Size(203, 69);
             BtnAtualizarOrdemDeServico.TabIndex = 1;
@@ -202,5 +236,7 @@
         private Button BtnNextPage;
         private TableLayoutPanel tableLayoutPanel1;
         private Button BtnRefresh;
+        private Button BtnFinalizarServico;
+        private Button BtnConcluirOrdem;
     }
 }

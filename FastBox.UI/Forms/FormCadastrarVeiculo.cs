@@ -38,7 +38,7 @@ public partial class FormCadastrarVeiculo : Form
 
         if (DgvVeiculosClientes.SelectedRows.Count < 1)
         {
-            var dialog = MessageBox.Show("Tem certeza que deseja continuar sem selecionar um cliente?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            var dialog = MessageBox.Show("Deseja continuar sem selecionar um cliente?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
             if (dialog == DialogResult.No)
                 return;

@@ -49,6 +49,7 @@
             TxtItemCadastroOrcamento = new TextBox();
             LblInfoOrcamentoCadastro = new Label();
             BtnGerarOrcamentoCadastro = new Button();
+            ChkMaoDeObra = new CheckBox();
             PanelInfoOrcamentoCadastro.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvOrcamentosCadastro).BeginInit();
@@ -67,6 +68,7 @@
             // PanelInfoOrcamentoCadastro
             // 
             PanelInfoOrcamentoCadastro.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrcamentoCadastro.Controls.Add(ChkMaoDeObra);
             PanelInfoOrcamentoCadastro.Controls.Add(LblDescricaoCadastroOrcamento);
             PanelInfoOrcamentoCadastro.Controls.Add(panel1);
             PanelInfoOrcamentoCadastro.Controls.Add(TxtPrecoUnitarioFinalCadastroOrcamento);
@@ -262,7 +264,7 @@
             TxtItemCadastroOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtItemCadastroOrcamento.Location = new Point(66, 11);
             TxtItemCadastroOrcamento.Name = "TxtItemCadastroOrcamento";
-            TxtItemCadastroOrcamento.Size = new Size(507, 33);
+            TxtItemCadastroOrcamento.Size = new Size(396, 33);
             TxtItemCadastroOrcamento.TabIndex = 1;
             // 
             // LblInfoOrcamentoCadastro
@@ -285,6 +287,17 @@
             BtnGerarOrcamentoCadastro.Text = "Gerar orçamento";
             BtnGerarOrcamentoCadastro.UseVisualStyleBackColor = false;
             BtnGerarOrcamentoCadastro.Click += BtnGerarOrcamento_Click;
+            // 
+            // ChkMaoDeObra
+            // 
+            ChkMaoDeObra.AutoSize = true;
+            ChkMaoDeObra.Location = new Point(468, 20);
+            ChkMaoDeObra.Name = "ChkMaoDeObra";
+            ChkMaoDeObra.Size = new Size(105, 21);
+            ChkMaoDeObra.TabIndex = 40;
+            ChkMaoDeObra.Text = "Mão de obra";
+            ChkMaoDeObra.UseVisualStyleBackColor = true;
+            ChkMaoDeObra.CheckedChanged += ChkMaoDeObra_CheckedChanged;
             // 
             // FormCadastrarOrcamento
             // 
@@ -349,5 +362,6 @@
         private Panel panel1;
         private Label LblDescricaoCadastroOrcamento;
         private RichTextBox RTxtDescricaoCadastroOrcamento;
+        private CheckBox ChkMaoDeObra;
     }
 }

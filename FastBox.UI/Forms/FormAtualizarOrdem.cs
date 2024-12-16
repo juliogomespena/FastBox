@@ -22,7 +22,6 @@ public partial class FormAtualizarOrdem : Form
     private long? _clienteId = null;
     private long? _veiculoId = null;
     private ICollection<OrcamentoViewModel> _orcamentos = [];
-    private bool _servicoConcluido = false;
 
     public FormAtualizarOrdem(IOrdemDeServicoService ordemService, IServiceProvider serviceProvider)
     {
@@ -44,11 +43,9 @@ public partial class FormAtualizarOrdem : Form
             BtnAtualizarOrdem.Enabled = false;
 
             var statusOrdemDeServicoId = 1;
-            if (_servicoConcluido)
-                statusOrdemDeServicoId = 4;
-            else if (_orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
+            if (_orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
                 statusOrdemDeServicoId = 2;
-            else if (_orcamentos.All(o => o.StatusOrcamento == 2))
+            else if (_orcamentos.All(o => o.StatusOrcamento == 2) && _orcamentos.Any())
                 statusOrdemDeServicoId = 3;
 
             var ordemConverted = new OrdemDeServicoViewModel
@@ -60,6 +57,7 @@ public partial class FormAtualizarOrdem : Form
                 Descricao = RTxtDescricaoOrdemAtualizar.Text.Trim(),
                 DataAbertura = OrdemDeServicoAtual.DataAbertura,
                 EstimativaConclusao = DateTimePickerEstimativaConclusao.Value,
+                ValorTotal = _orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade),
                 Orcamentos = _orcamentos.Select(orcamento => new Orcamento
                 {
                     OrcamentoId = orcamento.OrcamentoId,
@@ -120,7 +118,7 @@ public partial class FormAtualizarOrdem : Form
 
         if (!_orcamentos.Any())
         {
-            var dialog = MessageBox.Show("Tem certeza que deseja continuar sem alterar um orçamento?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            var dialog = MessageBox.Show("Deseja continuar sem alterar um orçamento?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
             if (dialog == DialogResult.No)
                 return false;
@@ -151,7 +149,7 @@ public partial class FormAtualizarOrdem : Form
                 Descricao = item.Descricao,
                 Quantidade = item.Quantidade,
                 PrecoUnitario = item.PrecoUnitario,
-                Margem = item.Margem
+                Margem = item.Margem * 100
             }).ToList()
         }).ToList();
 
@@ -214,13 +212,13 @@ public partial class FormAtualizarOrdem : Form
         DgvOrcamentosAtualizarOrdem.DataSource = _orcamentos.ToList();
         DgvOrcamentosAtualizarOrdem.Columns["OrcamentoId"].Visible = false;
         DgvOrcamentosAtualizarOrdem.Columns["OrdemDeServicoId"].Visible = false;
-        DgvOrcamentosAtualizarOrdem.Columns["StatusOrcamento"].Visible = true; // converter para texto futuramente
+        DgvOrcamentosAtualizarOrdem.Columns["StatusOrcamento"].Visible = true;
         DgvOrcamentosAtualizarOrdem.Columns["OrdemDeServico"].Visible = false;
         DgvOrcamentosAtualizarOrdem.Columns["ItensOrcamento"].Visible = false;
         DgvOrcamentosAtualizarOrdem.Columns["StatusOrcamento"].Visible = false;
-        DgvOrcamentosAtualizarOrdem.Columns["ValorTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosAtualizarOrdem.Columns["CustoTotal"].DefaultCellStyle.Format = "F2";
-        DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].DefaultCellStyle.Format = "F2";
+        DgvOrcamentosAtualizarOrdem.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizarOrdem.Columns["CustoTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizarOrdem.Columns["Numero"].HeaderText = "Número";
         DgvOrcamentosAtualizarOrdem.Columns["DataCriacao"].HeaderText = "Data de criação";
         DgvOrcamentosAtualizarOrdem.Columns["Descricao"].HeaderText = "Descrição";
@@ -281,7 +279,7 @@ public partial class FormAtualizarOrdem : Form
                     LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem();
                 }
                 else
-                    MessageBox.Show("As alterações no orçamento não foram salvas, tente novamente!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("As alterações no orçamento não foram salvas!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         else

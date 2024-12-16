@@ -122,7 +122,7 @@
             BtnExcluirVeiculo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnExcluirVeiculo.BackColor = SystemColors.ControlLight;
             BtnExcluirVeiculo.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnExcluirVeiculo.Location = new Point(404, 0);
+            BtnExcluirVeiculo.Location = new Point(418, 0);
             BtnExcluirVeiculo.Name = "BtnExcluirVeiculo";
             BtnExcluirVeiculo.Size = new Size(203, 69);
             BtnExcluirVeiculo.TabIndex = 2;
@@ -137,7 +137,7 @@
             BtnAtualizarVeiculo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnAtualizarVeiculo.BackColor = SystemColors.ControlLight;
             BtnAtualizarVeiculo.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnAtualizarVeiculo.Location = new Point(202, 0);
+            BtnAtualizarVeiculo.Location = new Point(209, 0);
             BtnAtualizarVeiculo.Name = "BtnAtualizarVeiculo";
             BtnAtualizarVeiculo.Size = new Size(203, 69);
             BtnAtualizarVeiculo.TabIndex = 1;

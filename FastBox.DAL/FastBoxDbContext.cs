@@ -212,6 +212,10 @@ public partial class FastBoxDbContext : DbContext
 
             entity.Property(e => e.MetodoPagamentoId).ValueGeneratedNever();
             entity.Property(e => e.Nome).HasMaxLength(45);
+            entity.HasData(
+                new MetodoPagamento { MetodoPagamentoId = 1, Nome = "Cartão de Crédito" },
+                new MetodoPagamento { MetodoPagamentoId = 2, Nome = "Pix" },
+                new MetodoPagamento { MetodoPagamentoId = 3, Nome = "Dinheiro" });
         });
 
         modelBuilder.Entity<OrdemDeServico>(entity =>
@@ -235,6 +239,8 @@ public partial class FastBoxDbContext : DbContext
                 .HasDefaultValueSql("(NULL)");
             entity.Property(e => e.DataConclusao)
                 .HasPrecision(0)
+                .HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.ValorTotal).HasColumnType("decimal(10, 2)")
                 .HasDefaultValueSql("(NULL)");
             entity.Property(e => e.Descricao).HasMaxLength(255);
             entity.Property(e => e.GarantiaEmDias).HasDefaultValueSql("(NULL)");

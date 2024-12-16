@@ -13,7 +13,7 @@ namespace FastBox.DAL
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("FastBoxDatabase");
+            var connectionString = configuration.GetConnectionString("FastBoxDbConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<FastBoxDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
