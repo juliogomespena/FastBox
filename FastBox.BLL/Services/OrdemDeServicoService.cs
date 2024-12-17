@@ -145,9 +145,15 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
     public async Task AddOrdemAsync(OrdemDeServicoViewModel ordem)
     {
+        var statusOrdemDeServicoId = 1;
+        if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
+            statusOrdemDeServicoId = 2;
+        else if (ordem.Orcamentos.All(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Count != 0)
+            statusOrdemDeServicoId = 3;
+
         var ordemConverted = new OrdemDeServico
         {
-            StatusOrdemDeServicoId = ordem.StatusOrdemDeServicoId,
+            StatusOrdemDeServicoId = statusOrdemDeServicoId,
             ClienteId = ordem.ClienteId,
             VeiculoId = ordem.VeiculoId,
             Descricao = ordem.Descricao,
@@ -190,6 +196,14 @@ public class OrdemDeServicoService : IOrdemDeServicoService
     {
         OrdemDeServico? ordemExistente = null;
 
+        var statusOrdemDeServicoId = 1;
+        if (ordem.StatusOrdemDeServicoId > 3)
+            statusOrdemDeServicoId = (int)ordem.StatusOrdemDeServicoId;
+        else if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
+            statusOrdemDeServicoId = 2;
+        else if (ordem.Orcamentos.All(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Count != 0)
+            statusOrdemDeServicoId = 3;
+
         try
         {
             ordemExistente = await _ordemRepository.Query()
@@ -200,7 +214,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             if (ordemExistente == null)
                 throw new InvalidOperationException("Ordem de serviço não encontrada.");
 
-            ordemExistente.StatusOrdemDeServicoId = ordem.StatusOrdemDeServicoId;
+            ordemExistente.StatusOrdemDeServicoId = statusOrdemDeServicoId;
             ordemExistente.ClienteId = ordem.ClienteId;
             ordemExistente.VeiculoId = ordem.VeiculoId;
             ordemExistente.Descricao = ordem.Descricao;

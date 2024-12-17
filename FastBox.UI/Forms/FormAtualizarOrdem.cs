@@ -42,16 +42,9 @@ public partial class FormAtualizarOrdem : Form
         {
             BtnAtualizarOrdem.Enabled = false;
 
-            var statusOrdemDeServicoId = 1;
-            if (_orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
-                statusOrdemDeServicoId = 2;
-            else if (_orcamentos.All(o => o.StatusOrcamento == 2) && _orcamentos.Count != 0)
-                statusOrdemDeServicoId = 3;
-
             var ordemConverted = new OrdemDeServicoViewModel
             {
                 OrdemDeServicoId = OrdemDeServicoAtual.OrdemDeServicoId,
-                StatusOrdemDeServicoId = statusOrdemDeServicoId,
                 ClienteId = _clienteId,
                 VeiculoId = _veiculoId,
                 Descricao = RTxtDescricaoOrdemAtualizar.Text.Trim(),
