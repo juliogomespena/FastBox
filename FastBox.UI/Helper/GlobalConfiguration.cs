@@ -8,6 +8,8 @@ namespace FastBox.UI.Helper
 {
     public class GlobalConfiguration
     {
-        public static readonly int debounceTimeMiliseconds = 1000;
+        public static int debounceTimeMiliseconds => 1000;
+
+        public static int PageSize => 31;
     }
 }

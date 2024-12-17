@@ -73,7 +73,7 @@
             DgvClientes.Name = "DgvClientes";
             DgvClientes.ReadOnly = true;
             DgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvClientes.Size = new Size(1258, 580);
+            DgvClientes.Size = new Size(1258, 564);
             DgvClientes.TabIndex = 0;
             DgvClientes.CellToolTipTextNeeded += DgvClientes_CellToolTipTextNeeded;
             // 
@@ -195,31 +195,32 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             tableLayoutPanel1.Size = new Size(1264, 681);
             tableLayoutPanel1.TabIndex = 5;
             // 
             // TspBusca
             // 
+            TspBusca.Dock = DockStyle.Fill;
             TspBusca.Items.AddRange(new ToolStripItem[] { TxtInfoTspBuscca, TspTxtNome, toolStripSeparator1, TspTxtNif, toolStripSeparator2, TspTxtTelemovel, toolStripSeparator3, TspTxtEmail, toolStripSeparator4, TspTxtDataInicial, TstLblData, TspTxtDataFinal, toolStripSeparator5, TspTxtMatricula, toolStripSeparator6, TspTxtEndereco, toolStripSeparator7, TspBtnAplicar });
-            TspBusca.Location = new Point(0, 586);
+            TspBusca.Location = new Point(0, 570);
             TspBusca.Name = "TspBusca";
-            TspBusca.Size = new Size(1264, 25);
+            TspBusca.Size = new Size(1264, 41);
             TspBusca.TabIndex = 2;
             TspBusca.Text = "toolStrip1";
             // 
             // TxtInfoTspBuscca
             // 
             TxtInfoTspBuscca.Name = "TxtInfoTspBuscca";
-            TxtInfoTspBuscca.Size = new Size(53, 22);
+            TxtInfoTspBuscca.Size = new Size(53, 38);
             TxtInfoTspBuscca.Text = "Buscar: ";
             // 
             // TspTxtNome
             // 
             TspTxtNome.ForeColor = Color.Gray;
             TspTxtNome.Name = "TspTxtNome";
-            TspTxtNome.Size = new Size(150, 25);
+            TspTxtNome.Size = new Size(150, 41);
             TspTxtNome.Text = "Nome completo";
             TspTxtNome.ToolTipText = "Nome";
             TspTxtNome.Enter += TspTxtNome_Enter;
@@ -228,13 +229,13 @@
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 25);
+            toolStripSeparator1.Size = new Size(6, 41);
             // 
             // TspTxtNif
             // 
             TspTxtNif.ForeColor = Color.Gray;
             TspTxtNif.Name = "TspTxtNif";
-            TspTxtNif.Size = new Size(80, 25);
+            TspTxtNif.Size = new Size(80, 41);
             TspTxtNif.Text = "NIF";
             TspTxtNif.Enter += TspTxtNif_Enter;
             TspTxtNif.Leave += TspTxtNif_Leave;
@@ -242,13 +243,13 @@
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(6, 25);
+            toolStripSeparator2.Size = new Size(6, 41);
             // 
             // TspTxtTelemovel
             // 
             TspTxtTelemovel.ForeColor = Color.Gray;
             TspTxtTelemovel.Name = "TspTxtTelemovel";
-            TspTxtTelemovel.Size = new Size(100, 25);
+            TspTxtTelemovel.Size = new Size(100, 41);
             TspTxtTelemovel.Text = "Telemóvel";
             TspTxtTelemovel.Enter += TspTxtTelemovel_Enter;
             TspTxtTelemovel.Leave += TspTxtTelemovel_Leave;
@@ -256,13 +257,13 @@
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(6, 25);
+            toolStripSeparator3.Size = new Size(6, 41);
             // 
             // TspTxtEmail
             // 
             TspTxtEmail.ForeColor = Color.Gray;
             TspTxtEmail.Name = "TspTxtEmail";
-            TspTxtEmail.Size = new Size(180, 25);
+            TspTxtEmail.Size = new Size(180, 41);
             TspTxtEmail.Text = "Email";
             TspTxtEmail.Enter += TspTxtEmail_Enter;
             TspTxtEmail.Leave += TspTxtEmail_Leave;
@@ -270,13 +271,13 @@
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new Size(6, 25);
+            toolStripSeparator4.Size = new Size(6, 41);
             // 
             // TspTxtDataInicial
             // 
             TspTxtDataInicial.ForeColor = Color.Gray;
             TspTxtDataInicial.Name = "TspTxtDataInicial";
-            TspTxtDataInicial.Size = new Size(120, 25);
+            TspTxtDataInicial.Size = new Size(120, 41);
             TspTxtDataInicial.Text = "Data inicial";
             TspTxtDataInicial.Enter += TspTxtDataInicial_Enter;
             TspTxtDataInicial.Leave += TspTxtDataInicial_Leave;
@@ -284,14 +285,14 @@
             // TstLblData
             // 
             TstLblData.Name = "TstLblData";
-            TstLblData.Size = new Size(26, 22);
+            TstLblData.Size = new Size(26, 38);
             TstLblData.Text = "até";
             // 
             // TspTxtDataFinal
             // 
             TspTxtDataFinal.ForeColor = Color.Gray;
             TspTxtDataFinal.Name = "TspTxtDataFinal";
-            TspTxtDataFinal.Size = new Size(120, 25);
+            TspTxtDataFinal.Size = new Size(120, 41);
             TspTxtDataFinal.Text = "Data final";
             TspTxtDataFinal.Enter += TspTxtDataFinal_Enter;
             TspTxtDataFinal.Leave += TspTxtDataFinal_Leave;
@@ -299,13 +300,13 @@
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(6, 25);
+            toolStripSeparator5.Size = new Size(6, 41);
             // 
             // TspTxtMatricula
             // 
             TspTxtMatricula.ForeColor = Color.Gray;
             TspTxtMatricula.Name = "TspTxtMatricula";
-            TspTxtMatricula.Size = new Size(80, 25);
+            TspTxtMatricula.Size = new Size(80, 41);
             TspTxtMatricula.Text = "Matrícula";
             TspTxtMatricula.Enter += TspTxtMatricula_Enter;
             TspTxtMatricula.Leave += TspTxtMatricula_Leave;
@@ -313,13 +314,13 @@
             // toolStripSeparator6
             // 
             toolStripSeparator6.Name = "toolStripSeparator6";
-            toolStripSeparator6.Size = new Size(6, 25);
+            toolStripSeparator6.Size = new Size(6, 41);
             // 
             // TspTxtEndereco
             // 
             TspTxtEndereco.ForeColor = Color.Gray;
             TspTxtEndereco.Name = "TspTxtEndereco";
-            TspTxtEndereco.Size = new Size(200, 25);
+            TspTxtEndereco.Size = new Size(200, 41);
             TspTxtEndereco.Text = "Endereço";
             TspTxtEndereco.Enter += TspTxtEndereco_Enter;
             TspTxtEndereco.Leave += TspTxtEndereco_Leave;
@@ -327,7 +328,7 @@
             // toolStripSeparator7
             // 
             toolStripSeparator7.Name = "toolStripSeparator7";
-            toolStripSeparator7.Size = new Size(6, 25);
+            toolStripSeparator7.Size = new Size(6, 41);
             // 
             // TspBtnAplicar
             // 
@@ -335,7 +336,7 @@
             TspBtnAplicar.Image = (Image)resources.GetObject("TspBtnAplicar.Image");
             TspBtnAplicar.ImageTransparentColor = Color.Magenta;
             TspBtnAplicar.Name = "TspBtnAplicar";
-            TspBtnAplicar.Size = new Size(52, 22);
+            TspBtnAplicar.Size = new Size(52, 38);
             TspBtnAplicar.Text = "Aplicar";
             TspBtnAplicar.Click += TspBtnAplicar_Click;
             // 

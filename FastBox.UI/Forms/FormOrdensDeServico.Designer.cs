@@ -73,7 +73,7 @@
             DgvOrdensDeServico.Name = "DgvOrdensDeServico";
             DgvOrdensDeServico.ReadOnly = true;
             DgvOrdensDeServico.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvOrdensDeServico.Size = new Size(1258, 580);
+            DgvOrdensDeServico.Size = new Size(1258, 564);
             DgvOrdensDeServico.TabIndex = 0;
             // 
             // PanelOrdensDeServicoBotoes
@@ -88,9 +88,9 @@
             PanelOrdensDeServicoBotoes.Controls.Add(BtnAtualizarOrdemDeServico);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnCadastrarOrdemDeServico);
             PanelOrdensDeServicoBotoes.Dock = DockStyle.Fill;
-            PanelOrdensDeServicoBotoes.Location = new Point(3, 615);
+            PanelOrdensDeServicoBotoes.Location = new Point(3, 614);
             PanelOrdensDeServicoBotoes.Name = "PanelOrdensDeServicoBotoes";
-            PanelOrdensDeServicoBotoes.Size = new Size(1258, 63);
+            PanelOrdensDeServicoBotoes.Size = new Size(1258, 64);
             PanelOrdensDeServicoBotoes.TabIndex = 1;
             // 
             // BtnConcluirOrdem
@@ -100,7 +100,7 @@
             BtnConcluirOrdem.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnConcluirOrdem.BackColor = SystemColors.ControlLight;
             BtnConcluirOrdem.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnConcluirOrdem.Location = new Point(579, 5);
+            BtnConcluirOrdem.Location = new Point(579, 6);
             BtnConcluirOrdem.Name = "BtnConcluirOrdem";
             BtnConcluirOrdem.Size = new Size(184, 55);
             BtnConcluirOrdem.TabIndex = 7;
@@ -115,7 +115,7 @@
             BtnFinalizarServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnFinalizarServico.BackColor = SystemColors.ControlLight;
             BtnFinalizarServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnFinalizarServico.Location = new Point(389, 5);
+            BtnFinalizarServico.Location = new Point(389, 6);
             BtnFinalizarServico.Name = "BtnFinalizarServico";
             BtnFinalizarServico.Size = new Size(184, 55);
             BtnFinalizarServico.TabIndex = 6;
@@ -130,7 +130,7 @@
             BtnRefresh.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnRefresh.BackColor = SystemColors.ControlLight;
             BtnRefresh.Font = new Font("Segoe UI Variable Display Semib", 26F, FontStyle.Bold);
-            BtnRefresh.Location = new Point(1027, 5);
+            BtnRefresh.Location = new Point(1027, 6);
             BtnRefresh.Name = "BtnRefresh";
             BtnRefresh.Size = new Size(72, 55);
             BtnRefresh.TabIndex = 5;
@@ -145,7 +145,7 @@
             BtnNextPage.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnNextPage.BackColor = SystemColors.ControlLight;
             BtnNextPage.Font = new Font("Segoe UI Variable Display Semib", 30F, FontStyle.Bold);
-            BtnNextPage.Location = new Point(1180, 5);
+            BtnNextPage.Location = new Point(1180, 6);
             BtnNextPage.Name = "BtnNextPage";
             BtnNextPage.Size = new Size(69, 55);
             BtnNextPage.TabIndex = 4;
@@ -160,7 +160,7 @@
             BtnPreviousPage.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnPreviousPage.BackColor = SystemColors.ControlLight;
             BtnPreviousPage.Font = new Font("Segoe UI Variable Display Semib", 30F, FontStyle.Bold);
-            BtnPreviousPage.Location = new Point(1105, 5);
+            BtnPreviousPage.Location = new Point(1105, 6);
             BtnPreviousPage.Name = "BtnPreviousPage";
             BtnPreviousPage.Size = new Size(69, 55);
             BtnPreviousPage.TabIndex = 3;
@@ -175,7 +175,7 @@
             BtnExcluirOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnExcluirOrdemDeServico.BackColor = SystemColors.ControlLight;
             BtnExcluirOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnExcluirOrdemDeServico.Location = new Point(769, 5);
+            BtnExcluirOrdemDeServico.Location = new Point(769, 6);
             BtnExcluirOrdemDeServico.Name = "BtnExcluirOrdemDeServico";
             BtnExcluirOrdemDeServico.Size = new Size(184, 55);
             BtnExcluirOrdemDeServico.TabIndex = 2;
@@ -190,7 +190,7 @@
             BtnAtualizarOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnAtualizarOrdemDeServico.BackColor = SystemColors.ControlLight;
             BtnAtualizarOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnAtualizarOrdemDeServico.Location = new Point(199, 5);
+            BtnAtualizarOrdemDeServico.Location = new Point(199, 6);
             BtnAtualizarOrdemDeServico.Name = "BtnAtualizarOrdemDeServico";
             BtnAtualizarOrdemDeServico.Size = new Size(184, 55);
             BtnAtualizarOrdemDeServico.TabIndex = 1;
@@ -205,7 +205,7 @@
             BtnCadastrarOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnCadastrarOrdemDeServico.BackColor = SystemColors.ControlLight;
             BtnCadastrarOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnCadastrarOrdemDeServico.Location = new Point(9, 5);
+            BtnCadastrarOrdemDeServico.Location = new Point(9, 6);
             BtnCadastrarOrdemDeServico.Name = "BtnCadastrarOrdemDeServico";
             BtnCadastrarOrdemDeServico.Size = new Size(184, 55);
             BtnCadastrarOrdemDeServico.TabIndex = 0;
@@ -226,24 +226,25 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 69F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             tableLayoutPanel1.Size = new Size(1264, 681);
             tableLayoutPanel1.TabIndex = 5;
             // 
             // TspBusca
             // 
+            TspBusca.Dock = DockStyle.Fill;
             TspBusca.Items.AddRange(new ToolStripItem[] { TxtInfoTspBuscca, TspCmbStatus, toolStripSeparator1, TspTxtCliente, toolStripSeparator2, TspTxtVeiculo, toolStripSeparator3, TspTxtDescricao, toolStripSeparator4, TspTxtAbertura, toolStripSeparator5, TspTxtPrazo, toolStripSeparator6, TspTxtValorTotal, TspCmbValorTotalOpcao, TspBtnAplicar });
-            TspBusca.Location = new Point(0, 586);
+            TspBusca.Location = new Point(0, 570);
             TspBusca.Name = "TspBusca";
-            TspBusca.Size = new Size(1264, 25);
+            TspBusca.Size = new Size(1264, 41);
             TspBusca.TabIndex = 3;
             TspBusca.Text = "toolStrip1";
             // 
             // TxtInfoTspBuscca
             // 
             TxtInfoTspBuscca.Name = "TxtInfoTspBuscca";
-            TxtInfoTspBuscca.Size = new Size(53, 22);
+            TxtInfoTspBuscca.Size = new Size(53, 38);
             TxtInfoTspBuscca.Text = "Buscar: ";
             // 
             // TspCmbStatus
@@ -251,18 +252,18 @@
             TspCmbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             TspCmbStatus.ForeColor = SystemColors.WindowText;
             TspCmbStatus.Name = "TspCmbStatus";
-            TspCmbStatus.Size = new Size(175, 25);
+            TspCmbStatus.Size = new Size(175, 41);
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 25);
+            toolStripSeparator1.Size = new Size(6, 41);
             // 
             // TspTxtCliente
             // 
             TspTxtCliente.ForeColor = Color.Gray;
             TspTxtCliente.Name = "TspTxtCliente";
-            TspTxtCliente.Size = new Size(150, 25);
+            TspTxtCliente.Size = new Size(150, 41);
             TspTxtCliente.Text = "Cliente";
             TspTxtCliente.Enter += TspTxtCliente_Enter;
             TspTxtCliente.Leave += TspTxtCliente_Leave;
@@ -270,13 +271,13 @@
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(6, 25);
+            toolStripSeparator2.Size = new Size(6, 41);
             // 
             // TspTxtVeiculo
             // 
             TspTxtVeiculo.ForeColor = Color.Gray;
             TspTxtVeiculo.Name = "TspTxtVeiculo";
-            TspTxtVeiculo.Size = new Size(150, 25);
+            TspTxtVeiculo.Size = new Size(150, 41);
             TspTxtVeiculo.Text = "Veículo";
             TspTxtVeiculo.Enter += TspTxtVeiculo_Enter;
             TspTxtVeiculo.Leave += TspTxtVeiculo_Leave;
@@ -284,13 +285,13 @@
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(6, 25);
+            toolStripSeparator3.Size = new Size(6, 41);
             // 
             // TspTxtDescricao
             // 
             TspTxtDescricao.ForeColor = Color.Gray;
             TspTxtDescricao.Name = "TspTxtDescricao";
-            TspTxtDescricao.Size = new Size(150, 25);
+            TspTxtDescricao.Size = new Size(150, 41);
             TspTxtDescricao.Text = "Descrição";
             TspTxtDescricao.Enter += TspTxtDescricao_Enter;
             TspTxtDescricao.Leave += TspTxtDescricao_Leave;
@@ -298,13 +299,13 @@
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new Size(6, 25);
+            toolStripSeparator4.Size = new Size(6, 41);
             // 
             // TspTxtAbertura
             // 
             TspTxtAbertura.ForeColor = Color.Gray;
             TspTxtAbertura.Name = "TspTxtAbertura";
-            TspTxtAbertura.Size = new Size(120, 25);
+            TspTxtAbertura.Size = new Size(120, 41);
             TspTxtAbertura.Text = "Data de abertura";
             TspTxtAbertura.Enter += TspTxtAbertura_Enter;
             TspTxtAbertura.Leave += TspTxtAbertura_Leave;
@@ -312,13 +313,13 @@
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(6, 25);
+            toolStripSeparator5.Size = new Size(6, 41);
             // 
             // TspTxtPrazo
             // 
             TspTxtPrazo.ForeColor = Color.Gray;
             TspTxtPrazo.Name = "TspTxtPrazo";
-            TspTxtPrazo.Size = new Size(120, 25);
+            TspTxtPrazo.Size = new Size(120, 41);
             TspTxtPrazo.Text = "Prazo estimado";
             TspTxtPrazo.Enter += TspTxtPrazo_Enter;
             TspTxtPrazo.Leave += TspTxtPrazo_Leave;
@@ -326,13 +327,13 @@
             // toolStripSeparator6
             // 
             toolStripSeparator6.Name = "toolStripSeparator6";
-            toolStripSeparator6.Size = new Size(6, 25);
+            toolStripSeparator6.Size = new Size(6, 41);
             // 
             // TspTxtValorTotal
             // 
             TspTxtValorTotal.ForeColor = Color.Gray;
             TspTxtValorTotal.Name = "TspTxtValorTotal";
-            TspTxtValorTotal.Size = new Size(80, 25);
+            TspTxtValorTotal.Size = new Size(80, 41);
             TspTxtValorTotal.Text = "Valor total";
             TspTxtValorTotal.Enter += TspTxtValorTotal_Enter;
             TspTxtValorTotal.Leave += TspTxtValorTotal_Leave;
@@ -342,7 +343,7 @@
             TspCmbValorTotalOpcao.DropDownStyle = ComboBoxStyle.DropDownList;
             TspCmbValorTotalOpcao.Items.AddRange(new object[] { "Maior", "Menor" });
             TspCmbValorTotalOpcao.Name = "TspCmbValorTotalOpcao";
-            TspCmbValorTotalOpcao.Size = new Size(75, 25);
+            TspCmbValorTotalOpcao.Size = new Size(75, 41);
             // 
             // TspBtnAplicar
             // 
@@ -350,7 +351,7 @@
             TspBtnAplicar.Image = (Image)resources.GetObject("TspBtnAplicar.Image");
             TspBtnAplicar.ImageTransparentColor = Color.Magenta;
             TspBtnAplicar.Name = "TspBtnAplicar";
-            TspBtnAplicar.Size = new Size(52, 22);
+            TspBtnAplicar.Size = new Size(52, 38);
             TspBtnAplicar.Text = "Aplicar";
             TspBtnAplicar.Click += TspBtnAplicar_Click;
             // 

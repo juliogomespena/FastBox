@@ -122,7 +122,7 @@ public partial class FormAtualizarVeiculo : Form
                         DgvVeiculosClientes.Columns["EnderecoId"].Visible = false;
                         DgvVeiculosClientes.Columns["Endereco"].Visible = false;
                         DgvVeiculosClientes.Columns["Usuarios"].Visible = false;
-                        DgvVeiculosClientes.Columns["VeiculosCount"].Visible = false;
+                        DgvVeiculosClientes.Columns["VeiculosMatricula"].Visible = false;
                         DgvVeiculosClientes.Columns["OrdensDeServicoCount"].Visible = false;
                         DgvVeiculosClientes.Columns["Nome"].Visible = false;
                         DgvVeiculosClientes.Columns["Sobrenome"].Visible = false;

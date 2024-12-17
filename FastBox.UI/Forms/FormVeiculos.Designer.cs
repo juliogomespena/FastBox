@@ -68,7 +68,7 @@
             DgvVeiculos.Name = "DgvVeiculos";
             DgvVeiculos.ReadOnly = true;
             DgvVeiculos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvVeiculos.Size = new Size(1258, 580);
+            DgvVeiculos.Size = new Size(1258, 564);
             DgvVeiculos.TabIndex = 0;
             // 
             // PanelVeiculosBotoes
@@ -189,31 +189,32 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             tableLayoutPanel1.Size = new Size(1264, 681);
             tableLayoutPanel1.TabIndex = 5;
             // 
             // TspBusca
             // 
+            TspBusca.Dock = DockStyle.Fill;
             TspBusca.Items.AddRange(new ToolStripItem[] { TxtInfoTspBuscca, TspTxtMarca, toolStripSeparator1, TspTxtModelo, toolStripSeparator2, TspTxtAno, toolStripSeparator3, TspTxtMatricula, toolStripSeparator4, TspTxtCliente, toolStripSeparator5, TspTxtObservacoes, TspBtnAplicar });
-            TspBusca.Location = new Point(0, 586);
+            TspBusca.Location = new Point(0, 570);
             TspBusca.Name = "TspBusca";
-            TspBusca.Size = new Size(1264, 25);
+            TspBusca.Size = new Size(1264, 41);
             TspBusca.TabIndex = 3;
             TspBusca.Text = "toolStrip1";
             // 
             // TxtInfoTspBuscca
             // 
             TxtInfoTspBuscca.Name = "TxtInfoTspBuscca";
-            TxtInfoTspBuscca.Size = new Size(53, 22);
+            TxtInfoTspBuscca.Size = new Size(53, 38);
             TxtInfoTspBuscca.Text = "Buscar: ";
             // 
             // TspTxtMarca
             // 
             TspTxtMarca.ForeColor = Color.Gray;
             TspTxtMarca.Name = "TspTxtMarca";
-            TspTxtMarca.Size = new Size(100, 25);
+            TspTxtMarca.Size = new Size(100, 41);
             TspTxtMarca.Text = "Marca";
             TspTxtMarca.Enter += TspTxtMarca_Enter;
             TspTxtMarca.Leave += TspTxtMarca_Leave;
@@ -221,13 +222,13 @@
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 25);
+            toolStripSeparator1.Size = new Size(6, 41);
             // 
             // TspTxtModelo
             // 
             TspTxtModelo.ForeColor = Color.Gray;
             TspTxtModelo.Name = "TspTxtModelo";
-            TspTxtModelo.Size = new Size(100, 25);
+            TspTxtModelo.Size = new Size(100, 41);
             TspTxtModelo.Text = "Modelo";
             TspTxtModelo.Enter += TspTxtModelo_Enter;
             TspTxtModelo.Leave += TspTxtModelo_Leave;
@@ -235,13 +236,13 @@
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(6, 25);
+            toolStripSeparator2.Size = new Size(6, 41);
             // 
             // TspTxtAno
             // 
             TspTxtAno.ForeColor = Color.Gray;
             TspTxtAno.Name = "TspTxtAno";
-            TspTxtAno.Size = new Size(50, 25);
+            TspTxtAno.Size = new Size(50, 41);
             TspTxtAno.Text = "Ano";
             TspTxtAno.Enter += TspTxtAno_Enter;
             TspTxtAno.Leave += TspTxtAno_Leave;
@@ -249,13 +250,13 @@
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(6, 25);
+            toolStripSeparator3.Size = new Size(6, 41);
             // 
             // TspTxtMatricula
             // 
             TspTxtMatricula.ForeColor = Color.Gray;
             TspTxtMatricula.Name = "TspTxtMatricula";
-            TspTxtMatricula.Size = new Size(100, 25);
+            TspTxtMatricula.Size = new Size(100, 41);
             TspTxtMatricula.Text = "Matrícula";
             TspTxtMatricula.Enter += TspTxtMatricula_Enter;
             TspTxtMatricula.Leave += TspTxtMatricula_Leave;
@@ -263,13 +264,13 @@
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new Size(6, 25);
+            toolStripSeparator4.Size = new Size(6, 41);
             // 
             // TspTxtCliente
             // 
             TspTxtCliente.ForeColor = Color.Gray;
             TspTxtCliente.Name = "TspTxtCliente";
-            TspTxtCliente.Size = new Size(150, 25);
+            TspTxtCliente.Size = new Size(150, 41);
             TspTxtCliente.Text = "Cliente";
             TspTxtCliente.Enter += TspTxtCliente_Enter;
             TspTxtCliente.Leave += TspTxtCliente_Leave;
@@ -277,13 +278,13 @@
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(6, 25);
+            toolStripSeparator5.Size = new Size(6, 41);
             // 
             // TspTxtObservacoes
             // 
             TspTxtObservacoes.ForeColor = Color.Gray;
             TspTxtObservacoes.Name = "TspTxtObservacoes";
-            TspTxtObservacoes.Size = new Size(150, 25);
+            TspTxtObservacoes.Size = new Size(150, 41);
             TspTxtObservacoes.Text = "Observações";
             TspTxtObservacoes.Enter += TspTxtObservacoes_Enter;
             TspTxtObservacoes.Leave += TspTxtObservacoes_Leave;
@@ -294,7 +295,7 @@
             TspBtnAplicar.Image = (Image)resources.GetObject("TspBtnAplicar.Image");
             TspBtnAplicar.ImageTransparentColor = Color.Magenta;
             TspBtnAplicar.Name = "TspBtnAplicar";
-            TspBtnAplicar.Size = new Size(52, 22);
+            TspBtnAplicar.Size = new Size(52, 38);
             TspBtnAplicar.Text = "Aplicar";
             TspBtnAplicar.Click += TspBtnAplicar_Click;
             // 

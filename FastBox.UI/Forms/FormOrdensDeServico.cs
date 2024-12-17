@@ -1,6 +1,7 @@
 ﻿using FastBox.BLL.DTOs.Filters;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
+using FastBox.UI.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,6 @@ public partial class FormOrdensDeServico : Form
     private readonly IOrdemDeServicoService _ordemDeServicoService;
     private readonly IServiceProvider _serviceProvider;
     private int currentPage = 1;
-    private readonly int pageSize = 30;
 
     public FormOrdensDeServico(IOrdemDeServicoService ordemDeServicoService, IServiceProvider serviceProvider)
     {
@@ -27,7 +27,7 @@ public partial class FormOrdensDeServico : Form
 
     private async void FormOrdensDeServico_Load(object sender, EventArgs e)
     {
-        await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+        await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
         TspCmbValorTotalOpcao.SelectedIndex = 0;
         TspCmbStatus.Items.Add("Status");
         using (var scope = _serviceProvider.CreateScope())
@@ -85,7 +85,7 @@ public partial class FormOrdensDeServico : Form
         try
         {
             ControlButtonsForDatabaseOperations();
-            await LoadOrdensDeServicoIntoDgvAsync(currentPage, pageSize);
+            await LoadOrdensDeServicoIntoDgvAsync(currentPage, GlobalConfiguration.PageSize);
         }
         catch (Exception ex)
         {
@@ -106,7 +106,7 @@ public partial class FormOrdensDeServico : Form
             try
             {
                 ControlButtonsForDatabaseOperations();
-                await LoadOrdensDeServicoIntoDgvAsync(currentPage, pageSize);
+                await LoadOrdensDeServicoIntoDgvAsync(currentPage, GlobalConfiguration.PageSize);
             }
             catch (Exception ex)
             {
@@ -125,12 +125,12 @@ public partial class FormOrdensDeServico : Form
         var frmCadastrarOrdemDeServico = _serviceProvider.GetRequiredService<FormCadastrarOrdem>();
         frmCadastrarOrdemDeServico.ShowDialog();
 
-        await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+        await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
     }
 
     private async void BtnRefresh_Click(object sender, EventArgs e)
     {
-        await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+        await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
         ResetFilterFields();
     }
 
@@ -149,7 +149,7 @@ public partial class FormOrdensDeServico : Form
                 var result = frmAtualizarOrdemDeServico.ShowDialog();
             }
 
-            await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+            await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
         else
             MessageBox.Show("Selecione uma ordem de serviço para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -190,7 +190,7 @@ public partial class FormOrdensDeServico : Form
             }
             finally
             {
-                await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+                await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
                 ControlButtonsForDatabaseOperations(true);
             }
         }
@@ -256,7 +256,7 @@ public partial class FormOrdensDeServico : Form
             }
             finally
             {
-                await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+                await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
                 ControlButtonsForDatabaseOperations(true);
             }
         }
@@ -307,7 +307,7 @@ public partial class FormOrdensDeServico : Form
             }
             finally
             {
-                await LoadOrdensDeServicoIntoDgvAsync(1, pageSize);
+                await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
                 ControlButtonsForDatabaseOperations(true);
             }
         }
@@ -347,7 +347,7 @@ public partial class FormOrdensDeServico : Form
             ValorTotal = decimal.TryParse(TspTxtValorTotal.Text, out decimal valorTotal) ? valorTotal : null,
         };
 
-        await LoadOrdensDeServicoIntoDgvAsync(1, pageSize, filter);
+        await LoadOrdensDeServicoIntoDgvAsync(1,    GlobalConfiguration.PageSize, filter);
 
         ResetFilterFields();
     }

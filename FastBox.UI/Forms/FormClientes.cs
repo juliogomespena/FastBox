@@ -1,5 +1,6 @@
 ﻿using FastBox.BLL.DTOs.Filters;
 using FastBox.BLL.Services.Interfaces;
+using FastBox.UI.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,6 @@ public partial class FormClientes : Form
     private readonly IClienteService _clienteService;
     private readonly IServiceProvider _serviceProvider;
     private int currentPage = 1;
-    private readonly int pageSize = 30;
     private bool isClicking = false;
     public FormClientes(IClienteService clienteService, IServiceProvider serviceProvider)
     {
@@ -26,7 +26,7 @@ public partial class FormClientes : Form
 
     private async void FormClientes_Load(object sender, EventArgs e)
     {
-        await LoadClientsIntoDgvAsync(1, pageSize);
+        await LoadClientsIntoDgvAsync(1, GlobalConfiguration.PageSize);
     }
 
     private async Task LoadClientsIntoDgvAsync(int page, int size, ClienteFilter? filter = null)
@@ -69,7 +69,7 @@ public partial class FormClientes : Form
         try
         {
             ControlButtonsForDatabaseOperations();
-            await LoadClientsIntoDgvAsync(currentPage, pageSize);
+            await LoadClientsIntoDgvAsync(currentPage, GlobalConfiguration.PageSize);
         }
         catch (Exception ex)
         {
@@ -91,7 +91,7 @@ public partial class FormClientes : Form
             try
             {
                 ControlButtonsForDatabaseOperations();
-                await LoadClientsIntoDgvAsync(currentPage, pageSize);
+                await LoadClientsIntoDgvAsync(currentPage, GlobalConfiguration.PageSize);
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ public partial class FormClientes : Form
         var frmCadastrarCliente = _serviceProvider.GetRequiredService<FormCadastrarCliente>();
         frmCadastrarCliente.ShowDialog();
 
-        await LoadClientsIntoDgvAsync(1, pageSize);
+        await LoadClientsIntoDgvAsync(1, GlobalConfiguration.PageSize);
     }
 
     private void DgvClientes_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
@@ -129,7 +129,7 @@ public partial class FormClientes : Form
 
     private async void BtnRefresh_Click(object sender, EventArgs e)
     {
-        await LoadClientsIntoDgvAsync(1, pageSize);
+        await LoadClientsIntoDgvAsync(1, GlobalConfiguration.PageSize);
         ResetFilterFields();
     }
 
@@ -142,7 +142,7 @@ public partial class FormClientes : Form
             frmAtualizarCliente.ClienteId = clienteId;
             frmAtualizarCliente.ShowDialog();
 
-            await LoadClientsIntoDgvAsync(1, pageSize);
+            await LoadClientsIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
         else
             MessageBox.Show("Selecione um cliente para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -183,7 +183,7 @@ public partial class FormClientes : Form
             }
 
 
-            await LoadClientsIntoDgvAsync(1, pageSize);
+            await LoadClientsIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
         else
             MessageBox.Show("Selecione um cliente para excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -217,7 +217,7 @@ public partial class FormClientes : Form
             EnderecoCompleto = TspTxtEndereco.Text == "Endereço" ? null : TspTxtEndereco.Text,
         };
 
-        await LoadClientsIntoDgvAsync(1, pageSize, filter);
+        await LoadClientsIntoDgvAsync(1, GlobalConfiguration.PageSize, filter);
         ResetFilterFields();
     }
 

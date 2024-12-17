@@ -1,6 +1,7 @@
 ﻿using FastBox.BLL.DTOs.Filters;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
+using FastBox.UI.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,6 @@ public partial class FormVeiculos : Form
     private readonly IVeiculoService _veiculoService;
     private readonly IServiceProvider _serviceProvider;
     private int currentPage = 1;
-    private readonly int pageSize = 30;
     public FormVeiculos(IVeiculoService veiculoService, IServiceProvider serviceProvider)
     {
         InitializeComponent();
@@ -26,7 +26,7 @@ public partial class FormVeiculos : Form
 
     private async void FormVeiculos_Load(object sender, EventArgs e)
     {
-        await LoadVehiclesIntoDgvAsync(1, pageSize);
+        await LoadVehiclesIntoDgvAsync(1, GlobalConfiguration.PageSize);
     }
 
     private async Task LoadVehiclesIntoDgvAsync(int page, int size, VeiculoFilter? filter = null)
@@ -63,7 +63,7 @@ public partial class FormVeiculos : Form
         try
         {
             ControlButtonsForDatabaseOperations();
-            await LoadVehiclesIntoDgvAsync(currentPage, pageSize);
+            await LoadVehiclesIntoDgvAsync(currentPage, GlobalConfiguration.PageSize);
         }
         catch (Exception ex)
         {
@@ -85,7 +85,7 @@ public partial class FormVeiculos : Form
             try
             {
                 ControlButtonsForDatabaseOperations();
-                await LoadVehiclesIntoDgvAsync(currentPage, pageSize);
+                await LoadVehiclesIntoDgvAsync(currentPage, GlobalConfiguration.PageSize);
             }
             catch (Exception ex)
             {
@@ -105,12 +105,12 @@ public partial class FormVeiculos : Form
         var frmCadastrarVeiculo = _serviceProvider.GetRequiredService<FormCadastrarVeiculo>();
         frmCadastrarVeiculo.ShowDialog();
 
-        await LoadVehiclesIntoDgvAsync(1, pageSize);
+        await LoadVehiclesIntoDgvAsync(1, GlobalConfiguration.PageSize);
     }
 
     private async void BtnRefresh_Click(object sender, EventArgs e)
     {
-        await LoadVehiclesIntoDgvAsync(1, pageSize);
+        await LoadVehiclesIntoDgvAsync(1, GlobalConfiguration.PageSize);
         ResetFilterFields();
     }
 
@@ -123,7 +123,7 @@ public partial class FormVeiculos : Form
             frmAtualizarVeiculo.VeiculoId = veiculoId;
             frmAtualizarVeiculo.ShowDialog();
 
-            await LoadVehiclesIntoDgvAsync(1, pageSize);
+            await LoadVehiclesIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
         else
             MessageBox.Show("Selecione um veículo para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -164,7 +164,7 @@ public partial class FormVeiculos : Form
             }
 
 
-            await LoadVehiclesIntoDgvAsync(1, pageSize);
+            await LoadVehiclesIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
         else
             MessageBox.Show("Selecione um veículo para excluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -214,7 +214,7 @@ public partial class FormVeiculos : Form
             Observacoes = TspTxtObservacoes.Text == "Observações" ? null : TspTxtObservacoes.Text,
         };
 
-        await LoadVehiclesIntoDgvAsync(1, pageSize, filter);
+        await LoadVehiclesIntoDgvAsync(1, GlobalConfiguration.PageSize, filter);
         ResetFilterFields();
     }
 
