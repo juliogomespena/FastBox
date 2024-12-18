@@ -42,6 +42,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                 EstimativaConclusao = o.EstimativaConclusao,
                 DataConclusao = o.DataConclusao,
                 ValorTotal  = o.ValorTotal,
+                IncluirIva = o.IncluirIva,
                 GarantiaEmDias = o.GarantiaEmDias,
                 ObservacoesGarantia = o.ObservacoesGarantia,
                 Cliente = o.Cliente,
@@ -98,6 +99,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                 EstimativaConclusao = o.EstimativaConclusao,
                 DataConclusao = o.DataConclusao,
                 ValorTotal = o.ValorTotal,
+                IncluirIva = o.IncluirIva,
                 GarantiaEmDias = o.GarantiaEmDias,
                 ObservacoesGarantia = o.ObservacoesGarantia,
                 Cliente = o.Cliente,
@@ -134,6 +136,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             EstimativaConclusao = ordemExistente.EstimativaConclusao,
             DataConclusao = ordemExistente.DataConclusao,
             ValorTotal = ordemExistente.ValorTotal,
+            IncluirIva = ordemExistente.IncluirIva,
             GarantiaEmDias = ordemExistente.GarantiaEmDias,
             ObservacoesGarantia = ordemExistente.ObservacoesGarantia,
             Cliente = ordemExistente.Cliente,
@@ -148,6 +151,11 @@ public class OrdemDeServicoService : IOrdemDeServicoService
     {
         var statusOrdemDeServicoId = DetermineOrderStatus(ordem);
 
+        var valorTotalOrdem = Math.Round(ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade), 2, MidpointRounding.AwayFromZero);
+
+        if (ordem.IncluirIva == true)
+            valorTotalOrdem = Math.Round(valorTotalOrdem + (valorTotalOrdem * (decimal)0.23), 2, MidpointRounding.AwayFromZero);
+
         var ordemConverted = new OrdemDeServico
         {
             StatusOrdemDeServicoId = statusOrdemDeServicoId,
@@ -155,7 +163,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             VeiculoId = ordem.VeiculoId,
             Descricao = ordem.Descricao,
             EstimativaConclusao = ordem.EstimativaConclusao,
-            ValorTotal = ordem.ValorTotal,
+            ValorTotal = valorTotalOrdem,
+            IncluirIva = ordem.IncluirIva,
             Orcamentos = ordem.Orcamentos.Select(orcamento => new Orcamento
             {
                 StatusOrcamento = orcamento.StatusOrcamento,
@@ -191,15 +200,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
     public async Task UpdateOrdemAsync(OrdemDeServicoViewModel ordem)
     {
-        if (ordem.StatusOrdemDeServicoId == 7)
-        {
-            foreach (var orcamento in ordem.Orcamentos) 
-                orcamento.StatusOrcamento = 3;
-        }
-
         OrdemDeServico? ordemExistente = null;
-
-        var statusOrdemDeServicoId = DetermineOrderStatus(ordem);
 
         try
         {
@@ -212,13 +213,28 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                 throw new InvalidOperationException("Ordem de serviço não encontrada.");
             if (ordemExistente.StatusOrdemDeServicoId == 7)
                 throw new InvalidOperationException("A ordem de serviço foi cancelada e não pode ser alterada.");
+            if (ordemExistente.StatusOrdemDeServicoId == 6)
+                throw new InvalidOperationException("A ordem de serviço foi concluída e não pode ser alterada.");
+            if (ordemExistente.StatusOrdemDeServicoId == 5)
+                throw new InvalidOperationException("O veículo já foi retirado e a ordem não pode ser alterada.");
+
+            var statusOrdemDeServicoId = DetermineOrderStatus(ordem);
+
+            var valorTotalOrdem = Math.Round(ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade), 2, MidpointRounding.AwayFromZero);
+
+            if (ordem.IncluirIva == true)
+                valorTotalOrdem = Math.Round(valorTotalOrdem + (valorTotalOrdem * (decimal)0.23), 2, MidpointRounding.AwayFromZero);
+
+            if (ordem.StatusOrdemDeServicoId == 7)
+                foreach (var orcamento in ordem.Orcamentos) orcamento.StatusOrcamento = 3;
 
             ordemExistente.StatusOrdemDeServicoId = statusOrdemDeServicoId;
             ordemExistente.ClienteId = ordem.ClienteId;
             ordemExistente.VeiculoId = ordem.VeiculoId;
             ordemExistente.Descricao = ordem.Descricao;
             ordemExistente.EstimativaConclusao = ordem.EstimativaConclusao;
-            ordemExistente.ValorTotal = ordem.ValorTotal;
+            ordemExistente.ValorTotal = valorTotalOrdem;
+            ordemExistente.IncluirIva = ordem.IncluirIva;
 
             foreach (var orcamentoViewModel in ordem.Orcamentos)
             {

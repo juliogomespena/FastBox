@@ -30,6 +30,7 @@
         {
             LblClienteOrdemCadastrar = new Label();
             PanelInfoOrdemCadastrar = new Panel();
+            ChkIncluirIvaCadastrarOrdem = new CheckBox();
             TxtVeiculoOrdemCadastrar = new TextBox();
             LblPrazoEstimadoOrdemCadastrar = new Label();
             LblInfoOrcamentos = new Label();
@@ -43,11 +44,12 @@
             LblVeiculoOrdemCadastrar = new Label();
             TxtClienteOrdemCadastrar = new TextBox();
             PanelOrcamentosOrdemCadastrar = new Panel();
+            BtnExportarOrcamentoOrdemCadastrar = new Button();
             BtnExcluirOrcamentoOrdemCadastrar = new Button();
             BtnReprovarOrcamentoOrdemCadastrar = new Button();
             BtnNovoOrcamentoOrdemCadastrar = new Button();
             BtnAprovarOrcamentoOrdemCadastrar = new Button();
-            BtnEditarOrcamentoOrdemCadastrar = new Button();
+            BtnAbrirOrcamentoOrdemCadastrar = new Button();
             DgvOrcamentosCadastrarOrdem = new DataGridView();
             LblInfoOrdemCadastrar = new Label();
             BtnGerarOrdemCadastrar = new Button();
@@ -69,6 +71,7 @@
             // PanelInfoOrdemCadastrar
             // 
             PanelInfoOrdemCadastrar.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrdemCadastrar.Controls.Add(ChkIncluirIvaCadastrarOrdem);
             PanelInfoOrdemCadastrar.Controls.Add(TxtVeiculoOrdemCadastrar);
             PanelInfoOrdemCadastrar.Controls.Add(LblPrazoEstimadoOrdemCadastrar);
             PanelInfoOrdemCadastrar.Controls.Add(LblInfoOrcamentos);
@@ -87,6 +90,16 @@
             PanelInfoOrdemCadastrar.Name = "PanelInfoOrdemCadastrar";
             PanelInfoOrdemCadastrar.Size = new Size(778, 463);
             PanelInfoOrdemCadastrar.TabIndex = 10;
+            // 
+            // ChkIncluirIvaCadastrarOrdem
+            // 
+            ChkIncluirIvaCadastrarOrdem.AutoSize = true;
+            ChkIncluirIvaCadastrarOrdem.Location = new Point(347, 186);
+            ChkIncluirIvaCadastrarOrdem.Name = "ChkIncluirIvaCadastrarOrdem";
+            ChkIncluirIvaCadastrarOrdem.Size = new Size(83, 21);
+            ChkIncluirIvaCadastrarOrdem.TabIndex = 103;
+            ChkIncluirIvaCadastrarOrdem.Text = "Incluir IVA";
+            ChkIncluirIvaCadastrarOrdem.UseVisualStyleBackColor = true;
             // 
             // TxtVeiculoOrdemCadastrar
             // 
@@ -219,24 +232,37 @@
             // PanelOrcamentosOrdemCadastrar
             // 
             PanelOrcamentosOrdemCadastrar.BorderStyle = BorderStyle.Fixed3D;
+            PanelOrcamentosOrdemCadastrar.Controls.Add(BtnExportarOrcamentoOrdemCadastrar);
             PanelOrcamentosOrdemCadastrar.Controls.Add(BtnExcluirOrcamentoOrdemCadastrar);
             PanelOrcamentosOrdemCadastrar.Controls.Add(BtnReprovarOrcamentoOrdemCadastrar);
             PanelOrcamentosOrdemCadastrar.Controls.Add(BtnNovoOrcamentoOrdemCadastrar);
             PanelOrcamentosOrdemCadastrar.Controls.Add(BtnAprovarOrcamentoOrdemCadastrar);
-            PanelOrcamentosOrdemCadastrar.Controls.Add(BtnEditarOrcamentoOrdemCadastrar);
+            PanelOrcamentosOrdemCadastrar.Controls.Add(BtnAbrirOrcamentoOrdemCadastrar);
             PanelOrcamentosOrdemCadastrar.Controls.Add(DgvOrcamentosCadastrarOrdem);
             PanelOrcamentosOrdemCadastrar.Location = new Point(-2, 222);
             PanelOrcamentosOrdemCadastrar.Name = "PanelOrcamentosOrdemCadastrar";
             PanelOrcamentosOrdemCadastrar.Size = new Size(778, 239);
             PanelOrcamentosOrdemCadastrar.TabIndex = 31;
             // 
+            // BtnExportarOrcamentoOrdemCadastrar
+            // 
+            BtnExportarOrcamentoOrdemCadastrar.BackColor = SystemColors.ControlLight;
+            BtnExportarOrcamentoOrdemCadastrar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
+            BtnExportarOrcamentoOrdemCadastrar.Location = new Point(646, 11);
+            BtnExportarOrcamentoOrdemCadastrar.Name = "BtnExportarOrcamentoOrdemCadastrar";
+            BtnExportarOrcamentoOrdemCadastrar.Size = new Size(120, 35);
+            BtnExportarOrcamentoOrdemCadastrar.TabIndex = 11;
+            BtnExportarOrcamentoOrdemCadastrar.Text = "Exportar";
+            BtnExportarOrcamentoOrdemCadastrar.UseVisualStyleBackColor = false;
+            BtnExportarOrcamentoOrdemCadastrar.Click += BtnExportarOrcamentoOrdemCadastrar_Click;
+            // 
             // BtnExcluirOrcamentoOrdemCadastrar
             // 
             BtnExcluirOrcamentoOrdemCadastrar.BackColor = SystemColors.ControlLight;
             BtnExcluirOrcamentoOrdemCadastrar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnExcluirOrcamentoOrdemCadastrar.Location = new Point(323, 13);
+            BtnExcluirOrcamentoOrdemCadastrar.Location = new Point(258, 11);
             BtnExcluirOrcamentoOrdemCadastrar.Name = "BtnExcluirOrcamentoOrdemCadastrar";
-            BtnExcluirOrcamentoOrdemCadastrar.Size = new Size(124, 35);
+            BtnExcluirOrcamentoOrdemCadastrar.Size = new Size(120, 35);
             BtnExcluirOrcamentoOrdemCadastrar.TabIndex = 7;
             BtnExcluirOrcamentoOrdemCadastrar.Text = "Excluir";
             BtnExcluirOrcamentoOrdemCadastrar.UseVisualStyleBackColor = false;
@@ -246,9 +272,9 @@
             // 
             BtnReprovarOrcamentoOrdemCadastrar.BackColor = SystemColors.ControlLight;
             BtnReprovarOrcamentoOrdemCadastrar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnReprovarOrcamentoOrdemCadastrar.Location = new Point(635, 13);
+            BtnReprovarOrcamentoOrdemCadastrar.Location = new Point(520, 11);
             BtnReprovarOrcamentoOrdemCadastrar.Name = "BtnReprovarOrcamentoOrdemCadastrar";
-            BtnReprovarOrcamentoOrdemCadastrar.Size = new Size(124, 35);
+            BtnReprovarOrcamentoOrdemCadastrar.Size = new Size(120, 35);
             BtnReprovarOrcamentoOrdemCadastrar.TabIndex = 9;
             BtnReprovarOrcamentoOrdemCadastrar.Text = "Reprovar";
             BtnReprovarOrcamentoOrdemCadastrar.UseVisualStyleBackColor = false;
@@ -258,9 +284,9 @@
             // 
             BtnNovoOrcamentoOrdemCadastrar.BackColor = SystemColors.ControlLight;
             BtnNovoOrcamentoOrdemCadastrar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnNovoOrcamentoOrdemCadastrar.Location = new Point(11, 13);
+            BtnNovoOrcamentoOrdemCadastrar.Location = new Point(6, 11);
             BtnNovoOrcamentoOrdemCadastrar.Name = "BtnNovoOrcamentoOrdemCadastrar";
-            BtnNovoOrcamentoOrdemCadastrar.Size = new Size(124, 35);
+            BtnNovoOrcamentoOrdemCadastrar.Size = new Size(120, 35);
             BtnNovoOrcamentoOrdemCadastrar.TabIndex = 5;
             BtnNovoOrcamentoOrdemCadastrar.Text = "Novo";
             BtnNovoOrcamentoOrdemCadastrar.UseVisualStyleBackColor = false;
@@ -270,25 +296,25 @@
             // 
             BtnAprovarOrcamentoOrdemCadastrar.BackColor = SystemColors.ControlLight;
             BtnAprovarOrcamentoOrdemCadastrar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnAprovarOrcamentoOrdemCadastrar.Location = new Point(479, 13);
+            BtnAprovarOrcamentoOrdemCadastrar.Location = new Point(394, 11);
             BtnAprovarOrcamentoOrdemCadastrar.Name = "BtnAprovarOrcamentoOrdemCadastrar";
-            BtnAprovarOrcamentoOrdemCadastrar.Size = new Size(124, 35);
+            BtnAprovarOrcamentoOrdemCadastrar.Size = new Size(120, 35);
             BtnAprovarOrcamentoOrdemCadastrar.TabIndex = 8;
             BtnAprovarOrcamentoOrdemCadastrar.Text = "Aprovar";
             BtnAprovarOrcamentoOrdemCadastrar.UseVisualStyleBackColor = false;
             BtnAprovarOrcamentoOrdemCadastrar.Click += BtnAprovarOrcamentoOrdemCadastrar_Click;
             // 
-            // BtnEditarOrcamentoOrdemCadastrar
+            // BtnAbrirOrcamentoOrdemCadastrar
             // 
-            BtnEditarOrcamentoOrdemCadastrar.BackColor = SystemColors.ControlLight;
-            BtnEditarOrcamentoOrdemCadastrar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnEditarOrcamentoOrdemCadastrar.Location = new Point(167, 13);
-            BtnEditarOrcamentoOrdemCadastrar.Name = "BtnEditarOrcamentoOrdemCadastrar";
-            BtnEditarOrcamentoOrdemCadastrar.Size = new Size(124, 35);
-            BtnEditarOrcamentoOrdemCadastrar.TabIndex = 6;
-            BtnEditarOrcamentoOrdemCadastrar.Text = "Editar";
-            BtnEditarOrcamentoOrdemCadastrar.UseVisualStyleBackColor = false;
-            BtnEditarOrcamentoOrdemCadastrar.Click += BtnEditarOrcamentoOrdemCadastrar_Click;
+            BtnAbrirOrcamentoOrdemCadastrar.BackColor = SystemColors.ControlLight;
+            BtnAbrirOrcamentoOrdemCadastrar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
+            BtnAbrirOrcamentoOrdemCadastrar.Location = new Point(132, 11);
+            BtnAbrirOrcamentoOrdemCadastrar.Name = "BtnAbrirOrcamentoOrdemCadastrar";
+            BtnAbrirOrcamentoOrdemCadastrar.Size = new Size(120, 35);
+            BtnAbrirOrcamentoOrdemCadastrar.TabIndex = 6;
+            BtnAbrirOrcamentoOrdemCadastrar.Text = "Abrir";
+            BtnAbrirOrcamentoOrdemCadastrar.UseVisualStyleBackColor = false;
+            BtnAbrirOrcamentoOrdemCadastrar.Click += BtnEditarOrcamentoOrdemCadastrar_Click;
             // 
             // DgvOrcamentosCadastrarOrdem
             // 
@@ -376,7 +402,7 @@
         private Button BtnNovoClienteOrdemCadastrar;
         private Label LblDescricaoOrdemCadastrar;
         private Button BtnExcluirOrcamentoOrdemCadastrar;
-        private Button BtnEditarOrcamentoOrdemCadastrar;
+        private Button BtnAbrirOrcamentoOrdemCadastrar;
         private Button BtnNovoOrcamentoOrdemCadastrar;
         private DateTimePicker DateTimePickerEstimativaConclusao;
         private Panel PanelOrcamentosOrdemCadastrar;
@@ -386,5 +412,7 @@
         private Label LblInfoOrcamentos;
         private TextBox TxtVeiculoOrdemCadastrar;
         private ListBox LstSugestoesVeiculos;
+        private CheckBox ChkIncluirIvaCadastrarOrdem;
+        private Button BtnExportarOrcamentoOrdemCadastrar;
     }
 }

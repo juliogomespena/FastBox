@@ -48,4 +48,6 @@ public class OrdemDeServicoViewModel
     public virtual StatusOrdemDeServico StatusOrdemDeServico { get; set; } = null!;
 
     public virtual Veiculo? Veiculo { get; set; }
+
+    public bool IncluirIva {  get; set; }
 }

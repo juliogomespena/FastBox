@@ -124,7 +124,7 @@
             PicBoxLogo.BorderStyle = BorderStyle.Fixed3D;
             PicBoxLogo.Cursor = Cursors.Hand;
             PicBoxLogo.Dock = DockStyle.Left;
-            PicBoxLogo.Image = Properties.Resources.Ativo_13;
+            PicBoxLogo.Image = Properties.Resources.logo;
             PicBoxLogo.Location = new Point(0, 0);
             PicBoxLogo.Name = "PicBoxLogo";
             PicBoxLogo.Size = new Size(233, 75);

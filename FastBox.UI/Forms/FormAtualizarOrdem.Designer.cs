@@ -30,6 +30,7 @@
         {
             LblClienteOrdemAtualizar = new Label();
             PanelInfoOrdemAtualizar = new Panel();
+            ChkIncluirIvaAtualizarOrdem = new CheckBox();
             TxtVeiculoOrdemAtualizar = new TextBox();
             LblPrazoEstimadoOrdemAtualizar = new Label();
             LblInfoOrcamentos = new Label();
@@ -41,6 +42,7 @@
             LblVeiculoOrdemAtualizar = new Label();
             TxtClienteOrdemAtualizar = new TextBox();
             PanelOrcamentosOrdemAtualizar = new Panel();
+            BtnExportarOrcamentoOrdemAtualizar = new Button();
             BtnExcluirOrcamentoOrdemAtualizar = new Button();
             BtnReprovarOrcamentoOrdemAtualizar = new Button();
             BtnNovoOrcamentoOrdemAtualizar = new Button();
@@ -67,6 +69,7 @@
             // PanelInfoOrdemAtualizar
             // 
             PanelInfoOrdemAtualizar.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrdemAtualizar.Controls.Add(ChkIncluirIvaAtualizarOrdem);
             PanelInfoOrdemAtualizar.Controls.Add(TxtVeiculoOrdemAtualizar);
             PanelInfoOrdemAtualizar.Controls.Add(LblPrazoEstimadoOrdemAtualizar);
             PanelInfoOrdemAtualizar.Controls.Add(LblInfoOrcamentos);
@@ -83,6 +86,16 @@
             PanelInfoOrdemAtualizar.Name = "PanelInfoOrdemAtualizar";
             PanelInfoOrdemAtualizar.Size = new Size(778, 463);
             PanelInfoOrdemAtualizar.TabIndex = 10;
+            // 
+            // ChkIncluirIvaAtualizarOrdem
+            // 
+            ChkIncluirIvaAtualizarOrdem.AutoSize = true;
+            ChkIncluirIvaAtualizarOrdem.Location = new Point(347, 186);
+            ChkIncluirIvaAtualizarOrdem.Name = "ChkIncluirIvaAtualizarOrdem";
+            ChkIncluirIvaAtualizarOrdem.Size = new Size(83, 21);
+            ChkIncluirIvaAtualizarOrdem.TabIndex = 102;
+            ChkIncluirIvaAtualizarOrdem.Text = "Incluir IVA";
+            ChkIncluirIvaAtualizarOrdem.UseVisualStyleBackColor = true;
             // 
             // TxtVeiculoOrdemAtualizar
             // 
@@ -191,6 +204,7 @@
             // PanelOrcamentosOrdemAtualizar
             // 
             PanelOrcamentosOrdemAtualizar.BorderStyle = BorderStyle.Fixed3D;
+            PanelOrcamentosOrdemAtualizar.Controls.Add(BtnExportarOrcamentoOrdemAtualizar);
             PanelOrcamentosOrdemAtualizar.Controls.Add(BtnExcluirOrcamentoOrdemAtualizar);
             PanelOrcamentosOrdemAtualizar.Controls.Add(BtnReprovarOrcamentoOrdemAtualizar);
             PanelOrcamentosOrdemAtualizar.Controls.Add(BtnNovoOrcamentoOrdemAtualizar);
@@ -202,13 +216,25 @@
             PanelOrcamentosOrdemAtualizar.Size = new Size(778, 239);
             PanelOrcamentosOrdemAtualizar.TabIndex = 31;
             // 
+            // BtnExportarOrcamentoOrdemAtualizar
+            // 
+            BtnExportarOrcamentoOrdemAtualizar.BackColor = SystemColors.ControlLight;
+            BtnExportarOrcamentoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
+            BtnExportarOrcamentoOrdemAtualizar.Location = new Point(646, 11);
+            BtnExportarOrcamentoOrdemAtualizar.Name = "BtnExportarOrcamentoOrdemAtualizar";
+            BtnExportarOrcamentoOrdemAtualizar.Size = new Size(120, 35);
+            BtnExportarOrcamentoOrdemAtualizar.TabIndex = 11;
+            BtnExportarOrcamentoOrdemAtualizar.Text = "Exportar";
+            BtnExportarOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
+            BtnExportarOrcamentoOrdemAtualizar.Click += BtnExportarOrcamentoOrdemAtualizar_Click;
+            // 
             // BtnExcluirOrcamentoOrdemAtualizar
             // 
             BtnExcluirOrcamentoOrdemAtualizar.BackColor = SystemColors.ControlLight;
             BtnExcluirOrcamentoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnExcluirOrcamentoOrdemAtualizar.Location = new Point(323, 13);
+            BtnExcluirOrcamentoOrdemAtualizar.Location = new Point(258, 11);
             BtnExcluirOrcamentoOrdemAtualizar.Name = "BtnExcluirOrcamentoOrdemAtualizar";
-            BtnExcluirOrcamentoOrdemAtualizar.Size = new Size(124, 35);
+            BtnExcluirOrcamentoOrdemAtualizar.Size = new Size(120, 35);
             BtnExcluirOrcamentoOrdemAtualizar.TabIndex = 7;
             BtnExcluirOrcamentoOrdemAtualizar.Text = "Excluir";
             BtnExcluirOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
@@ -218,9 +244,9 @@
             // 
             BtnReprovarOrcamentoOrdemAtualizar.BackColor = SystemColors.ControlLight;
             BtnReprovarOrcamentoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnReprovarOrcamentoOrdemAtualizar.Location = new Point(635, 13);
+            BtnReprovarOrcamentoOrdemAtualizar.Location = new Point(520, 11);
             BtnReprovarOrcamentoOrdemAtualizar.Name = "BtnReprovarOrcamentoOrdemAtualizar";
-            BtnReprovarOrcamentoOrdemAtualizar.Size = new Size(124, 35);
+            BtnReprovarOrcamentoOrdemAtualizar.Size = new Size(120, 35);
             BtnReprovarOrcamentoOrdemAtualizar.TabIndex = 9;
             BtnReprovarOrcamentoOrdemAtualizar.Text = "Reprovar";
             BtnReprovarOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
@@ -230,9 +256,9 @@
             // 
             BtnNovoOrcamentoOrdemAtualizar.BackColor = SystemColors.ControlLight;
             BtnNovoOrcamentoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnNovoOrcamentoOrdemAtualizar.Location = new Point(11, 13);
+            BtnNovoOrcamentoOrdemAtualizar.Location = new Point(6, 11);
             BtnNovoOrcamentoOrdemAtualizar.Name = "BtnNovoOrcamentoOrdemAtualizar";
-            BtnNovoOrcamentoOrdemAtualizar.Size = new Size(124, 35);
+            BtnNovoOrcamentoOrdemAtualizar.Size = new Size(120, 35);
             BtnNovoOrcamentoOrdemAtualizar.TabIndex = 5;
             BtnNovoOrcamentoOrdemAtualizar.Text = "Novo";
             BtnNovoOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
@@ -242,9 +268,9 @@
             // 
             BtnAprovarOrcamentoOrdemAtualizar.BackColor = SystemColors.ControlLight;
             BtnAprovarOrcamentoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnAprovarOrcamentoOrdemAtualizar.Location = new Point(479, 13);
+            BtnAprovarOrcamentoOrdemAtualizar.Location = new Point(394, 11);
             BtnAprovarOrcamentoOrdemAtualizar.Name = "BtnAprovarOrcamentoOrdemAtualizar";
-            BtnAprovarOrcamentoOrdemAtualizar.Size = new Size(124, 35);
+            BtnAprovarOrcamentoOrdemAtualizar.Size = new Size(120, 35);
             BtnAprovarOrcamentoOrdemAtualizar.TabIndex = 8;
             BtnAprovarOrcamentoOrdemAtualizar.Text = "Aprovar";
             BtnAprovarOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
@@ -254,9 +280,9 @@
             // 
             BtnAbrirOrcamentoOrdemAtualizar.BackColor = SystemColors.ControlLight;
             BtnAbrirOrcamentoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnAbrirOrcamentoOrdemAtualizar.Location = new Point(167, 13);
+            BtnAbrirOrcamentoOrdemAtualizar.Location = new Point(132, 11);
             BtnAbrirOrcamentoOrdemAtualizar.Name = "BtnAbrirOrcamentoOrdemAtualizar";
-            BtnAbrirOrcamentoOrdemAtualizar.Size = new Size(124, 35);
+            BtnAbrirOrcamentoOrdemAtualizar.Size = new Size(120, 35);
             BtnAbrirOrcamentoOrdemAtualizar.TabIndex = 6;
             BtnAbrirOrcamentoOrdemAtualizar.Text = "Abrir";
             BtnAbrirOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
@@ -356,5 +382,7 @@
         private Label LblPrazoEstimadoOrdemAtualizar;
         private Label LblInfoOrcamentos;
         private TextBox TxtVeiculoOrdemAtualizar;
+        private CheckBox ChkIncluirIvaAtualizarOrdem;
+        private Button BtnExportarOrcamentoOrdemAtualizar;
     }
 }

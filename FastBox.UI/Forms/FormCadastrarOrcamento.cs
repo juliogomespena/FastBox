@@ -104,9 +104,9 @@ public partial class FormCadastrarOrcamento : Form
         DgvOrcamentosCadastro.Columns["CustoTotal"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosCadastro.Columns["Lucro"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosCadastro.Columns["Descricao"].HeaderText = "Item";
-        DgvOrcamentosCadastro.Columns["PrecoUnitario"].HeaderText = "Custo";
-        DgvOrcamentosCadastro.Columns["ValorUnitario"].HeaderText = "Valor";
-        DgvOrcamentosCadastro.Columns["ValorTotal"].HeaderText = "Valor total";
+        DgvOrcamentosCadastro.Columns["PrecoUnitario"].HeaderText = "Custo unitário";
+        DgvOrcamentosCadastro.Columns["ValorUnitario"].HeaderText = "Venda unitário";
+        DgvOrcamentosCadastro.Columns["ValorTotal"].HeaderText = "Venda total";
         DgvOrcamentosCadastro.Columns["CustoTotal"].HeaderText = "Custo total";
         DgvOrcamentosCadastro.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         DgvOrcamentosCadastro.MultiSelect = false;

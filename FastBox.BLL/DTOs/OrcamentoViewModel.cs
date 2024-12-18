@@ -32,11 +32,19 @@ namespace FastBox.BLL.DTOs
 
         public int NumeroDeItens => ItensOrcamento.Count();
 
-        public decimal CustoTotal => Math.Round(ItensOrcamento.Sum(i => i.CustoTotal), 2, MidpointRounding.AwayFromZero);
+        public decimal CustoPecas => Math.Round(ItensOrcamento.Where(i => i.Descricao != "Mão de obra").Sum(i => i.CustoTotal), 2, MidpointRounding.AwayFromZero);
         
-        public decimal ValorTotal => Math.Round(ItensOrcamento.Sum(i => i.ValorTotal), 2, MidpointRounding.AwayFromZero); 
+        public decimal VendaPecas => Math.Round(ItensOrcamento.Where(i => i.Descricao != "Mão de obra").Sum(i => i.ValorTotal), 2, MidpointRounding.AwayFromZero); 
 
-        public decimal LucroTotal => Math.Round(ItensOrcamento.Sum(i => i.Lucro), 2, MidpointRounding.AwayFromZero);
+        public decimal LucroPecas => Math.Round(ItensOrcamento.Where(i => i.Descricao != "Mão de obra").Sum(i => i.Lucro), 2, MidpointRounding.AwayFromZero);
+
+        public decimal MaoDeObra => Math.Round(ItensOrcamento.Where(i => i.Descricao == "Mão de obra").Sum(i => i.Lucro), 2, MidpointRounding.AwayFromZero);
+
+        public decimal VendaTotal => Math.Round(VendaPecas + MaoDeObra, 2, MidpointRounding.AwayFromZero);
+
+        public decimal IVA => Math.Round(VendaTotal * (decimal)0.23, 2, MidpointRounding.AwayFromZero);
+
+        public decimal LucroTotal => Math.Round(VendaTotal - CustoPecas, 2, MidpointRounding.AwayFromZero);
 
         public virtual OrdemDeServico OrdemDeServico { get; set; } = null!;
 

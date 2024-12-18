@@ -242,6 +242,8 @@ public partial class FastBoxDbContext : DbContext
                 .HasDefaultValueSql("(NULL)");
             entity.Property(e => e.ValorTotal).HasColumnType("decimal(10, 2)")
                 .HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.IncluirIva)
+            .HasDefaultValue(false);
             entity.Property(e => e.Descricao).HasMaxLength(255);
             entity.Property(e => e.GarantiaEmDias).HasDefaultValueSql("(NULL)");
             entity.Property(e => e.ObservacoesGarantia).HasMaxLength(255);

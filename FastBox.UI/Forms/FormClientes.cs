@@ -212,7 +212,7 @@ public partial class FormClientes : Form
             Telemovel = TspTxtTelemovel.Text == "Telemóvel" ? null : TspTxtTelemovel.Text,
             Email = TspTxtEmail.Text == "Email" ? null : TspTxtEmail.Text,
             DataCadastroInicio = DateTime.TryParse(TspTxtDataInicial.Text, out DateTime inicioData)? new DateTime(inicioData.Year, inicioData.Month, inicioData.Day, inicioData.Hour, inicioData.Minute, 0) : null,
-            DataCadastroFim = DateTime.TryParse(TspTxtDataFinal.Text, out DateTime fimData) ? new DateTime(fimData.Year, fimData.Month, fimData.Day, fimData.Hour, fimData.Minute, 59) : null,
+            DataCadastroFim = DateTime.TryParse(TspTxtDataFinal.Text, out DateTime fimData) ? new DateTime(fimData.Year, fimData.Month, fimData.Day, 23, 59, 59) : null,
             MatriculaVeiculo = TspTxtMatricula.Text == "Matrícula" ? null : TspTxtMatricula.Text,
             EnderecoCompleto = TspTxtEndereco.Text == "Endereço" ? null : TspTxtEndereco.Text,
         };

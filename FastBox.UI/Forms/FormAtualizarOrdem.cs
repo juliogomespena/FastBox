@@ -51,7 +51,7 @@ public partial class FormAtualizarOrdem : Form
                 Descricao = RTxtDescricaoOrdemAtualizar.Text.Trim(),
                 DataAbertura = OrdemDeServicoAtual.DataAbertura,
                 EstimativaConclusao = DateTimePickerEstimativaConclusao.Value,
-                ValorTotal = _orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade),
+                IncluirIva = ChkIncluirIvaAtualizarOrdem.Checked,
                 Orcamentos = _orcamentos.Select(orcamento => new Orcamento
                 {
                     OrcamentoId = orcamento.OrcamentoId,
@@ -136,6 +136,7 @@ public partial class FormAtualizarOrdem : Form
             BtnExcluirOrcamentoOrdemAtualizar.Enabled = false;
             BtnReprovarOrcamentoOrdemAtualizar.Enabled = false;
             BtnAtualizarOrdem.Enabled = false;
+            ChkIncluirIvaAtualizarOrdem.Enabled = false;
         }
 
         _clienteId = OrdemDeServicoAtual.ClienteId;
@@ -144,6 +145,7 @@ public partial class FormAtualizarOrdem : Form
         TxtVeiculoOrdemAtualizar.Text = OrdemDeServicoAtual.ModeloMatricula;
         RTxtDescricaoOrdemAtualizar.Text = OrdemDeServicoAtual.Descricao;
         DateTimePickerEstimativaConclusao.Value = OrdemDeServicoAtual.EstimativaConclusao ?? DateTime.Now;
+        ChkIncluirIvaAtualizarOrdem.Checked = OrdemDeServicoAtual.IncluirIva;
         _orcamentos = OrdemDeServicoAtual.Orcamentos.Select(orcamento => new OrcamentoViewModel
         {
             OrcamentoId = orcamento.OrcamentoId,
@@ -225,16 +227,23 @@ public partial class FormAtualizarOrdem : Form
         DgvOrcamentosAtualizarOrdem.Columns["OrdemDeServico"].Visible = false;
         DgvOrcamentosAtualizarOrdem.Columns["ItensOrcamento"].Visible = false;
         DgvOrcamentosAtualizarOrdem.Columns["StatusOrcamento"].Visible = false;
-        DgvOrcamentosAtualizarOrdem.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
-        DgvOrcamentosAtualizarOrdem.Columns["CustoTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizarOrdem.Columns["Descricao"].Visible = false;
+        DgvOrcamentosAtualizarOrdem.Columns["VendaPecas"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizarOrdem.Columns["CustoPecas"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizarOrdem.Columns["LucroPecas"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizarOrdem.Columns["MaoDeObra"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizarOrdem.Columns["VendaTotal"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].DefaultCellStyle.Format = "C2";
+        DgvOrcamentosAtualizarOrdem.Columns["IVA"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizarOrdem.Columns["Numero"].HeaderText = "Número";
         DgvOrcamentosAtualizarOrdem.Columns["DataCriacao"].HeaderText = "Data de criação";
-        DgvOrcamentosAtualizarOrdem.Columns["Descricao"].HeaderText = "Descrição";
         DgvOrcamentosAtualizarOrdem.Columns["NumeroDeItens"].HeaderText = "Itens";
-        DgvOrcamentosAtualizarOrdem.Columns["CustoTotal"].HeaderText = "Custo";
-        DgvOrcamentosAtualizarOrdem.Columns["ValorTotal"].HeaderText = "Valor";
-        DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].HeaderText = "Lucro";
+        DgvOrcamentosAtualizarOrdem.Columns["CustoPecas"].HeaderText = "Custo peças";
+        DgvOrcamentosAtualizarOrdem.Columns["VendaPecas"].HeaderText = "Venda peças";
+        DgvOrcamentosAtualizarOrdem.Columns["LucroPecas"].HeaderText = "Lucro peças";
+        DgvOrcamentosAtualizarOrdem.Columns["MaoDeObra"].HeaderText = "Mão de obra";
+        DgvOrcamentosAtualizarOrdem.Columns["VendaTotal"].HeaderText = "Venda total";
+        DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].HeaderText = "Lucro total";
         DgvOrcamentosAtualizarOrdem.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         DgvOrcamentosAtualizarOrdem.MultiSelect = false;
     }
@@ -275,7 +284,7 @@ public partial class FormAtualizarOrdem : Form
                 var frmAtualizarOrcamento = _serviceProvider.GetRequiredService<FormAtualizarOrcamento>();
                 frmAtualizarOrcamento.OrcamentoAtual = orcamentoSelecionado;
 
-                if(OrdemDeServicoAtual.StatusOrdemDeServicoId == 7)
+                if (OrdemDeServicoAtual.StatusOrdemDeServicoId == 7)
                     frmAtualizarOrcamento.IsOrdemCancelled = true;
 
                 var result = frmAtualizarOrcamento.ShowDialog();
@@ -292,7 +301,7 @@ public partial class FormAtualizarOrdem : Form
                 }
                 else
                 {
-                    if(frmAtualizarOrcamento.IsOrdemCancelled == false)
+                    if (frmAtualizarOrcamento.IsOrdemCancelled == false)
                         MessageBox.Show("As alterações no orçamento não foram salvas!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
@@ -381,6 +390,54 @@ public partial class FormAtualizarOrdem : Form
         else
         {
             MessageBox.Show("Selecione um orçamento para reprovar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+    }
+
+    private async void BtnExportarOrcamentoOrdemAtualizar_Click(object sender, EventArgs e)
+    {
+        if (DgvOrcamentosAtualizarOrdem.SelectedRows.Count == 0)
+        {
+            MessageBox.Show("Selecione um orçamento para exportar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+        {
+            long orcamentoId = (long)DgvOrcamentosAtualizarOrdem.SelectedRows[0].Cells["OrcamentoId"].Value;
+            var orcamento = _orcamentos.FirstOrDefault(o => o.OrcamentoId == orcamentoId);
+            if (orcamento != null)
+            {
+                VeiculoViewModel veiculo = new();
+
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    if (_veiculoId != null)
+                    {
+                        var veiculoService = scope.ServiceProvider.GetRequiredService<IVeiculoService>();
+                        veiculo = await veiculoService.GetVeiculoByIdAsync((long)_veiculoId);
+                    }
+
+                }
+                saveFileDialog.Filter = "PDF Files (*.pdf)|*.pdf";
+                saveFileDialog.Title = "Salvar orçamento como PDF";
+                saveFileDialog.FileName = $"Orçamento Nº{orcamento.Numero} {veiculo.ModeloMatricula} {orcamento.DataCriacao:dd-MM-yyyy}";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = saveFileDialog.FileName;
+
+
+                    try
+                    {
+                        PDF.GenerateOrcamento(orcamento, filePath);
+                        MessageBox.Show("Orçamento exportado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao exportar PDF: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }

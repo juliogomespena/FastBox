@@ -2,6 +2,7 @@ using FastBox.BLL.Services;
 using FastBox.DAL;
 using FastBox.UI.Helper;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 namespace FastBox.UI
 {
@@ -13,6 +14,14 @@ namespace FastBox.UI
         [STAThread]
         static void Main()
         {
+            var cultureInfo = new CultureInfo("pt-PT");
+
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

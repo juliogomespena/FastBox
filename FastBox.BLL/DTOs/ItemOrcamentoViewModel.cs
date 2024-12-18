@@ -27,7 +27,16 @@ namespace FastBox.BLL.DTOs
 
         public decimal ValorTotal => Math.Round(ValorUnitario * Quantidade, 2, MidpointRounding.AwayFromZero);
 
-        public decimal Lucro => Math.Round(ValorTotal - CustoTotal, 2, MidpointRounding.AwayFromZero);
+        public decimal Lucro 
+        {
+            get
+            {
+                if(Descricao == "Mão de obra")
+                    return Math.Round(ValorTotal, 2, MidpointRounding.AwayFromZero);
+                else
+                    return Math.Round(ValorTotal - CustoTotal, 2, MidpointRounding.AwayFromZero);
+            }
+        }
 
         public decimal Margem 
         {  

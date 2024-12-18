@@ -22,6 +22,8 @@ public partial class OrdemDeServico
 
     public decimal? ValorTotal { get; set; }
 
+    public bool IncluirIva { get; set; }
+
     public int? GarantiaEmDias { get; set; }
 
     public string? ObservacoesGarantia { get; set; }

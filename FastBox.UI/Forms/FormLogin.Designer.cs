@@ -87,7 +87,7 @@
             // 
             // PicBoxLogo
             // 
-            PicBoxLogo.Image = Properties.Resources.Ativo_13;
+            PicBoxLogo.Image = Properties.Resources.logo;
             PicBoxLogo.Location = new Point(59, 9);
             PicBoxLogo.Name = "PicBoxLogo";
             PicBoxLogo.Size = new Size(185, 101);
