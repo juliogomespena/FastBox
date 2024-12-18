@@ -45,7 +45,7 @@
             BtnReprovarOrcamentoOrdemAtualizar = new Button();
             BtnNovoOrcamentoOrdemAtualizar = new Button();
             BtnAprovarOrcamentoOrdemAtualizar = new Button();
-            BtnEditarOrcamentoOrdemAtualizar = new Button();
+            BtnAbrirOrcamentoOrdemAtualizar = new Button();
             DgvOrcamentosAtualizarOrdem = new DataGridView();
             LblInfoOrdemAtualizar = new Label();
             BtnAtualizarOrdem = new Button();
@@ -195,7 +195,7 @@
             PanelOrcamentosOrdemAtualizar.Controls.Add(BtnReprovarOrcamentoOrdemAtualizar);
             PanelOrcamentosOrdemAtualizar.Controls.Add(BtnNovoOrcamentoOrdemAtualizar);
             PanelOrcamentosOrdemAtualizar.Controls.Add(BtnAprovarOrcamentoOrdemAtualizar);
-            PanelOrcamentosOrdemAtualizar.Controls.Add(BtnEditarOrcamentoOrdemAtualizar);
+            PanelOrcamentosOrdemAtualizar.Controls.Add(BtnAbrirOrcamentoOrdemAtualizar);
             PanelOrcamentosOrdemAtualizar.Controls.Add(DgvOrcamentosAtualizarOrdem);
             PanelOrcamentosOrdemAtualizar.Location = new Point(-2, 222);
             PanelOrcamentosOrdemAtualizar.Name = "PanelOrcamentosOrdemAtualizar";
@@ -250,17 +250,17 @@
             BtnAprovarOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
             BtnAprovarOrcamentoOrdemAtualizar.Click += BtnAprovarOrcamentoOrdemAtualizar_Click;
             // 
-            // BtnEditarOrcamentoOrdemAtualizar
+            // BtnAbrirOrcamentoOrdemAtualizar
             // 
-            BtnEditarOrcamentoOrdemAtualizar.BackColor = SystemColors.ControlLight;
-            BtnEditarOrcamentoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnEditarOrcamentoOrdemAtualizar.Location = new Point(167, 13);
-            BtnEditarOrcamentoOrdemAtualizar.Name = "BtnEditarOrcamentoOrdemAtualizar";
-            BtnEditarOrcamentoOrdemAtualizar.Size = new Size(124, 35);
-            BtnEditarOrcamentoOrdemAtualizar.TabIndex = 6;
-            BtnEditarOrcamentoOrdemAtualizar.Text = "Editar";
-            BtnEditarOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
-            BtnEditarOrcamentoOrdemAtualizar.Click += BtnEditarOrcamentoOrdemAtualizar_Click;
+            BtnAbrirOrcamentoOrdemAtualizar.BackColor = SystemColors.ControlLight;
+            BtnAbrirOrcamentoOrdemAtualizar.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
+            BtnAbrirOrcamentoOrdemAtualizar.Location = new Point(167, 13);
+            BtnAbrirOrcamentoOrdemAtualizar.Name = "BtnAbrirOrcamentoOrdemAtualizar";
+            BtnAbrirOrcamentoOrdemAtualizar.Size = new Size(124, 35);
+            BtnAbrirOrcamentoOrdemAtualizar.TabIndex = 6;
+            BtnAbrirOrcamentoOrdemAtualizar.Text = "Abrir";
+            BtnAbrirOrcamentoOrdemAtualizar.UseVisualStyleBackColor = false;
+            BtnAbrirOrcamentoOrdemAtualizar.Click += BtnEditarOrcamentoOrdemAtualizar_Click;
             // 
             // DgvOrcamentosAtualizarOrdem
             // 
@@ -347,7 +347,7 @@
         private Button BtnNovoClienteOrdemAtualizar;
         private Label LblDescricaoOrdemAtualizar;
         private Button BtnExcluirOrcamentoOrdemAtualizar;
-        private Button BtnEditarOrcamentoOrdemAtualizar;
+        private Button BtnAbrirOrcamentoOrdemAtualizar;
         private Button BtnNovoOrcamentoOrdemAtualizar;
         private DateTimePicker DateTimePickerEstimativaConclusao;
         private Panel PanelOrcamentosOrdemAtualizar;

@@ -86,6 +86,8 @@ public partial class FormCadastrarOrcamento : Form
     private void FormCadastrarOrcamento_Load(object sender, EventArgs e)
     {
         LoadItemsIntoDgvOrcamentoCadastro();
+        TxtPrecoUnitarioFinalCadastroOrcamento.Text = 0.ToString("C2");
+        TxtPrecoFinalTotalCadastroOrcamento.Text = 0.ToString("C2");
     }
 
     private void LoadItemsIntoDgvOrcamentoCadastro()
@@ -167,7 +169,7 @@ public partial class FormCadastrarOrcamento : Form
 
             decimal precoUnitario = decimal.TryParse(TxtPrecoUnitarioCadastroOrcamento.Text.Replace('.', ','), out decimal precoUnitarioValue) ? precoUnitarioValue : 0;
 
-            TxtPrecoUnitarioFinalCadastroOrcamento.Text = (precoUnitario + (precoUnitario * margem)).ToString("F2");
+            TxtPrecoUnitarioFinalCadastroOrcamento.Text = (precoUnitario + (precoUnitario * margem)).ToString("C2");
         }
         if (!String.IsNullOrWhiteSpace(TxtPrecoUnitarioCadastroOrcamento.Text) && !String.IsNullOrWhiteSpace(TxtMargemCadastroOrdem.Text) && !String.IsNullOrWhiteSpace(TxtQuantidadeCadastroOrcamento.Text))
         {
@@ -178,7 +180,7 @@ public partial class FormCadastrarOrcamento : Form
 
             int quantidade = int.TryParse(TxtQuantidadeCadastroOrcamento.Text, out int qtd) ? qtd : 0;
 
-            TxtPrecoFinalTotalCadastroOrcamento.Text = ((precoUnitario + (precoUnitario * margem)) * quantidade).ToString("F2");
+            TxtPrecoFinalTotalCadastroOrcamento.Text = ((precoUnitario + (precoUnitario * margem)) * quantidade).ToString("C2");
         }
     }
 
@@ -221,5 +223,16 @@ public partial class FormCadastrarOrcamento : Form
 
         TxtItemCadastroOrcamento.Text = ChkMaoDeObra.Checked ? "Mão de obra" : "";
         TxtMargemCadastroOrdem.Text = ChkMaoDeObra.Checked ? "0" : "";
+    }
+
+    private void TxtPrecoUnitarioCadastroOrcamento_TextChanged(object sender, EventArgs e)
+    {
+        if (ChkMaoDeObra.Checked == true)
+        {
+            decimal precoUnitario = decimal.TryParse(TxtPrecoUnitarioCadastroOrcamento.Text.Replace('.', ','), out decimal precoUnitarioValue) ? precoUnitarioValue : 0;
+            int quantidade = int.TryParse(TxtQuantidadeCadastroOrcamento.Text, out int qtd) ? qtd : 0;
+            TxtPrecoUnitarioFinalCadastroOrcamento.Text = precoUnitario.ToString("C2");
+            TxtPrecoFinalTotalCadastroOrcamento.Text = (precoUnitario * quantidade).ToString("C2");
+        }
     }
 }

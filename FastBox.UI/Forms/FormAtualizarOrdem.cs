@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 using System.ComponentModel;
 using System.Configuration;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Printing;
 using System.Runtime.Intrinsics.Arm;
 using System.Text.RegularExpressions;
@@ -122,6 +123,21 @@ public partial class FormAtualizarOrdem : Form
 
     private void FormAtualizarOrdem_Load(object sender, EventArgs e)
     {
+        if (OrdemDeServicoAtual.StatusOrdemDeServicoId == 7 || OrdemDeServicoAtual.StatusOrdemDeServicoId == 6 || OrdemDeServicoAtual.StatusOrdemDeServicoId == 5)
+        {
+            TxtClienteOrdemAtualizar.Enabled = false;
+            TxtVeiculoOrdemAtualizar.Enabled = false;
+            RTxtDescricaoOrdemAtualizar.Enabled = false;
+            DateTimePickerEstimativaConclusao.Enabled = false;
+            BtnNovoClienteOrdemAtualizar.Enabled = false;
+            BtnNovoVeiculoOrdemAtualizar.Enabled = false;
+            BtnNovoOrcamentoOrdemAtualizar.Enabled = false;
+            BtnAprovarOrcamentoOrdemAtualizar.Enabled = false;
+            BtnExcluirOrcamentoOrdemAtualizar.Enabled = false;
+            BtnReprovarOrcamentoOrdemAtualizar.Enabled = false;
+            BtnAtualizarOrdem.Enabled = false;
+        }
+
         _clienteId = OrdemDeServicoAtual.ClienteId;
         _veiculoId = OrdemDeServicoAtual.VeiculoId;
         TxtClienteOrdemAtualizar.Text = OrdemDeServicoAtual.NomeCliente;
@@ -259,6 +275,9 @@ public partial class FormAtualizarOrdem : Form
                 var frmAtualizarOrcamento = _serviceProvider.GetRequiredService<FormAtualizarOrcamento>();
                 frmAtualizarOrcamento.OrcamentoAtual = orcamentoSelecionado;
 
+                if(OrdemDeServicoAtual.StatusOrdemDeServicoId == 7)
+                    frmAtualizarOrcamento.IsOrdemCancelled = true;
+
                 var result = frmAtualizarOrcamento.ShowDialog();
 
                 if (result == DialogResult.OK && frmAtualizarOrcamento.OrcamentoAtual != null)
@@ -272,7 +291,10 @@ public partial class FormAtualizarOrdem : Form
                     LoadOrcamentosIntoDgvOrcamentosAtualizarOrdem();
                 }
                 else
-                    MessageBox.Show("As alterações no orçamento não foram salvas!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                {
+                    if(frmAtualizarOrcamento.IsOrdemCancelled == false)
+                        MessageBox.Show("As alterações no orçamento não foram salvas!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
         else

@@ -30,6 +30,7 @@
         {
             LblItemAtualizarOrcamento = new Label();
             PanelInfoOrcamentoAtualizar = new Panel();
+            ChkMaoDeObra = new CheckBox();
             LblDescricaoAtualizarOrcamento = new Label();
             panel1 = new Panel();
             RTxtDescricaoAtualizarOrcamento = new RichTextBox();
@@ -49,7 +50,6 @@
             TxtItemAtualizarOrcamento = new TextBox();
             LblInfoOrcamentoAtualizar = new Label();
             BtnAtualizarOrcamento = new Button();
-            ChkMaoDeObra = new CheckBox();
             PanelInfoOrcamentoAtualizar.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvOrcamentosAtualizar).BeginInit();
@@ -90,6 +90,17 @@
             PanelInfoOrcamentoAtualizar.Name = "PanelInfoOrcamentoAtualizar";
             PanelInfoOrcamentoAtualizar.Size = new Size(778, 463);
             PanelInfoOrcamentoAtualizar.TabIndex = 10;
+            // 
+            // ChkMaoDeObra
+            // 
+            ChkMaoDeObra.AutoSize = true;
+            ChkMaoDeObra.Location = new Point(468, 20);
+            ChkMaoDeObra.Name = "ChkMaoDeObra";
+            ChkMaoDeObra.Size = new Size(105, 21);
+            ChkMaoDeObra.TabIndex = 39;
+            ChkMaoDeObra.Text = "Mão de obra";
+            ChkMaoDeObra.UseVisualStyleBackColor = true;
+            ChkMaoDeObra.CheckedChanged += ChkMaoDeObra_CheckedChanged;
             // 
             // LblDescricaoAtualizarOrcamento
             // 
@@ -187,6 +198,7 @@
             TxtPrecoUnitarioAtualizarOrcamento.Name = "TxtPrecoUnitarioAtualizarOrcamento";
             TxtPrecoUnitarioAtualizarOrcamento.Size = new Size(105, 33);
             TxtPrecoUnitarioAtualizarOrcamento.TabIndex = 3;
+            TxtPrecoUnitarioAtualizarOrcamento.TextChanged += TxtPrecoUnitarioAtualizarOrcamento_TextChanged;
             TxtPrecoUnitarioAtualizarOrcamento.KeyPress += TxtPrecoUnitarioAtualizarOrcamento_KeyPress;
             // 
             // LblPrecoUnitarioAtualizarOrcamento
@@ -288,17 +300,6 @@
             BtnAtualizarOrcamento.Text = "Atualizar orçamento";
             BtnAtualizarOrcamento.UseVisualStyleBackColor = false;
             BtnAtualizarOrcamento.Click += BtnAtualizarOrcamento_Click;
-            // 
-            // ChkMaoDeObra
-            // 
-            ChkMaoDeObra.AutoSize = true;
-            ChkMaoDeObra.Location = new Point(468, 20);
-            ChkMaoDeObra.Name = "ChkMaoDeObra";
-            ChkMaoDeObra.Size = new Size(105, 21);
-            ChkMaoDeObra.TabIndex = 39;
-            ChkMaoDeObra.Text = "Mão de obra";
-            ChkMaoDeObra.UseVisualStyleBackColor = true;
-            ChkMaoDeObra.CheckedChanged += ChkMaoDeObra_CheckedChanged;
             // 
             // FormAtualizarOrcamento
             // 

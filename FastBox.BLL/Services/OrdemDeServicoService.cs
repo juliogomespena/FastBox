@@ -5,6 +5,7 @@ using FastBox.DAL.Models;
 using FastBox.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.Runtime.Intrinsics.Arm;
 
 namespace FastBox.BLL.Services;
 
@@ -145,11 +146,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
     public async Task AddOrdemAsync(OrdemDeServicoViewModel ordem)
     {
-        var statusOrdemDeServicoId = 1;
-        if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
-            statusOrdemDeServicoId = 2;
-        else if (ordem.Orcamentos.All(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Count != 0)
-            statusOrdemDeServicoId = 3;
+        var statusOrdemDeServicoId = DetermineOrderStatus(ordem);
 
         var ordemConverted = new OrdemDeServico
         {
@@ -194,15 +191,15 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
     public async Task UpdateOrdemAsync(OrdemDeServicoViewModel ordem)
     {
+        if (ordem.StatusOrdemDeServicoId == 7)
+        {
+            foreach (var orcamento in ordem.Orcamentos) 
+                orcamento.StatusOrcamento = 3;
+        }
+
         OrdemDeServico? ordemExistente = null;
 
-        var statusOrdemDeServicoId = 1;
-        if (ordem.StatusOrdemDeServicoId > 3)
-            statusOrdemDeServicoId = (int)ordem.StatusOrdemDeServicoId;
-        else if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
-            statusOrdemDeServicoId = 2;
-        else if (ordem.Orcamentos.All(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Count != 0)
-            statusOrdemDeServicoId = 3;
+        var statusOrdemDeServicoId = DetermineOrderStatus(ordem);
 
         try
         {
@@ -213,6 +210,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
             if (ordemExistente == null)
                 throw new InvalidOperationException("Ordem de serviço não encontrada.");
+            if (ordemExistente.StatusOrdemDeServicoId == 7)
+                throw new InvalidOperationException("A ordem de serviço foi cancelada e não pode ser alterada.");
 
             ordemExistente.StatusOrdemDeServicoId = statusOrdemDeServicoId;
             ordemExistente.ClienteId = ordem.ClienteId;
@@ -320,5 +319,22 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
         await _ordemRepository.DeleteAsync(ordemExistente);
         _ordemRepository.DetachEntity(ordemExistente);
+    }
+
+    private int DetermineOrderStatus(OrdemDeServicoViewModel ordem)
+    {
+        var statusOrdemDeServicoId = 1;
+        if (ordem.StatusOrdemDeServicoId == 7)
+            statusOrdemDeServicoId = 7;
+        else if (ordem.StatusOrdemDeServicoId > 3)
+            statusOrdemDeServicoId = (int)ordem.StatusOrdemDeServicoId;
+        else if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Any(o => o.StatusOrcamento == 3))
+            statusOrdemDeServicoId = 3;
+        else if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
+            statusOrdemDeServicoId = 2;
+        else if (ordem.Orcamentos.All(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Count != 0)
+            statusOrdemDeServicoId = 3;
+
+        return statusOrdemDeServicoId;
     }
 }

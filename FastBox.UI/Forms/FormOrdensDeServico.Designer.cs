@@ -31,14 +31,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOrdensDeServico));
             DgvOrdensDeServico = new DataGridView();
             PanelOrdensDeServicoBotoes = new Panel();
+            BtnCancelar = new Button();
             BtnConcluirOrdem = new Button();
             BtnFinalizarServico = new Button();
             BtnRefresh = new Button();
             BtnNextPage = new Button();
             BtnPreviousPage = new Button();
             BtnExcluirOrdemDeServico = new Button();
-            BtnAtualizarOrdemDeServico = new Button();
-            BtnCadastrarOrdemDeServico = new Button();
+            BtnAbrirOrdemDeServico = new Button();
+            BtnNovaOrdemDeServico = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             TspBusca = new ToolStrip();
             TxtInfoTspBuscca = new ToolStripLabel();
@@ -79,19 +80,35 @@
             // PanelOrdensDeServicoBotoes
             // 
             PanelOrdensDeServicoBotoes.BackColor = SystemColors.ControlLight;
+            PanelOrdensDeServicoBotoes.Controls.Add(BtnCancelar);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnConcluirOrdem);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnFinalizarServico);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnRefresh);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnNextPage);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnPreviousPage);
             PanelOrdensDeServicoBotoes.Controls.Add(BtnExcluirOrdemDeServico);
-            PanelOrdensDeServicoBotoes.Controls.Add(BtnAtualizarOrdemDeServico);
-            PanelOrdensDeServicoBotoes.Controls.Add(BtnCadastrarOrdemDeServico);
+            PanelOrdensDeServicoBotoes.Controls.Add(BtnAbrirOrdemDeServico);
+            PanelOrdensDeServicoBotoes.Controls.Add(BtnNovaOrdemDeServico);
             PanelOrdensDeServicoBotoes.Dock = DockStyle.Fill;
             PanelOrdensDeServicoBotoes.Location = new Point(3, 614);
             PanelOrdensDeServicoBotoes.Name = "PanelOrdensDeServicoBotoes";
             PanelOrdensDeServicoBotoes.Size = new Size(1258, 64);
             PanelOrdensDeServicoBotoes.TabIndex = 1;
+            // 
+            // BtnCancelar
+            // 
+            BtnCancelar.Anchor = AnchorStyles.Left;
+            BtnCancelar.AutoEllipsis = true;
+            BtnCancelar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnCancelar.BackColor = SystemColors.ControlLight;
+            BtnCancelar.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnCancelar.Location = new Point(569, 6);
+            BtnCancelar.Name = "BtnCancelar";
+            BtnCancelar.Size = new Size(134, 55);
+            BtnCancelar.TabIndex = 8;
+            BtnCancelar.Text = "Cancelar";
+            BtnCancelar.UseVisualStyleBackColor = false;
+            BtnCancelar.Click += BtnCancelar_Click;
             // 
             // BtnConcluirOrdem
             // 
@@ -100,9 +117,9 @@
             BtnConcluirOrdem.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnConcluirOrdem.BackColor = SystemColors.ControlLight;
             BtnConcluirOrdem.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnConcluirOrdem.Location = new Point(579, 6);
+            BtnConcluirOrdem.Location = new Point(429, 6);
             BtnConcluirOrdem.Name = "BtnConcluirOrdem";
-            BtnConcluirOrdem.Size = new Size(184, 55);
+            BtnConcluirOrdem.Size = new Size(134, 55);
             BtnConcluirOrdem.TabIndex = 7;
             BtnConcluirOrdem.Text = "Concluir";
             BtnConcluirOrdem.UseVisualStyleBackColor = false;
@@ -115,11 +132,11 @@
             BtnFinalizarServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnFinalizarServico.BackColor = SystemColors.ControlLight;
             BtnFinalizarServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnFinalizarServico.Location = new Point(389, 6);
+            BtnFinalizarServico.Location = new Point(289, 6);
             BtnFinalizarServico.Name = "BtnFinalizarServico";
-            BtnFinalizarServico.Size = new Size(184, 55);
+            BtnFinalizarServico.Size = new Size(134, 55);
             BtnFinalizarServico.TabIndex = 6;
-            BtnFinalizarServico.Text = "Finalizar serviço";
+            BtnFinalizarServico.Text = "Retirada";
             BtnFinalizarServico.UseVisualStyleBackColor = false;
             BtnFinalizarServico.Click += BtnFinalizarServico_Click;
             // 
@@ -175,43 +192,43 @@
             BtnExcluirOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BtnExcluirOrdemDeServico.BackColor = SystemColors.ControlLight;
             BtnExcluirOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnExcluirOrdemDeServico.Location = new Point(769, 6);
+            BtnExcluirOrdemDeServico.Location = new Point(709, 6);
             BtnExcluirOrdemDeServico.Name = "BtnExcluirOrdemDeServico";
-            BtnExcluirOrdemDeServico.Size = new Size(184, 55);
+            BtnExcluirOrdemDeServico.Size = new Size(134, 55);
             BtnExcluirOrdemDeServico.TabIndex = 2;
             BtnExcluirOrdemDeServico.Text = "Excluir";
             BtnExcluirOrdemDeServico.UseVisualStyleBackColor = false;
             BtnExcluirOrdemDeServico.Click += BtnExcluirOrdemDeServico_Click;
             // 
-            // BtnAtualizarOrdemDeServico
+            // BtnAbrirOrdemDeServico
             // 
-            BtnAtualizarOrdemDeServico.Anchor = AnchorStyles.Left;
-            BtnAtualizarOrdemDeServico.AutoEllipsis = true;
-            BtnAtualizarOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BtnAtualizarOrdemDeServico.BackColor = SystemColors.ControlLight;
-            BtnAtualizarOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnAtualizarOrdemDeServico.Location = new Point(199, 6);
-            BtnAtualizarOrdemDeServico.Name = "BtnAtualizarOrdemDeServico";
-            BtnAtualizarOrdemDeServico.Size = new Size(184, 55);
-            BtnAtualizarOrdemDeServico.TabIndex = 1;
-            BtnAtualizarOrdemDeServico.Text = "Atualizar";
-            BtnAtualizarOrdemDeServico.UseVisualStyleBackColor = false;
-            BtnAtualizarOrdemDeServico.Click += BtnAtualizarOrdemDeServico_Click;
+            BtnAbrirOrdemDeServico.Anchor = AnchorStyles.Left;
+            BtnAbrirOrdemDeServico.AutoEllipsis = true;
+            BtnAbrirOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnAbrirOrdemDeServico.BackColor = SystemColors.ControlLight;
+            BtnAbrirOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnAbrirOrdemDeServico.Location = new Point(149, 6);
+            BtnAbrirOrdemDeServico.Name = "BtnAbrirOrdemDeServico";
+            BtnAbrirOrdemDeServico.Size = new Size(134, 55);
+            BtnAbrirOrdemDeServico.TabIndex = 1;
+            BtnAbrirOrdemDeServico.Text = "Abrir";
+            BtnAbrirOrdemDeServico.UseVisualStyleBackColor = false;
+            BtnAbrirOrdemDeServico.Click += BtnAtualizarOrdemDeServico_Click;
             // 
-            // BtnCadastrarOrdemDeServico
+            // BtnNovaOrdemDeServico
             // 
-            BtnCadastrarOrdemDeServico.Anchor = AnchorStyles.Left;
-            BtnCadastrarOrdemDeServico.AutoEllipsis = true;
-            BtnCadastrarOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BtnCadastrarOrdemDeServico.BackColor = SystemColors.ControlLight;
-            BtnCadastrarOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnCadastrarOrdemDeServico.Location = new Point(9, 6);
-            BtnCadastrarOrdemDeServico.Name = "BtnCadastrarOrdemDeServico";
-            BtnCadastrarOrdemDeServico.Size = new Size(184, 55);
-            BtnCadastrarOrdemDeServico.TabIndex = 0;
-            BtnCadastrarOrdemDeServico.Text = "Cadastrar";
-            BtnCadastrarOrdemDeServico.UseVisualStyleBackColor = false;
-            BtnCadastrarOrdemDeServico.Click += BtnCadastrarOrdemDeServico_Click;
+            BtnNovaOrdemDeServico.Anchor = AnchorStyles.Left;
+            BtnNovaOrdemDeServico.AutoEllipsis = true;
+            BtnNovaOrdemDeServico.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnNovaOrdemDeServico.BackColor = SystemColors.ControlLight;
+            BtnNovaOrdemDeServico.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnNovaOrdemDeServico.Location = new Point(9, 6);
+            BtnNovaOrdemDeServico.Name = "BtnNovaOrdemDeServico";
+            BtnNovaOrdemDeServico.Size = new Size(134, 55);
+            BtnNovaOrdemDeServico.TabIndex = 0;
+            BtnNovaOrdemDeServico.Text = "Nova";
+            BtnNovaOrdemDeServico.UseVisualStyleBackColor = false;
+            BtnNovaOrdemDeServico.Click += BtnCadastrarOrdemDeServico_Click;
             // 
             // tableLayoutPanel1
             // 
@@ -378,8 +395,8 @@
         private DataGridView DgvOrdensDeServico;
         private Panel PanelOrdensDeServicoBotoes;
         private Button BtnExcluirOrdemDeServico;
-        private Button BtnAtualizarOrdemDeServico;
-        private Button BtnCadastrarOrdemDeServico;
+        private Button BtnAbrirOrdemDeServico;
+        private Button BtnNovaOrdemDeServico;
         private Button BtnPreviousPage;
         private Button BtnNextPage;
         private TableLayoutPanel tableLayoutPanel1;
@@ -403,5 +420,6 @@
         private ToolStripTextBox TspTxtValorTotal;
         private ToolStripComboBox TspCmbValorTotalOpcao;
         private ToolStripButton TspBtnAplicar;
+        private Button BtnCancelar;
     }
 }

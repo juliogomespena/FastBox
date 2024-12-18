@@ -30,6 +30,7 @@
         {
             LblItemCadastroOrcamento = new Label();
             PanelInfoOrcamentoCadastro = new Panel();
+            ChkMaoDeObra = new CheckBox();
             LblDescricaoCadastroOrcamento = new Label();
             panel1 = new Panel();
             RTxtDescricaoCadastroOrcamento = new RichTextBox();
@@ -49,7 +50,6 @@
             TxtItemCadastroOrcamento = new TextBox();
             LblInfoOrcamentoCadastro = new Label();
             BtnGerarOrcamentoCadastro = new Button();
-            ChkMaoDeObra = new CheckBox();
             PanelInfoOrcamentoCadastro.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvOrcamentosCadastro).BeginInit();
@@ -90,6 +90,17 @@
             PanelInfoOrcamentoCadastro.Name = "PanelInfoOrcamentoCadastro";
             PanelInfoOrcamentoCadastro.Size = new Size(778, 463);
             PanelInfoOrcamentoCadastro.TabIndex = 10;
+            // 
+            // ChkMaoDeObra
+            // 
+            ChkMaoDeObra.AutoSize = true;
+            ChkMaoDeObra.Location = new Point(468, 20);
+            ChkMaoDeObra.Name = "ChkMaoDeObra";
+            ChkMaoDeObra.Size = new Size(105, 21);
+            ChkMaoDeObra.TabIndex = 40;
+            ChkMaoDeObra.Text = "Mão de obra";
+            ChkMaoDeObra.UseVisualStyleBackColor = true;
+            ChkMaoDeObra.CheckedChanged += ChkMaoDeObra_CheckedChanged;
             // 
             // LblDescricaoCadastroOrcamento
             // 
@@ -187,6 +198,7 @@
             TxtPrecoUnitarioCadastroOrcamento.Name = "TxtPrecoUnitarioCadastroOrcamento";
             TxtPrecoUnitarioCadastroOrcamento.Size = new Size(105, 33);
             TxtPrecoUnitarioCadastroOrcamento.TabIndex = 3;
+            TxtPrecoUnitarioCadastroOrcamento.TextChanged += TxtPrecoUnitarioCadastroOrcamento_TextChanged;
             TxtPrecoUnitarioCadastroOrcamento.KeyPress += TxtPrecoUnitarioCadastroOrcamento_KeyPress;
             // 
             // LblPrecoUnitarioCadastroOrcamento
@@ -287,17 +299,6 @@
             BtnGerarOrcamentoCadastro.Text = "Gerar orçamento";
             BtnGerarOrcamentoCadastro.UseVisualStyleBackColor = false;
             BtnGerarOrcamentoCadastro.Click += BtnGerarOrcamento_Click;
-            // 
-            // ChkMaoDeObra
-            // 
-            ChkMaoDeObra.AutoSize = true;
-            ChkMaoDeObra.Location = new Point(468, 20);
-            ChkMaoDeObra.Name = "ChkMaoDeObra";
-            ChkMaoDeObra.Size = new Size(105, 21);
-            ChkMaoDeObra.TabIndex = 40;
-            ChkMaoDeObra.Text = "Mão de obra";
-            ChkMaoDeObra.UseVisualStyleBackColor = true;
-            ChkMaoDeObra.CheckedChanged += ChkMaoDeObra_CheckedChanged;
             // 
             // FormCadastrarOrcamento
             // 

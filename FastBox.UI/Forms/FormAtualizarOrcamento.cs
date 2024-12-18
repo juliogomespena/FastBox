@@ -13,7 +13,6 @@ namespace FastBox.UI.Forms;
 public partial class FormAtualizarOrcamento : Form
 {
     private readonly IServiceProvider _serviceProvider;
-    private System.Windows.Forms.Timer _debounceTimer;
 
     public FormAtualizarOrcamento(IServiceProvider serviceProvider)
     {
@@ -23,6 +22,7 @@ public partial class FormAtualizarOrcamento : Form
 
     public OrcamentoViewModel OrcamentoAtual { get; set; }
     public ICollection<ItemOrcamentoViewModel> _items = [];
+    public bool IsOrdemCancelled = false;
 
     private async void BtnAtualizarOrcamento_Click(object sender, EventArgs e)
     {
@@ -49,6 +49,19 @@ public partial class FormAtualizarOrcamento : Form
         {
 
             MessageBox.Show($"Erro ao gerar orçamento: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private void SetAllControlsEnabled(Control parent, bool enabled)
+    {
+        foreach (Control control in parent.Controls)
+        {
+            control.Enabled = enabled;
+
+            if (control.HasChildren)
+            {
+                SetAllControlsEnabled(control, enabled);
+            }
         }
     }
 
@@ -85,9 +98,14 @@ public partial class FormAtualizarOrcamento : Form
 
     private void FormAtualizarOrcamento_Load(object sender, EventArgs e)
     {
+        if (IsOrdemCancelled)
+            SetAllControlsEnabled(this, false);
+
         RTxtDescricaoAtualizarOrcamento.Text = OrcamentoAtual.Descricao;
         _items = OrcamentoAtual.ItensOrcamento;
         LoadItemsIntoDgvOrcamentoAtualizar();
+        TxtPrecoUnitarioFinalAtualizarOrcamento.Text = 0.ToString("C2");
+        TxtPrecoFinalTotalAtualizarOrcamento.Text = 0.ToString("C2");
     }
 
     private void LoadItemsIntoDgvOrcamentoAtualizar()
@@ -169,7 +187,7 @@ public partial class FormAtualizarOrcamento : Form
 
             decimal precoUnitario = decimal.TryParse(TxtPrecoUnitarioAtualizarOrcamento.Text.Replace('.', ','), out decimal precoUnitarioValue) ? precoUnitarioValue : 0;
 
-            TxtPrecoUnitarioFinalAtualizarOrcamento.Text = (precoUnitario + (precoUnitario * margem)).ToString("F2");
+            TxtPrecoUnitarioFinalAtualizarOrcamento.Text = (precoUnitario + (precoUnitario * margem)).ToString("C2");
         }
         if (!String.IsNullOrWhiteSpace(TxtPrecoUnitarioAtualizarOrcamento.Text) && !String.IsNullOrWhiteSpace(TxtMargemAtualizarOrdem.Text) && !String.IsNullOrWhiteSpace(TxtQuantidadeAtualizarOrcamento.Text))
         {
@@ -180,7 +198,7 @@ public partial class FormAtualizarOrcamento : Form
 
             int quantidade = int.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out int qtd) ? qtd : 0;
 
-            TxtPrecoFinalTotalAtualizarOrcamento.Text = ((precoUnitario + (precoUnitario * margem)) * quantidade).ToString("F2");
+            TxtPrecoFinalTotalAtualizarOrcamento.Text = ((precoUnitario + (precoUnitario * margem)) * quantidade).ToString("C2");
         }
     }
 
@@ -223,5 +241,16 @@ public partial class FormAtualizarOrcamento : Form
 
         TxtItemAtualizarOrcamento.Text = ChkMaoDeObra.Checked ? "Mão de obra" : "";
         TxtMargemAtualizarOrdem.Text = ChkMaoDeObra.Checked ? "0" : "";
+    }
+
+    private void TxtPrecoUnitarioAtualizarOrcamento_TextChanged(object sender, EventArgs e)
+    {
+        if (ChkMaoDeObra.Checked == true)
+        {
+            decimal precoUnitario = decimal.TryParse(TxtPrecoUnitarioAtualizarOrcamento.Text.Replace('.', ','), out decimal precoUnitarioValue) ? precoUnitarioValue : 0;
+            int quantidade = int.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out int qtd) ? qtd : 0;
+            TxtPrecoUnitarioFinalAtualizarOrcamento.Text = precoUnitario.ToString("C2");
+            TxtPrecoFinalTotalAtualizarOrcamento.Text = (precoUnitario * quantidade).ToString("C2");
+        }
     }
 }

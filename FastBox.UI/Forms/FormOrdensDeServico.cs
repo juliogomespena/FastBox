@@ -66,6 +66,7 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.Columns["DataAbertura"].HeaderText = "Abertura";
             DgvOrdensDeServico.Columns["EstimativaConclusao"].HeaderText = "Prazo estimado";
             DgvOrdensDeServico.Columns["ValorTotal"].HeaderText = "Valor total";
+            DgvOrdensDeServico.Columns["OrcamentosCount"].HeaderText = "Orçamentos";
             DgvOrdensDeServico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvOrdensDeServico.MultiSelect = false;
         }
@@ -152,7 +153,7 @@ public partial class FormOrdensDeServico : Form
             await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
         else
-            MessageBox.Show("Selecione uma ordem de serviço para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Selecione uma ordem de serviço para abrir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 
 
@@ -169,7 +170,7 @@ public partial class FormOrdensDeServico : Form
                 if (ordem == null)
                     throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
 
-                var dialog = MessageBox.Show($"Deseja excluir a ordem {ordem.OrdemDeServicoId} - veículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var dialog = MessageBox.Show($"Deseja excluir a ordem {ordem.OrdemDeServicoId}\nVeículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialog == DialogResult.Yes)
                 {
@@ -207,8 +208,8 @@ public partial class FormOrdensDeServico : Form
         BtnRefresh.Enabled = buttonState;
         BtnNextPage.Enabled = buttonState;
         BtnPreviousPage.Enabled = buttonState;
-        BtnAtualizarOrdemDeServico.Enabled = buttonState;
-        BtnCadastrarOrdemDeServico.Enabled = buttonState;
+        BtnAbrirOrdemDeServico.Enabled = buttonState;
+        BtnNovaOrdemDeServico.Enabled = buttonState;
         BtnExcluirOrdemDeServico.Enabled = buttonState;
         BtnFinalizarServico.Enabled = buttonState;
         BtnConcluirOrdem.Enabled = buttonState;
@@ -347,7 +348,7 @@ public partial class FormOrdensDeServico : Form
             ValorTotal = decimal.TryParse(TspTxtValorTotal.Text, out decimal valorTotal) ? valorTotal : null,
         };
 
-        await LoadOrdensDeServicoIntoDgvAsync(1,    GlobalConfiguration.PageSize, filter);
+        await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize, filter);
 
         ResetFilterFields();
     }
@@ -466,4 +467,46 @@ public partial class FormOrdensDeServico : Form
         TspTxtValorTotal.ForeColor = Color.Gray;
     }
 
+    private async void BtnCancelar_Click(object sender, EventArgs e)
+    {
+        if (DgvOrdensDeServico.SelectedRows.Count > 0)
+        {
+            try
+            {
+                ControlButtonsForDatabaseOperations();
+                var ordemId = (long)DgvOrdensDeServico.SelectedRows[0].Cells["OrdemDeServicoId"].Value;
+                var ordem = await _ordemDeServicoService.GetOrdemByIdAsync(ordemId);
+
+                if (ordem == null)
+                    throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
+
+                var dialog = MessageBox.Show($"Deseja cancelar a ordem {ordem.OrdemDeServicoId}\nVeículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (dialog == DialogResult.Yes)
+                {
+                    ordem.StatusOrdemDeServicoId = 7;
+                    await _ordemDeServicoService.UpdateOrdemAsync(ordem);
+                    MessageBox.Show("Ordem de serviço cancelada com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException == null)
+                    MessageBox.Show($"Erro ao cancelar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    MessageBox.Show($"Erro ao cancelar ordem de serviço: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao cancelar ordem de serviço: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
+                ControlButtonsForDatabaseOperations(true);
+            }
+        }
+        else
+            MessageBox.Show("Selecione uma ordem de serviço para cancelar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
 }
