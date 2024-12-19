@@ -17,9 +17,27 @@ public class FornecedorService : IFornecedorService
         _fornecedorRepository = fornecedorRepository;
     }
 
-    public Task<IEnumerable<FornecedorViewModel>> GetAllFornecedores()
+    public async Task<IEnumerable<FornecedorViewModel>> GetAllFornecedores()
     {
-        throw new NotImplementedException();
+        return await _fornecedorRepository.Query()
+            .AsNoTracking()
+            .Include(f => f.Endereco)
+            .Include(f => f.Endereco.Concelho)
+            .Include(f => f.Endereco.Concelho.Distrito)
+            .Include(f => f.EstoquePecas)
+            .Include(f => f.ItensOrcamento)
+            .Select(f => new FornecedorViewModel
+            {
+                FornecedorId = f.FornecedorId,
+                Nome = f.Nome,
+                Telemovel = f.Telemovel,
+                Email = f.Email,
+                EnderecoId = f.EnderecoId,
+                Endereco = f.Endereco,
+                EstoquePecas = f.EstoquePecas,
+                ItensOrcamento = f.ItensOrcamento
+            }).
+        ToListAsync();
     }
 
     public async Task<IEnumerable<FornecedorViewModel>> GetFornecedoresInPagesAsync(int page, int size, FornecedorFilter? filter = null)
@@ -54,6 +72,7 @@ public class FornecedorService : IFornecedorService
             .Take(size)
             .Select(f => new FornecedorViewModel
             {
+                FornecedorId = f.FornecedorId,
                 Nome = f.Nome,
                 Telemovel = f.Telemovel,
                 Email = f.Email,
@@ -65,14 +84,82 @@ public class FornecedorService : IFornecedorService
             .ToListAsync();
     }
 
-    public Task<FornecedorViewModel> GetFornecedorByIdAsync(long id)
+    public async Task<FornecedorViewModel> GetFornecedorByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        var fornecedorExistente = await _fornecedorRepository.Query()
+            .Include(f => f.EstoquePecas)
+            .Include(f => f.ItensOrcamento)
+            .Include(f => f.Endereco)
+            .FirstOrDefaultAsync(f => f.FornecedorId == id);
+
+        if (fornecedorExistente == null)
+            throw new Exception("Fornecedor não encontrado.");
+
+        return new FornecedorViewModel
+        {
+            FornecedorId = fornecedorExistente.FornecedorId,
+            Nome = fornecedorExistente.Nome,
+            Telemovel = fornecedorExistente.Telemovel,
+            Email = fornecedorExistente.Email,
+            EnderecoId = fornecedorExistente.EnderecoId,
+            Endereco = fornecedorExistente.Endereco,
+            ItensOrcamento = fornecedorExistente.ItensOrcamento,
+            EstoquePecas = fornecedorExistente.EstoquePecas
+        };
     }
 
-    public Task<IEnumerable<FornecedorViewModel>> GetFornecedoresByNameAsync(string searchText)
+    public async Task<IEnumerable<FornecedorViewModel>> GetFornecedoresByNameAsync(string searchText)
     {
-        throw new NotImplementedException();
+        return await _fornecedorRepository.Query()
+            .AsNoTracking()
+            .Include(f => f.Endereco)
+            .Include(f => f.Endereco.Concelho)
+            .Include(f => f.Endereco.Concelho.Distrito)
+            .Include(f => f.EstoquePecas)
+            .Include(f => f.ItensOrcamento)
+            .OrderByDescending(f => f.FornecedorId)
+            .Where(f => f.Nome.Contains(searchText))
+            .Select(f => new FornecedorViewModel
+            {
+                FornecedorId = f.FornecedorId,
+                Nome = f.Nome,
+                Telemovel = f.Telemovel,
+                Email = f.Email,
+                EnderecoId = f.EnderecoId,
+                Endereco = f.Endereco,
+                EstoquePecas = f.EstoquePecas,
+                ItensOrcamento = f.ItensOrcamento
+            }).
+            ToListAsync();
+    }
+
+    public async Task<FornecedorViewModel> GetFornecedorByNameAsync(string searchText)
+    {
+        var fornecedorExistente = await _fornecedorRepository.Query()
+            .AsNoTracking()
+            .Include(f => f.Endereco)
+                .ThenInclude(c => c.Concelho)
+                    .ThenInclude(d => d.Distrito)
+            .Include(f => f.EstoquePecas)
+            .Include(f => f.ItensOrcamento)
+            .Where(f => f.Nome == searchText)
+            .Select(f => new FornecedorViewModel
+            {
+                FornecedorId = f.FornecedorId,
+                Nome = f.Nome,
+                Telemovel = f.Telemovel,
+                Email = f.Email,
+                EnderecoId = f.EnderecoId,
+                Endereco = f.Endereco,
+                EstoquePecas = f.EstoquePecas,
+                ItensOrcamento = f.ItensOrcamento
+            })
+            .FirstOrDefaultAsync();
+
+        if (fornecedorExistente == null)
+            throw new Exception("Fornecedor não encontrado.");
+
+        return fornecedorExistente;
     }
 
     public async Task AddFornecedorAsync(FornecedorViewModel fornecedor)
@@ -102,13 +189,41 @@ public class FornecedorService : IFornecedorService
         }
     }
 
-    public Task UpdateFornecedorAsync(FornecedorViewModel fornecedor)
+    public async Task UpdateFornecedorAsync(FornecedorViewModel fornecedor)
     {
-        throw new NotImplementedException();
+        var fornecedorExistente = await _fornecedorRepository.GetByIdAsync(fornecedor.FornecedorId);
+        if (fornecedorExistente == null)
+            throw new InvalidOperationException("Fornecedor não encontrado.");
+
+        fornecedorExistente.Nome = fornecedor.Nome;
+        fornecedorExistente.Telemovel = fornecedor.Telemovel;
+        fornecedorExistente.Email = fornecedor.Email == "Não cadastrado" ? null : fornecedor.Email;
+        fornecedorExistente.EnderecoId = fornecedor.EnderecoId;
+
+        try
+        {
+            await _fornecedorRepository.UpdateAsync(fornecedorExistente);
+        }
+        catch (DbUpdateException ex)
+        {
+            if (ex.InnerException?.Message.Contains("UNIQUE") ?? false)
+                throw new InvalidOperationException("Já existe um fornecedor com os mesmos dados únicos.");
+
+            throw;
+        }
+        finally
+        {
+            _fornecedorRepository.DetachEntity(fornecedorExistente);
+        }
     }
 
-    public Task DeleteFornecedorAsync(FornecedorViewModel fornecedor)
+    public async Task DeleteFornecedorAsync(FornecedorViewModel fornecedor)
     {
-        throw new NotImplementedException();
+        var fornecedorExistente = await _fornecedorRepository.GetByIdAsync(fornecedor.FornecedorId);
+        if (fornecedorExistente == null)
+            throw new Exception("Fornecedor não encontrado.");
+
+        await _fornecedorRepository.DeleteAsync(fornecedorExistente);
+        _fornecedorRepository.DetachEntity(fornecedorExistente);
     }
 }

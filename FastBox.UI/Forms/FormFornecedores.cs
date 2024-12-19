@@ -43,6 +43,7 @@ public partial class FormFornecedores : Form
             DgvFornecedores.Columns["EnderecoCompleto"].Visible = false;
             DgvFornecedores.Columns["EstoquePecas"].Visible = false;
             DgvFornecedores.Columns["ItensOrcamento"].Visible = false;
+                DgvFornecedores.Columns["InfoFornecedor"].Visible = false;          
             DgvFornecedores.Columns["Telemovel"].HeaderText = "Telemóvel";
             DgvFornecedores.Columns["EnderecoResumido"].HeaderText = "Endereço";
             DgvFornecedores.Columns["FornecedorId"].HeaderText = "Id";
@@ -133,10 +134,10 @@ public partial class FormFornecedores : Form
     {
         if (DgvFornecedores.SelectedRows.Count > 0)
         {
-            //var fornecedorId = (long)DgvFornecedores.SelectedRows[0].Cells["FornecedorId"].Value;
-            //var frmAtualizarFornecedor = _serviceProvider.GetRequiredService<FormAtualizarFornecedor>();
-            //frmAtualizarFornecedor.FornecedorId = fornecedorId;
-            //frmAtualizarFornecedor.ShowDialog();
+            var fornecedorId = (long)DgvFornecedores.SelectedRows[0].Cells["FornecedorId"].Value;
+            var frmAtualizarFornecedor = _serviceProvider.GetRequiredService<FormAtualizarFornecedor>();
+            frmAtualizarFornecedor.FornecedorId = fornecedorId;
+            frmAtualizarFornecedor.ShowDialog();
 
             await LoadFornecedoresIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
@@ -148,35 +149,35 @@ public partial class FormFornecedores : Form
     {
         if (DgvFornecedores.SelectedRows.Count > 0)
         {
-            //try
-            //{
-            //    ControlButtonsForDatabaseOperations();
-            //    var fornecedorId = (long)DgvFornecedores.SelectedRows[0].Cells["FornecedorId"].Value;
-            //    var fornecedor = await _fornecedorService.GetFornecedorByIdAsync(fornecedorId);
+            try
+            {
+                ControlButtonsForDatabaseOperations();
+                var fornecedorId = (long)DgvFornecedores.SelectedRows[0].Cells["FornecedorId"].Value;
+                var fornecedor = await _fornecedorService.GetFornecedorByIdAsync(fornecedorId);
 
-            //    if (fornecedor == null)
-            //        throw new Exception("Não foi possível selecionar fornecedor, tente novamente.");
+                if (fornecedor == null)
+                    throw new Exception("Não foi possível selecionar fornecedor, tente novamente.");
 
-            //    var dialog = MessageBox.Show($"Deseja excluir o fornecedor {fornecedor.Nome}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var dialog = MessageBox.Show($"Deseja excluir o fornecedor {fornecedor.Nome}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            //    if (dialog == DialogResult.Yes)
-            //    {
-            //        await _fornecedorService.DeleteFornecedorAsync(fornecedor);
-            //        MessageBox.Show("Fornecedor deletado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    }
-            //}
-            //catch (DbUpdateException ex)
-            //{
-            //    if (ex.InnerException == null)
-            //        MessageBox.Show($"Erro ao deletar fornecedor: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    else
-            //        MessageBox.Show($"Erro ao deletar fornecedor: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-            //catch (Exception ex)
-            //{
+                if (dialog == DialogResult.Yes)
+                {
+                    await _fornecedorService.DeleteFornecedorAsync(fornecedor);
+                    MessageBox.Show("Fornecedor deletado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException == null)
+                    MessageBox.Show($"Erro ao deletar fornecedor: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    MessageBox.Show($"Erro ao deletar fornecedor: {ex.InnerException.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
 
-            //    MessageBox.Show($"Erro ao deletar fornecedor: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+                MessageBox.Show($"Erro ao deletar fornecedor: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
 
             await LoadFornecedoresIntoDgvAsync(1, GlobalConfiguration.PageSize);

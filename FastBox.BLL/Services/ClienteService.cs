@@ -124,7 +124,8 @@ public class ClienteService : IClienteService
             Endereco = clienteExistente.Endereco,
             OrdemDeServicos = clienteExistente.OrdemDeServicos,
             Usuarios = clienteExistente.Usuarios,
-            Veiculos = clienteExistente.Veiculos
+            Veiculos = clienteExistente.Veiculos,
+            EnderecoId = clienteExistente.EnderecoId,
         };
     }
 

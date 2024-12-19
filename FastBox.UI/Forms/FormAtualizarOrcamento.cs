@@ -2,6 +2,7 @@
 using FastBox.BLL.Services;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
+using FastBox.UI.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
@@ -13,6 +14,10 @@ namespace FastBox.UI.Forms;
 public partial class FormAtualizarOrcamento : Form
 {
     private readonly IServiceProvider _serviceProvider;
+    private System.Windows.Forms.Timer _debounceTimer;
+    private bool _isUpdatingText = false;
+    private FornecedorViewModel? _fornecedor;
+    private long _tempItemId = -1;
 
     public FormAtualizarOrcamento(IServiceProvider serviceProvider)
     {
@@ -77,6 +82,11 @@ public partial class FormAtualizarOrcamento : Form
             MessageBox.Show("Digite uma quantidade para o item do orçamento.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
+        if (String.IsNullOrWhiteSpace(TxtFornecedorAtualizarOrcamento.Text) || _fornecedor == null)
+        {
+            MessageBox.Show("Erro ao selecionar fornecedor do item, tente novamente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
         if (String.IsNullOrWhiteSpace(TxtPrecoUnitarioAtualizarOrcamento.Text))
         {
             MessageBox.Show("Digite o preço unitário para o item do orçamento.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -106,6 +116,7 @@ public partial class FormAtualizarOrcamento : Form
         LoadItemsIntoDgvOrcamentoAtualizar();
         TxtPrecoUnitarioFinalAtualizarOrcamento.Text = 0.ToString("C2");
         TxtPrecoFinalTotalAtualizarOrcamento.Text = 0.ToString("C2");
+        LstSugestoesFornecedores.Width = 636;
     }
 
     private void LoadItemsIntoDgvOrcamentoAtualizar()
@@ -116,6 +127,8 @@ public partial class FormAtualizarOrcamento : Form
         DgvOrcamentosAtualizar.Columns["OrcamentoId"].Visible = false;
         DgvOrcamentosAtualizar.Columns["Orcamento"].Visible = false;
         DgvOrcamentosAtualizar.Columns["Margem"].Visible = false;
+        DgvOrcamentosAtualizar.Columns["FornecedorId"].Visible = false;
+        DgvOrcamentosAtualizar.Columns["Fornecedor"].Visible = false;
         DgvOrcamentosAtualizar.Columns["PrecoUnitario"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizar.Columns["ValorUnitario"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizar.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
@@ -126,6 +139,7 @@ public partial class FormAtualizarOrcamento : Form
         DgvOrcamentosAtualizar.Columns["ValorUnitario"].HeaderText = "Venda unitário";
         DgvOrcamentosAtualizar.Columns["ValorTotal"].HeaderText = "Venda total";
         DgvOrcamentosAtualizar.Columns["CustoTotal"].HeaderText = "Custo total";
+        DgvOrcamentosAtualizar.Columns["NomeFornecedor"].HeaderText = "Fornecedor";
         DgvOrcamentosAtualizar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         DgvOrcamentosAtualizar.MultiSelect = false;
     }
@@ -139,10 +153,13 @@ public partial class FormAtualizarOrcamento : Form
         {
             var item = new ItemOrcamentoViewModel
             {
+                ItemOrcamentoId = _tempItemId--,
                 Descricao = TxtItemAtualizarOrcamento.Text.Trim(),
                 Quantidade = int.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out int qtd) ? qtd : throw new FormatException("Erro ao processar a quantidade do item."),
                 PrecoUnitario = decimal.TryParse(TxtPrecoUnitarioAtualizarOrcamento.Text.Replace('.', ','), out decimal precoUnitario) ? precoUnitario : throw new FormatException("Erro ao processar preço unitário do item."),
-                Margem = decimal.TryParse(TxtMargemAtualizarOrdem.Text, out decimal margem) ? margem : throw new FormatException("Erro ao processar a margem do item.")
+                Margem = decimal.TryParse(TxtMargemAtualizarOrdem.Text, out decimal margem) ? margem : throw new FormatException("Erro ao processar a margem do item."),
+                FornecedorId = _fornecedor.FornecedorId,
+                Fornecedor = _fornecedor
             };
 
             _items.Add(item);
@@ -155,7 +172,9 @@ public partial class FormAtualizarOrcamento : Form
             TxtPrecoUnitarioFinalAtualizarOrcamento.Clear();
             TxtPrecoFinalTotalAtualizarOrcamento.Clear();
             TxtItemAtualizarOrcamento.Focus();
+            TxtFornecedorAtualizarOrcamento.Clear();
             ChkMaoDeObra.Checked = false;
+            _fornecedor = null;
         }
         catch (Exception ex)
         {
@@ -234,10 +253,30 @@ public partial class FormAtualizarOrcamento : Form
 
     }
 
-    private void ChkMaoDeObra_CheckedChanged(object sender, EventArgs e)
+    private async void ChkMaoDeObra_CheckedChanged(object sender, EventArgs e)
     {
+        if (ChkMaoDeObra.Checked == true)
+        {
+            try
+            {
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var fornecedorService = scope.ServiceProvider.GetRequiredService<IFornecedorService>();
+                    var fornecedor = await fornecedorService.GetFornecedorByNameAsync("FastBox");
+                    _fornecedor = fornecedor;
+                    TxtFornecedorAtualizarOrcamento.Text = fornecedor.InfoFornecedor;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar oficina como fornecedor: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ChkMaoDeObra.Checked = false;
+            }
+        }
+
         TxtItemAtualizarOrcamento.Enabled = !ChkMaoDeObra.Checked;
         TxtMargemAtualizarOrdem.Enabled = !ChkMaoDeObra.Checked;
+        TxtFornecedorAtualizarOrcamento.Enabled = !ChkMaoDeObra.Checked;
 
         TxtItemAtualizarOrcamento.Text = ChkMaoDeObra.Checked ? "Mão de obra" : "";
         TxtMargemAtualizarOrdem.Text = ChkMaoDeObra.Checked ? "0" : "";
@@ -251,6 +290,103 @@ public partial class FormAtualizarOrcamento : Form
             int quantidade = int.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out int qtd) ? qtd : 0;
             TxtPrecoUnitarioFinalAtualizarOrcamento.Text = precoUnitario.ToString("C2");
             TxtPrecoFinalTotalAtualizarOrcamento.Text = (precoUnitario * quantidade).ToString("C2");
+        }
+    }
+
+    private void TxtFornecedorAtualizarOrcamento_TextChanged(object sender, EventArgs e)
+    {
+        if (_isUpdatingText) return;
+
+        if (ChkMaoDeObra.Checked == true)
+            return;
+
+        _fornecedor = null;
+
+        _debounceTimer?.Stop();
+        _debounceTimer = new System.Windows.Forms.Timer { Interval = GlobalConfiguration.debounceTimeMiliseconds };
+        _debounceTimer.Tick += async (s, ev) =>
+        {
+            _debounceTimer.Stop();
+
+            try
+            {
+                string searchText = TxtFornecedorAtualizarOrcamento.Text.Trim();
+
+                if (searchText.Length >= 2)
+                {
+                    using (var scope = _serviceProvider.CreateScope())
+                    {
+                        var fornecedorService = scope.ServiceProvider.GetRequiredService<IFornecedorService>();
+                        var fornecedores = await fornecedorService.GetFornecedoresByNameAsync(searchText);
+
+                        LstSugestoesFornecedores.DataSource = fornecedores.ToList();
+                        LstSugestoesFornecedores.DisplayMember = "InfoFornecedor";
+                        LstSugestoesFornecedores.ValueMember = "FornecedorId";
+                        AdjustListBoxSize(LstSugestoesFornecedores);
+                        LstSugestoesFornecedores.Visible = fornecedores.Any();
+                        LstSugestoesFornecedores.Focus();
+                        if (LstSugestoesFornecedores.SelectedItem is FornecedorViewModel fornecedorSelecionado)
+                            _fornecedor = fornecedorSelecionado;
+                    }
+                }
+                else
+                {
+                    _fornecedor = null;
+                    LstSugestoesFornecedores.DataSource = null;
+                    LstSugestoesFornecedores.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao buscar fornecedores: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        };
+        _debounceTimer.Start();
+    }
+
+    private void AdjustListBoxSize(ListBox listBox)
+    {
+        if (listBox.Items.Count == 0)
+        {
+            listBox.Visible = false;
+            return;
+        }
+
+        int maxVisibleItems = 5;
+        int itemHeight = listBox.ItemHeight;
+        int borderHeight = 2;
+        int padding = 4;
+
+        int visibleItems = Math.Min(listBox.Items.Count, maxVisibleItems);
+        listBox.Height = (itemHeight * visibleItems) + borderHeight + padding;
+
+        listBox.Visible = true;
+    }
+
+    private void LstSugestoesFornecedores_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            if (LstSugestoesFornecedores.SelectedItem is FornecedorViewModel fornecedorSelecionado)
+            {
+                _isUpdatingText = true;
+                TxtFornecedorAtualizarOrcamento.Text = fornecedorSelecionado.InfoFornecedor;
+                _isUpdatingText = false;
+                LstSugestoesFornecedores.Visible = false;
+                _fornecedor = fornecedorSelecionado;
+            }
+        }
+    }
+
+    private void LstSugestoesFornecedores_Click(object sender, EventArgs e)
+    {
+        if (LstSugestoesFornecedores.SelectedItem is FornecedorViewModel fornecedorSelecionado)
+        {
+            _isUpdatingText = true;
+            TxtFornecedorAtualizarOrcamento.Text = fornecedorSelecionado.InfoFornecedor;
+            _isUpdatingText = false;
+            LstSugestoesFornecedores.Visible = false;
+            _fornecedor = fornecedorSelecionado;
         }
     }
 }

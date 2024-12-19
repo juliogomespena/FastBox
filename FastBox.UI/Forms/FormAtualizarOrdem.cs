@@ -64,7 +64,8 @@ public partial class FormAtualizarOrdem : Form
                         Descricao = itens.Descricao,
                         Quantidade = itens.Quantidade,
                         PrecoUnitario = itens.PrecoUnitario,
-                        Margem = itens.Margem
+                        Margem = itens.Margem,
+                        FornecedorId = itens.FornecedorId
                     }).ToList()
                 }).ToList(),
             };
@@ -160,7 +161,16 @@ public partial class FormAtualizarOrdem : Form
                 Descricao = item.Descricao,
                 Quantidade = item.Quantidade,
                 PrecoUnitario = item.PrecoUnitario,
-                Margem = item.Margem * 100
+                Margem = item.Margem * 100,
+                FornecedorId = item.FornecedorId,
+                Fornecedor = new FornecedorViewModel
+                {
+                    Nome = item.Fornecedor.Nome,
+                    Telemovel = item.Fornecedor.Telemovel,
+                    Email = item.Fornecedor.Email,
+                    EnderecoId = item.Fornecedor.EnderecoId,
+                    Endereco = item.Fornecedor.Endereco,
+                }
             }).ToList()
         }).ToList();
 

@@ -44,6 +44,12 @@ namespace FastBox.BLL.DTOs
             set => _margem = value / 100; 
         }
 
+        public long FornecedorId {  get; set; }
+
+        public string NomeFornecedor => Fornecedor.Nome;
+
+        public FornecedorViewModel Fornecedor { get; set; } = null!;
+
         public virtual Orcamento Orcamento { get; set; } = null!;
     }
 }

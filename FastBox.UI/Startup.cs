@@ -44,6 +44,7 @@ internal class Startup
         services.AddTransient<FormRelatorios>();
         services.AddTransient<FormFornecedores>();
         services.AddTransient<FormCadastrarFornecedor>();
+        services.AddTransient<FormAtualizarFornecedor>();
 
         return services.BuildServiceProvider();
 

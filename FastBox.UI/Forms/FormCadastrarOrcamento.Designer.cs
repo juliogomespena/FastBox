@@ -30,6 +30,9 @@
         {
             LblItemCadastroOrcamento = new Label();
             PanelInfoOrcamentoCadastro = new Panel();
+            LstSugestoesFornecedores = new ListBox();
+            LblFornecedorCadastroOrcamento = new Label();
+            TxtFornecedorCadastroOrcamento = new TextBox();
             ChkMaoDeObra = new CheckBox();
             LblDescricaoCadastroOrcamento = new Label();
             panel1 = new Panel();
@@ -59,7 +62,7 @@
             // 
             LblItemCadastroOrcamento.AutoSize = true;
             LblItemCadastroOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            LblItemCadastroOrcamento.Location = new Point(8, 14);
+            LblItemCadastroOrcamento.Location = new Point(9, 14);
             LblItemCadastroOrcamento.Name = "LblItemCadastroOrcamento";
             LblItemCadastroOrcamento.Size = new Size(54, 26);
             LblItemCadastroOrcamento.TabIndex = 0;
@@ -68,6 +71,9 @@
             // PanelInfoOrcamentoCadastro
             // 
             PanelInfoOrcamentoCadastro.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrcamentoCadastro.Controls.Add(LstSugestoesFornecedores);
+            PanelInfoOrcamentoCadastro.Controls.Add(LblFornecedorCadastroOrcamento);
+            PanelInfoOrcamentoCadastro.Controls.Add(TxtFornecedorCadastroOrcamento);
             PanelInfoOrcamentoCadastro.Controls.Add(ChkMaoDeObra);
             PanelInfoOrcamentoCadastro.Controls.Add(LblDescricaoCadastroOrcamento);
             PanelInfoOrcamentoCadastro.Controls.Add(panel1);
@@ -90,6 +96,38 @@
             PanelInfoOrcamentoCadastro.Name = "PanelInfoOrcamentoCadastro";
             PanelInfoOrcamentoCadastro.Size = new Size(778, 463);
             PanelInfoOrcamentoCadastro.TabIndex = 10;
+            // 
+            // LstSugestoesFornecedores
+            // 
+            LstSugestoesFornecedores.FormattingEnabled = true;
+            LstSugestoesFornecedores.IntegralHeight = false;
+            LstSugestoesFornecedores.ItemHeight = 17;
+            LstSugestoesFornecedores.Location = new Point(126, 145);
+            LstSugestoesFornecedores.Name = "LstSugestoesFornecedores";
+            LstSugestoesFornecedores.Size = new Size(1, 1);
+            LstSugestoesFornecedores.TabIndex = 43;
+            LstSugestoesFornecedores.Click += LstSugestoesFornecedores_Click;
+            LstSugestoesFornecedores.KeyDown += LstSugestoesFornecedores_KeyDown;
+            // 
+            // LblFornecedorCadastroOrcamento
+            // 
+            LblFornecedorCadastroOrcamento.AutoSize = true;
+            LblFornecedorCadastroOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            LblFornecedorCadastroOrcamento.Location = new Point(9, 116);
+            LblFornecedorCadastroOrcamento.Name = "LblFornecedorCadastroOrcamento";
+            LblFornecedorCadastroOrcamento.Size = new Size(113, 26);
+            LblFornecedorCadastroOrcamento.TabIndex = 42;
+            LblFornecedorCadastroOrcamento.Text = "Fornecedor:";
+            // 
+            // TxtFornecedorCadastroOrcamento
+            // 
+            TxtFornecedorCadastroOrcamento.BackColor = SystemColors.Window;
+            TxtFornecedorCadastroOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F);
+            TxtFornecedorCadastroOrcamento.Location = new Point(126, 113);
+            TxtFornecedorCadastroOrcamento.Name = "TxtFornecedorCadastroOrcamento";
+            TxtFornecedorCadastroOrcamento.Size = new Size(636, 33);
+            TxtFornecedorCadastroOrcamento.TabIndex = 5;
+            TxtFornecedorCadastroOrcamento.TextChanged += TxtFornecedorCadastroOrcamento_TextChanged;
             // 
             // ChkMaoDeObra
             // 
@@ -205,7 +243,7 @@
             // 
             LblPrecoUnitarioCadastroOrcamento.AutoSize = true;
             LblPrecoUnitarioCadastroOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            LblPrecoUnitarioCadastroOrcamento.Location = new Point(8, 65);
+            LblPrecoUnitarioCadastroOrcamento.Location = new Point(9, 65);
             LblPrecoUnitarioCadastroOrcamento.Name = "LblPrecoUnitarioCadastroOrcamento";
             LblPrecoUnitarioCadastroOrcamento.Size = new Size(135, 26);
             LblPrecoUnitarioCadastroOrcamento.TabIndex = 30;
@@ -217,7 +255,7 @@
             TxtQuantidadeCadastroOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtQuantidadeCadastroOrcamento.Location = new Point(696, 11);
             TxtQuantidadeCadastroOrcamento.Name = "TxtQuantidadeCadastroOrcamento";
-            TxtQuantidadeCadastroOrcamento.Size = new Size(70, 33);
+            TxtQuantidadeCadastroOrcamento.Size = new Size(66, 33);
             TxtQuantidadeCadastroOrcamento.TabIndex = 2;
             TxtQuantidadeCadastroOrcamento.KeyPress += TxtQuantidadeCadastroOrcamento_KeyPress;
             // 
@@ -239,18 +277,18 @@
             DgvOrcamentosCadastro.AllowUserToResizeRows = false;
             DgvOrcamentosCadastro.Anchor = AnchorStyles.Bottom;
             DgvOrcamentosCadastro.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvOrcamentosCadastro.Location = new Point(2, 180);
+            DgvOrcamentosCadastro.Location = new Point(2, 213);
             DgvOrcamentosCadastro.Name = "DgvOrcamentosCadastro";
             DgvOrcamentosCadastro.ReadOnly = true;
             DgvOrcamentosCadastro.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvOrcamentosCadastro.Size = new Size(774, 168);
+            DgvOrcamentosCadastro.Size = new Size(774, 140);
             DgvOrcamentosCadastro.TabIndex = 17;
             // 
             // BtnIncluirItemCadastroOrcamento
             // 
             BtnIncluirItemCadastroOrcamento.BackColor = SystemColors.ControlLight;
             BtnIncluirItemCadastroOrcamento.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnIncluirItemCadastroOrcamento.Location = new Point(8, 118);
+            BtnIncluirItemCadastroOrcamento.Location = new Point(8, 167);
             BtnIncluirItemCadastroOrcamento.Name = "BtnIncluirItemCadastroOrcamento";
             BtnIncluirItemCadastroOrcamento.Size = new Size(365, 35);
             BtnIncluirItemCadastroOrcamento.TabIndex = 5;
@@ -262,7 +300,7 @@
             // 
             BtnExcluirItemCadastroOrcamento.BackColor = SystemColors.ControlLight;
             BtnExcluirItemCadastroOrcamento.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnExcluirItemCadastroOrcamento.Location = new Point(401, 118);
+            BtnExcluirItemCadastroOrcamento.Location = new Point(401, 167);
             BtnExcluirItemCadastroOrcamento.Name = "BtnExcluirItemCadastroOrcamento";
             BtnExcluirItemCadastroOrcamento.Size = new Size(365, 35);
             BtnExcluirItemCadastroOrcamento.TabIndex = 6;
@@ -364,5 +402,8 @@
         private Label LblDescricaoCadastroOrcamento;
         private RichTextBox RTxtDescricaoCadastroOrcamento;
         private CheckBox ChkMaoDeObra;
+        private Label LblFornecedorCadastroOrcamento;
+        private TextBox TxtFornecedorCadastroOrcamento;
+        private ListBox LstSugestoesFornecedores;
     }
 }

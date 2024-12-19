@@ -58,7 +58,8 @@ public partial class FormCadastrarOrdem : Form
                         Descricao = itens.Descricao,
                         Quantidade = itens.Quantidade,
                         PrecoUnitario = itens.PrecoUnitario,
-                        Margem = itens.Margem
+                        Margem = itens.Margem,
+                        FornecedorId = itens.FornecedorId
                     }).ToList()
                 }).ToList(),
                 DataAbertura = DateTime.Now,

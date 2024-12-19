@@ -28,6 +28,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             .AsNoTracking()
             .Include(o => o.Cliente)
             .Include(o => o.Orcamentos)
+                .ThenInclude(i => i.ItensOrcamento)
+                    .ThenInclude(f => f.Fornecedor)
             .Include(o => o.Pagamentos)
             .Include(o => o.StatusOrdemDeServico)
             .Include(o => o.Veiculo)
@@ -82,6 +84,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             .AsNoTracking()
             .Include(o => o.Cliente)
             .Include(o => o.Orcamentos)
+                .ThenInclude(i => i.ItensOrcamento)
+                        .ThenInclude(f => f.Fornecedor)
             .Include(o => o.Pagamentos)
             .Include(o => o.StatusOrdemDeServico)
             .Include(o => o.Veiculo)
@@ -117,6 +121,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             .Include(o => o.Cliente)
             .Include(o => o.Orcamentos)
                 .ThenInclude(o => o.ItensOrcamento)
+                    .ThenInclude(f => f.Fornecedor)
             .Include(o => o.Pagamentos)
             .Include(o => o.StatusOrdemDeServico)
             .Include(o => o.Veiculo)
@@ -175,7 +180,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                     Descricao = itens.Descricao,
                     Quantidade = itens.Quantidade,
                     PrecoUnitario = itens.PrecoUnitario,
-                    Margem = itens.Margem
+                    Margem = itens.Margem,
+                    FornecedorId = itens.FornecedorId,
                 }).ToList()
             }).ToList()
         };
@@ -257,6 +263,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                             itemExistente.Quantidade = itemViewModel.Quantidade;
                             itemExistente.PrecoUnitario = itemViewModel.PrecoUnitario;
                             itemExistente.Margem = itemViewModel.Margem;
+                            itemExistente.FornecedorId = itemViewModel.FornecedorId;
                         }
                         else
                         {
@@ -265,14 +272,13 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                                 Descricao = itemViewModel.Descricao,
                                 Quantidade = itemViewModel.Quantidade,
                                 PrecoUnitario = itemViewModel.PrecoUnitario,
-                                Margem = itemViewModel.Margem
+                                Margem = itemViewModel.Margem,
+                                FornecedorId = itemViewModel.FornecedorId
                             });
                         }
                     }
 
-                    var itensParaRemover = orcamentoExistente.ItensOrcamento
-                        .Where(i => !orcamentoViewModel.ItensOrcamento.Any(v => v.ItemOrcamentoId == i.ItemOrcamentoId))
-                        .ToList();
+                    var itensParaRemover = orcamentoExistente.ItensOrcamento.Where(i => i.ItemOrcamentoId > 0 && !orcamentoViewModel.ItensOrcamento.Any(v => v.ItemOrcamentoId == i.ItemOrcamentoId)).ToList();
 
                     foreach (var itemRemovido in itensParaRemover)
                     {
@@ -291,7 +297,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                             Descricao = i.Descricao,
                             Quantidade = i.Quantidade,
                             PrecoUnitario = i.PrecoUnitario,
-                            Margem = i.Margem
+                            Margem = i.Margem,
+                            FornecedorId = i.FornecedorId,
                         }).ToList()
                     });
                 }

@@ -30,6 +30,9 @@
         {
             LblItemAtualizarOrcamento = new Label();
             PanelInfoOrcamentoAtualizar = new Panel();
+            LstSugestoesFornecedores = new ListBox();
+            LblFornecedorAtualizarOrcamento = new Label();
+            TxtFornecedorAtualizarOrcamento = new TextBox();
             ChkMaoDeObra = new CheckBox();
             LblDescricaoAtualizarOrcamento = new Label();
             panel1 = new Panel();
@@ -68,6 +71,9 @@
             // PanelInfoOrcamentoAtualizar
             // 
             PanelInfoOrcamentoAtualizar.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrcamentoAtualizar.Controls.Add(LstSugestoesFornecedores);
+            PanelInfoOrcamentoAtualizar.Controls.Add(LblFornecedorAtualizarOrcamento);
+            PanelInfoOrcamentoAtualizar.Controls.Add(TxtFornecedorAtualizarOrcamento);
             PanelInfoOrcamentoAtualizar.Controls.Add(ChkMaoDeObra);
             PanelInfoOrcamentoAtualizar.Controls.Add(LblDescricaoAtualizarOrcamento);
             PanelInfoOrcamentoAtualizar.Controls.Add(panel1);
@@ -90,6 +96,38 @@
             PanelInfoOrcamentoAtualizar.Name = "PanelInfoOrcamentoAtualizar";
             PanelInfoOrcamentoAtualizar.Size = new Size(778, 463);
             PanelInfoOrcamentoAtualizar.TabIndex = 10;
+            // 
+            // LstSugestoesFornecedores
+            // 
+            LstSugestoesFornecedores.FormattingEnabled = true;
+            LstSugestoesFornecedores.IntegralHeight = false;
+            LstSugestoesFornecedores.ItemHeight = 17;
+            LstSugestoesFornecedores.Location = new Point(126, 145);
+            LstSugestoesFornecedores.Name = "LstSugestoesFornecedores";
+            LstSugestoesFornecedores.Size = new Size(1, 1);
+            LstSugestoesFornecedores.TabIndex = 45;
+            LstSugestoesFornecedores.Click += LstSugestoesFornecedores_Click;
+            LstSugestoesFornecedores.KeyDown += LstSugestoesFornecedores_KeyDown;
+            // 
+            // LblFornecedorAtualizarOrcamento
+            // 
+            LblFornecedorAtualizarOrcamento.AutoSize = true;
+            LblFornecedorAtualizarOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            LblFornecedorAtualizarOrcamento.Location = new Point(9, 116);
+            LblFornecedorAtualizarOrcamento.Name = "LblFornecedorAtualizarOrcamento";
+            LblFornecedorAtualizarOrcamento.Size = new Size(113, 26);
+            LblFornecedorAtualizarOrcamento.TabIndex = 44;
+            LblFornecedorAtualizarOrcamento.Text = "Fornecedor:";
+            // 
+            // TxtFornecedorAtualizarOrcamento
+            // 
+            TxtFornecedorAtualizarOrcamento.BackColor = SystemColors.Window;
+            TxtFornecedorAtualizarOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F);
+            TxtFornecedorAtualizarOrcamento.Location = new Point(126, 113);
+            TxtFornecedorAtualizarOrcamento.Name = "TxtFornecedorAtualizarOrcamento";
+            TxtFornecedorAtualizarOrcamento.Size = new Size(636, 33);
+            TxtFornecedorAtualizarOrcamento.TabIndex = 5;
+            TxtFornecedorAtualizarOrcamento.TextChanged += TxtFornecedorAtualizarOrcamento_TextChanged;
             // 
             // ChkMaoDeObra
             // 
@@ -217,7 +255,7 @@
             TxtQuantidadeAtualizarOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtQuantidadeAtualizarOrcamento.Location = new Point(696, 11);
             TxtQuantidadeAtualizarOrcamento.Name = "TxtQuantidadeAtualizarOrcamento";
-            TxtQuantidadeAtualizarOrcamento.Size = new Size(70, 33);
+            TxtQuantidadeAtualizarOrcamento.Size = new Size(66, 33);
             TxtQuantidadeAtualizarOrcamento.TabIndex = 2;
             TxtQuantidadeAtualizarOrcamento.KeyPress += TxtQuantidadeAtualizarOrcamento_KeyPress;
             // 
@@ -237,20 +275,19 @@
             DgvOrcamentosAtualizar.AllowUserToDeleteRows = false;
             DgvOrcamentosAtualizar.AllowUserToResizeColumns = false;
             DgvOrcamentosAtualizar.AllowUserToResizeRows = false;
-            DgvOrcamentosAtualizar.Anchor = AnchorStyles.Bottom;
             DgvOrcamentosAtualizar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvOrcamentosAtualizar.Location = new Point(2, 180);
+            DgvOrcamentosAtualizar.Location = new Point(2, 213);
             DgvOrcamentosAtualizar.Name = "DgvOrcamentosAtualizar";
             DgvOrcamentosAtualizar.ReadOnly = true;
             DgvOrcamentosAtualizar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvOrcamentosAtualizar.Size = new Size(774, 168);
+            DgvOrcamentosAtualizar.Size = new Size(774, 140);
             DgvOrcamentosAtualizar.TabIndex = 17;
             // 
             // BtnIncluirItemAtualizarOrcamento
             // 
             BtnIncluirItemAtualizarOrcamento.BackColor = SystemColors.ControlLight;
             BtnIncluirItemAtualizarOrcamento.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnIncluirItemAtualizarOrcamento.Location = new Point(8, 118);
+            BtnIncluirItemAtualizarOrcamento.Location = new Point(8, 167);
             BtnIncluirItemAtualizarOrcamento.Name = "BtnIncluirItemAtualizarOrcamento";
             BtnIncluirItemAtualizarOrcamento.Size = new Size(365, 35);
             BtnIncluirItemAtualizarOrcamento.TabIndex = 5;
@@ -262,7 +299,7 @@
             // 
             BtnExcluirItemAtualizarOrcamento.BackColor = SystemColors.ControlLight;
             BtnExcluirItemAtualizarOrcamento.Font = new Font("Segoe UI Variable Display Semib", 10F, FontStyle.Bold);
-            BtnExcluirItemAtualizarOrcamento.Location = new Point(401, 118);
+            BtnExcluirItemAtualizarOrcamento.Location = new Point(401, 167);
             BtnExcluirItemAtualizarOrcamento.Name = "BtnExcluirItemAtualizarOrcamento";
             BtnExcluirItemAtualizarOrcamento.Size = new Size(365, 35);
             BtnExcluirItemAtualizarOrcamento.TabIndex = 6;
@@ -365,5 +402,8 @@
         private Label LblDescricaoAtualizarOrcamento;
         private RichTextBox RTxtDescricaoAtualizarOrcamento;
         private CheckBox ChkMaoDeObra;
+        private Label LblFornecedorAtualizarOrcamento;
+        private TextBox TxtFornecedorAtualizarOrcamento;
+        private ListBox LstSugestoesFornecedores;
     }
 }
