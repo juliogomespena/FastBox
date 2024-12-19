@@ -308,7 +308,7 @@ public partial class FormAtualizarOrdem : Form
         }
         else
         {
-            MessageBox.Show("Selecione um orçamento para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Selecione um orçamento para abrir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 

@@ -185,6 +185,11 @@ public partial class FastBoxDbContext : DbContext
                 .HasForeignKey(d => d.OrcamentoId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("ItemOrcamento$fk_ItemOrcamento_Orcamento");
+
+            entity.HasOne(d => d.Fornecedor).WithMany(p => p.ItensOrcamento)
+                .HasForeignKey(d => d.FornecedorId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("ItemOrcamento$fk_ItemOrcamento_Fornecedor");
         });
 
         modelBuilder.Entity<Orcamento>(entity =>
@@ -199,9 +204,9 @@ public partial class FastBoxDbContext : DbContext
             entity.Property(e => e.Descricao).HasMaxLength(255);
 
             entity.HasOne(d => d.OrdemDeServico).WithMany(p => p.Orcamentos)
-            .HasForeignKey(d => d.OrdemDeServicoId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("Orcamento$fk_Orcamento_OrdemDeServico");
+                .HasForeignKey(d => d.OrdemDeServicoId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("Orcamento$fk_Orcamento_OrdemDeServico");
         });
 
         modelBuilder.Entity<MetodoPagamento>(entity =>

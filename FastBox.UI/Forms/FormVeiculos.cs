@@ -22,6 +22,7 @@ public partial class FormVeiculos : Form
     public required Button buttonClientes;
     public required Button buttonVeiculos;
     public required Button buttonOrdensDeServico;
+    public required Button buttonFornecedores;
     public required Button buttonRelatorios;
 
     private async void FormVeiculos_Load(object sender, EventArgs e)
@@ -126,7 +127,7 @@ public partial class FormVeiculos : Form
             await LoadVehiclesIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
         else
-            MessageBox.Show("Selecione um veículo para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Selecione um veículo para abrir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 
     private async void BtnExcluirVeiculo_Click(object sender, EventArgs e)
@@ -175,11 +176,12 @@ public partial class FormVeiculos : Form
         buttonClientes.Enabled = buttonState;
         buttonVeiculos.Enabled = buttonState;
         buttonOrdensDeServico.Enabled = buttonState;
+        buttonFornecedores.Enabled = buttonState;
         buttonRelatorios.Enabled = buttonState;
         BtnRefresh.Enabled = buttonState;
         BtnNextPage.Enabled = buttonState;
         BtnPreviousPage.Enabled = buttonState;
-        BtnAtualizarVeiculo.Enabled = buttonState;
+        BtnAbrirVeiculo.Enabled = buttonState;
         BtnCadastrarVeiculo.Enabled = buttonState;
         BtnExcluirVeiculo.Enabled = buttonState;
     }

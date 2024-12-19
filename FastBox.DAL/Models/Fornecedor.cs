@@ -13,9 +13,11 @@ public partial class Fornecedor
 
     public string? Email { get; set; }
 
-    public long EnderecoId { get; set; }
+    public long? EnderecoId { get; set; }
 
     public virtual Endereco Endereco { get; set; } = null!;
 
     public virtual ICollection<EstoquePeca> EstoquePecas { get; set; } = new List<EstoquePeca>();
+
+    public ICollection<ItemOrcamento> ItensOrcamento { get; set; } = new List<ItemOrcamento>();
 }

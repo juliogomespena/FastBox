@@ -40,6 +40,7 @@
             BtnSair = new Button();
             BtnConfiguracoes = new Button();
             BtnRelatorios = new Button();
+            BtnFornecedores = new Button();
             BtnOrdensDeServico = new Button();
             BtnVeiculos = new Button();
             BtnClientes = new Button();
@@ -140,6 +141,7 @@
             PanelSideMenu.Controls.Add(BtnSair);
             PanelSideMenu.Controls.Add(BtnConfiguracoes);
             PanelSideMenu.Controls.Add(BtnRelatorios);
+            PanelSideMenu.Controls.Add(BtnFornecedores);
             PanelSideMenu.Controls.Add(BtnOrdensDeServico);
             PanelSideMenu.Controls.Add(BtnVeiculos);
             PanelSideMenu.Controls.Add(BtnClientes);
@@ -155,10 +157,10 @@
             BtnSair.Cursor = Cursors.Hand;
             BtnSair.Dock = DockStyle.Top;
             BtnSair.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
-            BtnSair.Location = new Point(0, 320);
+            BtnSair.Location = new Point(0, 384);
             BtnSair.Name = "BtnSair";
             BtnSair.Size = new Size(231, 64);
-            BtnSair.TabIndex = 5;
+            BtnSair.TabIndex = 6;
             BtnSair.Text = "Sair";
             BtnSair.UseVisualStyleBackColor = false;
             BtnSair.Click += BtnSair_Click;
@@ -169,12 +171,13 @@
             BtnConfiguracoes.Cursor = Cursors.Hand;
             BtnConfiguracoes.Dock = DockStyle.Top;
             BtnConfiguracoes.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
-            BtnConfiguracoes.Location = new Point(0, 256);
+            BtnConfiguracoes.Location = new Point(0, 320);
             BtnConfiguracoes.Name = "BtnConfiguracoes";
             BtnConfiguracoes.Size = new Size(231, 64);
-            BtnConfiguracoes.TabIndex = 4;
+            BtnConfiguracoes.TabIndex = 5;
             BtnConfiguracoes.Text = "Configurações";
             BtnConfiguracoes.UseVisualStyleBackColor = false;
+            BtnConfiguracoes.Click += BtnSair_Click;
             // 
             // BtnRelatorios
             // 
@@ -182,12 +185,26 @@
             BtnRelatorios.Cursor = Cursors.Hand;
             BtnRelatorios.Dock = DockStyle.Top;
             BtnRelatorios.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
-            BtnRelatorios.Location = new Point(0, 192);
+            BtnRelatorios.Location = new Point(0, 256);
             BtnRelatorios.Name = "BtnRelatorios";
             BtnRelatorios.Size = new Size(231, 64);
-            BtnRelatorios.TabIndex = 3;
+            BtnRelatorios.TabIndex = 4;
             BtnRelatorios.Text = "Relatórios";
             BtnRelatorios.UseVisualStyleBackColor = false;
+            // 
+            // BtnFornecedores
+            // 
+            BtnFornecedores.BackColor = SystemColors.ControlLight;
+            BtnFornecedores.Cursor = Cursors.Hand;
+            BtnFornecedores.Dock = DockStyle.Top;
+            BtnFornecedores.Font = new Font("Segoe UI Variable Display Semib", 18F, FontStyle.Bold);
+            BtnFornecedores.Location = new Point(0, 192);
+            BtnFornecedores.Name = "BtnFornecedores";
+            BtnFornecedores.Size = new Size(231, 64);
+            BtnFornecedores.TabIndex = 3;
+            BtnFornecedores.Text = "Fornecedores";
+            BtnFornecedores.UseVisualStyleBackColor = false;
+            BtnFornecedores.Click += BtnFornecedores_Click;
             // 
             // BtnOrdensDeServico
             // 
@@ -280,14 +297,15 @@
         private Button BtnOrdensDeServico;
         private Button BtnVeiculos;
         private Button BtnClientes;
-        private Button BtnConfiguracoes;
         private Button BtnRelatorios;
+        private Button BtnFornecedores;
         private Label LblBemVindo;
         private Label LblTitulo;
         private System.Windows.Forms.Timer DataHora;
         private Panel PanelTopMenuBorder;
         private Label LblDataHora;
-        private Button BtnSair;
+        private Button BtnConfiguracoes;
         private Label LblPagina;
+        private Button BtnSair;
     }
 }

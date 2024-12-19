@@ -23,6 +23,7 @@ public partial class FormOrdensDeServico : Form
     public required Button buttonClientes;
     public required Button buttonVeiculos;
     public required Button buttonOrdensDeServico;
+    public required Button buttonFornecedores;
     public required Button buttonRelatorios;
 
     private async void FormOrdensDeServico_Load(object sender, EventArgs e)
@@ -205,6 +206,7 @@ public partial class FormOrdensDeServico : Form
         buttonClientes.Enabled = buttonState;
         buttonVeiculos.Enabled = buttonState;
         buttonOrdensDeServico.Enabled = buttonState;
+        buttonFornecedores.Enabled = buttonState;
         buttonRelatorios.Enabled = buttonState;
         BtnRefresh.Enabled = buttonState;
         BtnNextPage.Enabled = buttonState;

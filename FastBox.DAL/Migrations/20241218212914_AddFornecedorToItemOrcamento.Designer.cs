@@ -4,6 +4,7 @@ using FastBox.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastBox.DAL.Migrations
 {
     [DbContext(typeof(FastBoxDbContext))]
-    partial class FastBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241218212914_AddFornecedorToItemOrcamento")]
+    partial class AddFornecedorToItemOrcamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,7 +235,7 @@ namespace FastBox.DAL.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasDefaultValueSql("(NULL)");
 
-                    b.Property<long?>("EnderecoId")
+                    b.Property<long>("EnderecoId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Nome")
@@ -249,8 +252,7 @@ namespace FastBox.DAL.Migrations
                         .HasName("PK_Fornecedor_FornecedorId");
 
                     b.HasIndex(new[] { "EnderecoId" }, "Fornecedor$EnderecoId_UNIQUE")
-                        .IsUnique()
-                        .HasFilter("[EnderecoId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex(new[] { "Nome" }, "Fornecedor$Nome_UNIQUE")
                         .IsUnique();
@@ -664,6 +666,7 @@ namespace FastBox.DAL.Migrations
                     b.HasOne("FastBox.DAL.Models.Endereco", "Endereco")
                         .WithOne("Fornecedor")
                         .HasForeignKey("FastBox.DAL.Models.Fornecedor", "EnderecoId")
+                        .IsRequired()
                         .HasConstraintName("Fornecedor$fk_Fornecedor_Endereco");
 
                     b.Navigation("Endereco");

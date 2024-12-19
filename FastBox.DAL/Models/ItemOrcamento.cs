@@ -17,5 +17,9 @@ public partial class ItemOrcamento
 
     public decimal Margem { get; set; }
 
+    public long FornecedorId { get; set; }
+
+    public Fornecedor Fornecedor { get; set; } = null!;
+
     public virtual Orcamento Orcamento { get; set; } = null!;
 }

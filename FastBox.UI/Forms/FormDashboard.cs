@@ -42,14 +42,6 @@ namespace FastBox.UI
             LblDataHora.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
         }
 
-        private void BtnSair_Click(object sender, EventArgs e)
-        {
-            Session.Terminate();
-            var frmLogin = _serviceProvider.GetRequiredService<FormLogin>();
-            frmLogin.Show();
-            this.Close();
-        }
-
         private void LoadFormInContainer(Form form)
         {
             PanelMain.Controls.Clear();
@@ -68,7 +60,8 @@ namespace FastBox.UI
             frmClientes.buttonClientes = this.BtnClientes;
             frmClientes.buttonVeiculos = this.BtnVeiculos;
             frmClientes.buttonOrdensDeServico = this.BtnOrdensDeServico;
-            frmClientes.buttonRelatorios = this.BtnRelatorios;
+            frmClientes.buttonFornecedores = this.BtnFornecedores;
+            frmClientes.buttonRelatorios = this.BtnFornecedores;
             LoadFormInContainer(frmClientes);
         }
 
@@ -86,7 +79,8 @@ namespace FastBox.UI
             frmVeiculos.buttonClientes = this.BtnClientes;
             frmVeiculos.buttonVeiculos = this.BtnVeiculos;
             frmVeiculos.buttonOrdensDeServico = this.BtnOrdensDeServico;
-            frmVeiculos.buttonRelatorios = this.BtnRelatorios;
+            frmVeiculos.buttonFornecedores = this.BtnFornecedores;
+            frmVeiculos.buttonRelatorios = this.BtnFornecedores;
             LoadFormInContainer(frmVeiculos);
         }
 
@@ -97,8 +91,29 @@ namespace FastBox.UI
             frmOrdemDeServico.buttonClientes = this.BtnClientes;
             frmOrdemDeServico.buttonVeiculos = this.BtnVeiculos;
             frmOrdemDeServico.buttonOrdensDeServico = this.BtnOrdensDeServico;
-            frmOrdemDeServico.buttonRelatorios = this.BtnRelatorios;
+            frmOrdemDeServico.buttonFornecedores = this.BtnFornecedores;
+            frmOrdemDeServico.buttonRelatorios = this.BtnFornecedores;
             LoadFormInContainer(frmOrdemDeServico);
+        }
+
+        private void BtnSair_Click(object sender, EventArgs e)
+        {
+            Session.Terminate();
+            var frmLogin = _serviceProvider.GetRequiredService<FormLogin>();
+            frmLogin.Show();
+            this.Close();
+        }
+
+        private void BtnFornecedores_Click(object sender, EventArgs e)
+        {
+            LblPagina.Text = "- Fornecedores";
+            var frmFornecedores = _serviceProvider.GetRequiredService<FormFornecedores>();
+            frmFornecedores.buttonClientes = this.BtnClientes;
+            frmFornecedores.buttonVeiculos = this.BtnVeiculos;
+            frmFornecedores.buttonOrdensDeServico = this.BtnOrdensDeServico;
+            frmFornecedores.buttonFornecedores = this.BtnFornecedores;
+            frmFornecedores.buttonRelatorios = this.BtnFornecedores;
+                        LoadFormInContainer(frmFornecedores);
         }
     }
 }

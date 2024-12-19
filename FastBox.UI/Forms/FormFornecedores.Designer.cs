@@ -1,6 +1,6 @@
 ﻿namespace FastBox.UI.Forms
 {
-    partial class FormClientes
+    partial class FormFornecedores
     {
         /// <summary>
         /// Required designer variable.
@@ -28,69 +28,63 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormClientes));
-            DgvClientes = new DataGridView();
-            PanelClientesBotoes = new Panel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormFornecedores));
+            DgvFornecedores = new DataGridView();
+            PanelFornecedoresBotoes = new Panel();
             BtnRefresh = new Button();
             BtnNextPage = new Button();
             BtnPreviousPage = new Button();
-            BtnExcluirCliente = new Button();
-            BtnAbrirCliente = new Button();
-            BtnCadastrarCliente = new Button();
+            BtnExcluirFornecedor = new Button();
+            BtnAbrirFornecedor = new Button();
+            BtnCadastrarFornecedor = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             TspBusca = new ToolStrip();
             TxtInfoTspBuscca = new ToolStripLabel();
             TspTxtNome = new ToolStripTextBox();
             toolStripSeparator1 = new ToolStripSeparator();
-            TspTxtNif = new ToolStripTextBox();
-            toolStripSeparator2 = new ToolStripSeparator();
             TspTxtTelemovel = new ToolStripTextBox();
             toolStripSeparator3 = new ToolStripSeparator();
             TspTxtEmail = new ToolStripTextBox();
             toolStripSeparator4 = new ToolStripSeparator();
-            TspTxtDataInicial = new ToolStripTextBox();
-            TstLblData = new ToolStripLabel();
-            TspTxtDataFinal = new ToolStripTextBox();
-            toolStripSeparator5 = new ToolStripSeparator();
-            TspTxtMatricula = new ToolStripTextBox();
-            toolStripSeparator6 = new ToolStripSeparator();
             TspTxtEndereco = new ToolStripTextBox();
             toolStripSeparator7 = new ToolStripSeparator();
             TspBtnAplicar = new ToolStripButton();
-            ((System.ComponentModel.ISupportInitialize)DgvClientes).BeginInit();
-            PanelClientesBotoes.SuspendLayout();
+            toolStripSeparator6 = new ToolStripSeparator();
+            TspTxtPeca = new ToolStripTextBox();
+            ((System.ComponentModel.ISupportInitialize)DgvFornecedores).BeginInit();
+            PanelFornecedoresBotoes.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             TspBusca.SuspendLayout();
             SuspendLayout();
             // 
-            // DgvClientes
+            // DgvFornecedores
             // 
-            DgvClientes.AllowUserToResizeColumns = false;
-            DgvClientes.AllowUserToResizeRows = false;
-            DgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvClientes.Dock = DockStyle.Fill;
-            DgvClientes.Location = new Point(3, 3);
-            DgvClientes.Name = "DgvClientes";
-            DgvClientes.ReadOnly = true;
-            DgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgvClientes.Size = new Size(1258, 564);
-            DgvClientes.TabIndex = 0;
-            DgvClientes.CellToolTipTextNeeded += DgvClientes_CellToolTipTextNeeded;
+            DgvFornecedores.AllowUserToResizeColumns = false;
+            DgvFornecedores.AllowUserToResizeRows = false;
+            DgvFornecedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DgvFornecedores.Dock = DockStyle.Fill;
+            DgvFornecedores.Location = new Point(3, 3);
+            DgvFornecedores.Name = "DgvFornecedores";
+            DgvFornecedores.ReadOnly = true;
+            DgvFornecedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DgvFornecedores.Size = new Size(1258, 564);
+            DgvFornecedores.TabIndex = 0;
+            DgvFornecedores.CellToolTipTextNeeded += DgvFornecedores_CellToolTipTextNeeded;
             // 
-            // PanelClientesBotoes
+            // PanelFornecedoresBotoes
             // 
-            PanelClientesBotoes.BackColor = SystemColors.ControlLight;
-            PanelClientesBotoes.Controls.Add(BtnRefresh);
-            PanelClientesBotoes.Controls.Add(BtnNextPage);
-            PanelClientesBotoes.Controls.Add(BtnPreviousPage);
-            PanelClientesBotoes.Controls.Add(BtnExcluirCliente);
-            PanelClientesBotoes.Controls.Add(BtnAbrirCliente);
-            PanelClientesBotoes.Controls.Add(BtnCadastrarCliente);
-            PanelClientesBotoes.Dock = DockStyle.Fill;
-            PanelClientesBotoes.Location = new Point(3, 614);
-            PanelClientesBotoes.Name = "PanelClientesBotoes";
-            PanelClientesBotoes.Size = new Size(1258, 64);
-            PanelClientesBotoes.TabIndex = 1;
+            PanelFornecedoresBotoes.BackColor = SystemColors.ControlLight;
+            PanelFornecedoresBotoes.Controls.Add(BtnRefresh);
+            PanelFornecedoresBotoes.Controls.Add(BtnNextPage);
+            PanelFornecedoresBotoes.Controls.Add(BtnPreviousPage);
+            PanelFornecedoresBotoes.Controls.Add(BtnExcluirFornecedor);
+            PanelFornecedoresBotoes.Controls.Add(BtnAbrirFornecedor);
+            PanelFornecedoresBotoes.Controls.Add(BtnCadastrarFornecedor);
+            PanelFornecedoresBotoes.Dock = DockStyle.Fill;
+            PanelFornecedoresBotoes.Location = new Point(3, 614);
+            PanelFornecedoresBotoes.Name = "PanelFornecedoresBotoes";
+            PanelFornecedoresBotoes.Size = new Size(1258, 64);
+            PanelFornecedoresBotoes.TabIndex = 1;
             // 
             // BtnRefresh
             // 
@@ -137,50 +131,50 @@
             BtnPreviousPage.UseVisualStyleBackColor = false;
             BtnPreviousPage.Click += BtnPreviousPage_Click;
             // 
-            // BtnExcluirCliente
+            // BtnExcluirFornecedor
             // 
-            BtnExcluirCliente.Anchor = AnchorStyles.Left;
-            BtnExcluirCliente.AutoEllipsis = true;
-            BtnExcluirCliente.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BtnExcluirCliente.BackColor = SystemColors.ControlLight;
-            BtnExcluirCliente.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnExcluirCliente.Location = new Point(427, 6);
-            BtnExcluirCliente.Name = "BtnExcluirCliente";
-            BtnExcluirCliente.Size = new Size(203, 55);
-            BtnExcluirCliente.TabIndex = 2;
-            BtnExcluirCliente.Text = "Excluir";
-            BtnExcluirCliente.UseVisualStyleBackColor = false;
-            BtnExcluirCliente.Click += BtnExcluirCliente_Click;
+            BtnExcluirFornecedor.Anchor = AnchorStyles.Left;
+            BtnExcluirFornecedor.AutoEllipsis = true;
+            BtnExcluirFornecedor.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnExcluirFornecedor.BackColor = SystemColors.ControlLight;
+            BtnExcluirFornecedor.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnExcluirFornecedor.Location = new Point(427, 6);
+            BtnExcluirFornecedor.Name = "BtnExcluirFornecedor";
+            BtnExcluirFornecedor.Size = new Size(203, 55);
+            BtnExcluirFornecedor.TabIndex = 2;
+            BtnExcluirFornecedor.Text = "Excluir";
+            BtnExcluirFornecedor.UseVisualStyleBackColor = false;
+            BtnExcluirFornecedor.Click += BtnExcluirFornecedor_Click;
             // 
-            // BtnAbrirCliente
+            // BtnAbrirFornecedor
             // 
-            BtnAbrirCliente.Anchor = AnchorStyles.Left;
-            BtnAbrirCliente.AutoEllipsis = true;
-            BtnAbrirCliente.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BtnAbrirCliente.BackColor = SystemColors.ControlLight;
-            BtnAbrirCliente.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnAbrirCliente.Location = new Point(218, 6);
-            BtnAbrirCliente.Name = "BtnAbrirCliente";
-            BtnAbrirCliente.Size = new Size(203, 55);
-            BtnAbrirCliente.TabIndex = 1;
-            BtnAbrirCliente.Text = "Abrir";
-            BtnAbrirCliente.UseVisualStyleBackColor = false;
-            BtnAbrirCliente.Click += BtnAtualizarCliente_Click;
+            BtnAbrirFornecedor.Anchor = AnchorStyles.Left;
+            BtnAbrirFornecedor.AutoEllipsis = true;
+            BtnAbrirFornecedor.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnAbrirFornecedor.BackColor = SystemColors.ControlLight;
+            BtnAbrirFornecedor.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnAbrirFornecedor.Location = new Point(218, 6);
+            BtnAbrirFornecedor.Name = "BtnAbrirFornecedor";
+            BtnAbrirFornecedor.Size = new Size(203, 55);
+            BtnAbrirFornecedor.TabIndex = 1;
+            BtnAbrirFornecedor.Text = "Abrir";
+            BtnAbrirFornecedor.UseVisualStyleBackColor = false;
+            BtnAbrirFornecedor.Click += BtnAtualizarFornecedor_Click;
             // 
-            // BtnCadastrarCliente
+            // BtnCadastrarFornecedor
             // 
-            BtnCadastrarCliente.Anchor = AnchorStyles.Left;
-            BtnCadastrarCliente.AutoEllipsis = true;
-            BtnCadastrarCliente.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BtnCadastrarCliente.BackColor = SystemColors.ControlLight;
-            BtnCadastrarCliente.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnCadastrarCliente.Location = new Point(9, 6);
-            BtnCadastrarCliente.Name = "BtnCadastrarCliente";
-            BtnCadastrarCliente.Size = new Size(203, 55);
-            BtnCadastrarCliente.TabIndex = 0;
-            BtnCadastrarCliente.Text = "Cadastrar";
-            BtnCadastrarCliente.UseVisualStyleBackColor = false;
-            BtnCadastrarCliente.Click += BtnCadastrarCliente_Click;
+            BtnCadastrarFornecedor.Anchor = AnchorStyles.Left;
+            BtnCadastrarFornecedor.AutoEllipsis = true;
+            BtnCadastrarFornecedor.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnCadastrarFornecedor.BackColor = SystemColors.ControlLight;
+            BtnCadastrarFornecedor.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnCadastrarFornecedor.Location = new Point(9, 6);
+            BtnCadastrarFornecedor.Name = "BtnCadastrarFornecedor";
+            BtnCadastrarFornecedor.Size = new Size(203, 55);
+            BtnCadastrarFornecedor.TabIndex = 0;
+            BtnCadastrarFornecedor.Text = "Cadastrar";
+            BtnCadastrarFornecedor.UseVisualStyleBackColor = false;
+            BtnCadastrarFornecedor.Click += BtnCadastrarFornecedor_Click;
             // 
             // tableLayoutPanel1
             // 
@@ -188,8 +182,8 @@
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(TspBusca, 0, 1);
-            tableLayoutPanel1.Controls.Add(DgvClientes, 0, 0);
-            tableLayoutPanel1.Controls.Add(PanelClientesBotoes, 0, 2);
+            tableLayoutPanel1.Controls.Add(DgvFornecedores, 0, 0);
+            tableLayoutPanel1.Controls.Add(PanelFornecedoresBotoes, 0, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -203,7 +197,7 @@
             // TspBusca
             // 
             TspBusca.Dock = DockStyle.Fill;
-            TspBusca.Items.AddRange(new ToolStripItem[] { TxtInfoTspBuscca, TspTxtNome, toolStripSeparator1, TspTxtNif, toolStripSeparator2, TspTxtTelemovel, toolStripSeparator3, TspTxtEmail, toolStripSeparator4, TspTxtDataInicial, TstLblData, TspTxtDataFinal, toolStripSeparator5, TspTxtMatricula, toolStripSeparator6, TspTxtEndereco, toolStripSeparator7, TspBtnAplicar });
+            TspBusca.Items.AddRange(new ToolStripItem[] { TxtInfoTspBuscca, TspTxtNome, toolStripSeparator1, TspTxtTelemovel, toolStripSeparator3, TspTxtEmail, toolStripSeparator4, TspTxtPeca, toolStripSeparator6, TspTxtEndereco, toolStripSeparator7, TspBtnAplicar });
             TspBusca.Location = new Point(0, 570);
             TspBusca.Name = "TspBusca";
             TspBusca.Size = new Size(1264, 41);
@@ -230,20 +224,6 @@
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(6, 41);
-            // 
-            // TspTxtNif
-            // 
-            TspTxtNif.ForeColor = Color.Gray;
-            TspTxtNif.Name = "TspTxtNif";
-            TspTxtNif.Size = new Size(80, 41);
-            TspTxtNif.Text = "NIF";
-            TspTxtNif.Enter += TspTxtNif_Enter;
-            TspTxtNif.Leave += TspTxtNif_Leave;
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(6, 41);
             // 
             // TspTxtTelemovel
             // 
@@ -273,49 +253,6 @@
             toolStripSeparator4.Name = "toolStripSeparator4";
             toolStripSeparator4.Size = new Size(6, 41);
             // 
-            // TspTxtDataInicial
-            // 
-            TspTxtDataInicial.ForeColor = Color.Gray;
-            TspTxtDataInicial.Name = "TspTxtDataInicial";
-            TspTxtDataInicial.Size = new Size(120, 41);
-            TspTxtDataInicial.Text = "Data inicial";
-            TspTxtDataInicial.Enter += TspTxtDataInicial_Enter;
-            TspTxtDataInicial.Leave += TspTxtDataInicial_Leave;
-            // 
-            // TstLblData
-            // 
-            TstLblData.Name = "TstLblData";
-            TstLblData.Size = new Size(26, 38);
-            TstLblData.Text = "até";
-            // 
-            // TspTxtDataFinal
-            // 
-            TspTxtDataFinal.ForeColor = Color.Gray;
-            TspTxtDataFinal.Name = "TspTxtDataFinal";
-            TspTxtDataFinal.Size = new Size(120, 41);
-            TspTxtDataFinal.Text = "Data final";
-            TspTxtDataFinal.Enter += TspTxtDataFinal_Enter;
-            TspTxtDataFinal.Leave += TspTxtDataFinal_Leave;
-            // 
-            // toolStripSeparator5
-            // 
-            toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new Size(6, 41);
-            // 
-            // TspTxtMatricula
-            // 
-            TspTxtMatricula.ForeColor = Color.Gray;
-            TspTxtMatricula.Name = "TspTxtMatricula";
-            TspTxtMatricula.Size = new Size(80, 41);
-            TspTxtMatricula.Text = "Matrícula";
-            TspTxtMatricula.Enter += TspTxtMatricula_Enter;
-            TspTxtMatricula.Leave += TspTxtMatricula_Leave;
-            // 
-            // toolStripSeparator6
-            // 
-            toolStripSeparator6.Name = "toolStripSeparator6";
-            toolStripSeparator6.Size = new Size(6, 41);
-            // 
             // TspTxtEndereco
             // 
             TspTxtEndereco.ForeColor = Color.Gray;
@@ -340,17 +277,31 @@
             TspBtnAplicar.Text = "Aplicar";
             TspBtnAplicar.Click += TspBtnAplicar_Click;
             // 
-            // FormClientes
+            // toolStripSeparator6
+            // 
+            toolStripSeparator6.Name = "toolStripSeparator6";
+            toolStripSeparator6.Size = new Size(6, 41);
+            // 
+            // TspTxtPeca
+            // 
+            TspTxtPeca.ForeColor = Color.Gray;
+            TspTxtPeca.Name = "TspTxtPeca";
+            TspTxtPeca.Size = new Size(180, 41);
+            TspTxtPeca.Text = "Peça";
+            // TspTxtPeca.Enter += TspTxtMatricula_Enter;
+            // TspTxtPeca.Leave += TspTxtMatricula_Leave;
+            // 
+            // FormFornecedores
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
             Controls.Add(tableLayoutPanel1);
-            Name = "FormClientes";
-            Text = "FastBox - Clientes";
-            Load += FormClientes_Load;
-            ((System.ComponentModel.ISupportInitialize)DgvClientes).EndInit();
-            PanelClientesBotoes.ResumeLayout(false);
+            Name = "FormFornecedores";
+            Text = "FastBox - Fornecedores";
+            Load += FormFornecedores_Load;
+            ((System.ComponentModel.ISupportInitialize)DgvFornecedores).EndInit();
+            PanelFornecedoresBotoes.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             TspBusca.ResumeLayout(false);
@@ -360,11 +311,11 @@
 
         #endregion
 
-        private DataGridView DgvClientes;
-        private Panel PanelClientesBotoes;
-        private Button BtnExcluirCliente;
-        private Button BtnAbrirCliente;
-        private Button BtnCadastrarCliente;
+        private DataGridView DgvFornecedores;
+        private Panel PanelFornecedoresBotoes;
+        private Button BtnExcluirFornecedor;
+        private Button BtnAbrirFornecedor;
+        private Button BtnCadastrarFornecedor;
         private Button BtnPreviousPage;
         private Button BtnNextPage;
         private TableLayoutPanel tableLayoutPanel1;
@@ -373,20 +324,14 @@
         private ToolStripLabel TxtInfoTspBuscca;
         private ToolStripTextBox TspTxtNome;
         private ToolStripSeparator toolStripSeparator1;
-        private ToolStripTextBox TspTxtNif;
-        private ToolStripSeparator toolStripSeparator2;
         private ToolStripTextBox TspTxtTelemovel;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripTextBox TspTxtEmail;
         private ToolStripSeparator toolStripSeparator4;
-        private ToolStripTextBox TspTxtDataInicial;
-        private ToolStripLabel TstLblData;
-        private ToolStripTextBox TspTxtDataFinal;
-        private ToolStripSeparator toolStripSeparator5;
-        private ToolStripTextBox TspTxtMatricula;
-        private ToolStripSeparator toolStripSeparator6;
         private ToolStripTextBox TspTxtEndereco;
         private ToolStripSeparator toolStripSeparator7;
         private ToolStripButton TspBtnAplicar;
+        private ToolStripTextBox TspTxtPeca;
+        private ToolStripSeparator toolStripSeparator6;
     }
 }

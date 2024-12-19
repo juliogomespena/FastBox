@@ -30,14 +30,23 @@
 <li>Filtragem por marca, modelo, ano, cliente, matrícula e observações.</li>
 <br>
 </ul>
+<li>Gerenciamento de Fornecedores:</li>
+<ul>
+<li>Cadastro, edição, exclusão e listagem paginada de fornecedores.</li>
+<li>Filtragem por nome, email, telemóvel, peças e endereço.</li>
+<li>Peças de um orçamento são associadas a um fornecedor.</li>
+<br>
+</ul>
 <li>Gerenciamento de Ordens de Serviço (OS):</li>
 <ul>
     <li>Criação, atualização e finalização de ordens de serviço.</li>
     <li>Associar orçamentos com status dinâmico: pendente, aprovado, reprovado.</li>
     <li>Cálculo automático do Valor Total da OS com base em orçamentos aprovados.</li>
+    <li>Cálculo automático do IVA da OS com base no valor total.</li>
     <li>Filtros e paginação em todas as listagens para melhor performance.</li>
-    <li>Exportação de dados para geração de relatórios. (a ser implementado)</li>
-    <li>Validação de entrada usando Regex e lógica implementada nos formulários.</li>
+    <li>Exportação de orçamentos em PDF para envio a clientes.</li>
+    <li>Geração de relatório customizados. (a ser implementado)</li>
+    <li>Validação de entrada lógica implementada nos formulários.</li>
     <li>Feedbacks de operações ao usuário com MessageBox.</li>
     <li>Pagamentos para ordens de serviço, conclusão apenas após pagamento total do valor devido. (a ser implementado)</li>
 </ul>
@@ -47,6 +56,7 @@ Principais Telas:
 <li>FormClientes: Gerenciamento de clientes.</li>
 <li>FormVeiculos: Gerenciamento de veículos.</li>
 <li>FormOrdensDeServico: Gerenciamento das ordens de serviço.</li>
+<li>FormFornecedores: Gerenciamento de fornecedores.</li>
 <li>FormCadastrarOrdem e FormAtualizarOrdem: Cadastro e edição de ordens.</li>
 </ul>
 </ul>
@@ -78,6 +88,7 @@ Exemplos:
 <li>ClienteViewModel</li>
 <li>VeiculoViewModel</li>
 <li>OrdemDeServicoViewModel</li>
+<li>FornecedorViewModel</li>
 <li>OrcamentoViewModel</li>
 <li>ItemOrcamentoViewModel</li>
 </ul>
@@ -113,6 +124,7 @@ Exemplos:
 <li>Cliente</li>
 <li>Veiculo</li>
 <li>OrdemDeServico</li>
+<li>Fornecedor</li>
 <li>Orcamento</li>
 <li>ItemOrcamento</li>
 <li>MetodoPagamento</li>

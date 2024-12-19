@@ -35,7 +35,7 @@
             BtnNextPage = new Button();
             BtnPreviousPage = new Button();
             BtnExcluirVeiculo = new Button();
-            BtnAtualizarVeiculo = new Button();
+            BtnAbrirVeiculo = new Button();
             BtnCadastrarVeiculo = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             TspBusca = new ToolStrip();
@@ -78,7 +78,7 @@
             PanelVeiculosBotoes.Controls.Add(BtnNextPage);
             PanelVeiculosBotoes.Controls.Add(BtnPreviousPage);
             PanelVeiculosBotoes.Controls.Add(BtnExcluirVeiculo);
-            PanelVeiculosBotoes.Controls.Add(BtnAtualizarVeiculo);
+            PanelVeiculosBotoes.Controls.Add(BtnAbrirVeiculo);
             PanelVeiculosBotoes.Controls.Add(BtnCadastrarVeiculo);
             PanelVeiculosBotoes.Dock = DockStyle.Fill;
             PanelVeiculosBotoes.Location = new Point(3, 614);
@@ -146,20 +146,20 @@
             BtnExcluirVeiculo.UseVisualStyleBackColor = false;
             BtnExcluirVeiculo.Click += BtnExcluirVeiculo_Click;
             // 
-            // BtnAtualizarVeiculo
+            // BtnAbrirVeiculo
             // 
-            BtnAtualizarVeiculo.Anchor = AnchorStyles.Left;
-            BtnAtualizarVeiculo.AutoEllipsis = true;
-            BtnAtualizarVeiculo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            BtnAtualizarVeiculo.BackColor = SystemColors.ControlLight;
-            BtnAtualizarVeiculo.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
-            BtnAtualizarVeiculo.Location = new Point(218, 6);
-            BtnAtualizarVeiculo.Name = "BtnAtualizarVeiculo";
-            BtnAtualizarVeiculo.Size = new Size(203, 55);
-            BtnAtualizarVeiculo.TabIndex = 1;
-            BtnAtualizarVeiculo.Text = "Atualizar";
-            BtnAtualizarVeiculo.UseVisualStyleBackColor = false;
-            BtnAtualizarVeiculo.Click += BtnAtualizarVeiculo_Click;
+            BtnAbrirVeiculo.Anchor = AnchorStyles.Left;
+            BtnAbrirVeiculo.AutoEllipsis = true;
+            BtnAbrirVeiculo.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BtnAbrirVeiculo.BackColor = SystemColors.ControlLight;
+            BtnAbrirVeiculo.Font = new Font("Segoe UI Variable Display Semib", 16F, FontStyle.Bold);
+            BtnAbrirVeiculo.Location = new Point(218, 6);
+            BtnAbrirVeiculo.Name = "BtnAbrirVeiculo";
+            BtnAbrirVeiculo.Size = new Size(203, 55);
+            BtnAbrirVeiculo.TabIndex = 1;
+            BtnAbrirVeiculo.Text = "Abrir";
+            BtnAbrirVeiculo.UseVisualStyleBackColor = false;
+            BtnAbrirVeiculo.Click += BtnAtualizarVeiculo_Click;
             // 
             // BtnCadastrarVeiculo
             // 
@@ -322,7 +322,7 @@
         private DataGridView DgvVeiculos;
         private Panel PanelVeiculosBotoes;
         private Button BtnExcluirVeiculo;
-        private Button BtnAtualizarVeiculo;
+        private Button BtnAbrirVeiculo;
         private Button BtnCadastrarVeiculo;
         private Button BtnPreviousPage;
         private Button BtnNextPage;

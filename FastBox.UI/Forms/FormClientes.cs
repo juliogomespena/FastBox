@@ -22,6 +22,7 @@ public partial class FormClientes : Form
     public required Button buttonClientes;
     public required Button buttonVeiculos;
     public required Button buttonOrdensDeServico;
+    public required Button buttonFornecedores;
     public required Button buttonRelatorios;
 
     private async void FormClientes_Load(object sender, EventArgs e)
@@ -50,6 +51,7 @@ public partial class FormClientes : Form
             DgvClientes.Columns["OrdensDeServicoCount"].HeaderText = "Ordens de serviço";
             DgvClientes.Columns["VeiculosMatricula"].HeaderText = "Veículos";
             DgvClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
+            DgvClientes.Columns["Telemovel"].HeaderText = "Telemóvel";
             DgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvClientes.MultiSelect = false;
         }
@@ -145,7 +147,7 @@ public partial class FormClientes : Form
             await LoadClientsIntoDgvAsync(1, GlobalConfiguration.PageSize);
         }
         else
-            MessageBox.Show("Selecione um cliente para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Selecione um cliente para abrir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 
     private async void BtnExcluirCliente_Click(object sender, EventArgs e)
@@ -194,11 +196,12 @@ public partial class FormClientes : Form
         buttonClientes.Enabled = buttonState;
         buttonVeiculos.Enabled = buttonState;
         buttonOrdensDeServico.Enabled = buttonState;
+        buttonFornecedores.Enabled = buttonState;
         buttonRelatorios.Enabled = buttonState;
         BtnRefresh.Enabled = buttonState;
         BtnNextPage.Enabled = buttonState;
         BtnPreviousPage.Enabled = buttonState;
-        BtnAtualizarCliente.Enabled = buttonState;
+        BtnAbrirCliente.Enabled = buttonState;
         BtnCadastrarCliente.Enabled = buttonState;
         BtnExcluirCliente.Enabled = buttonState;
     }
