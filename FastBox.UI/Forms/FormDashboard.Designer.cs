@@ -177,7 +177,6 @@
             BtnConfiguracoes.TabIndex = 5;
             BtnConfiguracoes.Text = "Configurações";
             BtnConfiguracoes.UseVisualStyleBackColor = false;
-            BtnConfiguracoes.Click += BtnSair_Click;
             // 
             // BtnRelatorios
             // 

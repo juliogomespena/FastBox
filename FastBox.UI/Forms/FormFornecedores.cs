@@ -1,5 +1,6 @@
 ﻿using FastBox.BLL.DTOs.Filters;
 using FastBox.BLL.Services.Interfaces;
+using FastBox.DAL.Models;
 using FastBox.UI.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -175,8 +176,16 @@ public partial class FormFornecedores : Form
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show($"Erro ao deletar fornecedor: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (ex.Message.Contains("Fornecedor") && ex.Message.Contains("ItemOrcamento"))
+                {
+                    MessageBox.Show(
+                        "Não é possível excluir o fornecedor pois ele está associado a itens em ordens de serviço. Exclua ou altere os itens associados antes de tentar novamente.",
+                        "Erro ao excluir fornecedor",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                else
+                    MessageBox.Show($"Erro ao deletar fornecedor: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
@@ -205,11 +214,11 @@ public partial class FormFornecedores : Form
     {
         var filter = new FornecedorFilter
         {
-            Nome = TspTxtNome.Text,
-            Telemovel = TspTxtTelemovel.Text,
-            Email = TspTxtEmail.Text,
-            Peca = TspTxtPeca.Text,
-            EnderecoCompleto = TspTxtEndereco.Text,
+            Nome = TspTxtNome.Text == "Nome" ? null : TspTxtNome.Text,
+            Telemovel = TspTxtTelemovel.Text == "Telemóvel" ? null : TspTxtTelemovel.Text,
+            Email = TspTxtEmail.Text == "Email" ? null : TspTxtEmail.Text,
+            Peca = TspTxtPeca.Text == "Peça" ? null : TspTxtPeca.Text,
+            EnderecoCompleto = TspTxtEndereco.Text == "Endereço" ? null : TspTxtEndereco.Text,
         };
 
         await LoadFornecedoresIntoDgvAsync(1, GlobalConfiguration.PageSize, filter);

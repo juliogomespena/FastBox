@@ -9,13 +9,13 @@ namespace FastBox.BLL.DTOs.Filters;
 
 public class FornecedorFilter
 {
-    public string Nome { get; set; }
+    public string? Nome { get; set; }
 
-    public string Telemovel { get; set; }
+    public string? Telemovel { get; set; }
 
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
-    public string Peca { get; set; }
+    public string? Peca { get; set; }
 
-    public string EnderecoCompleto { get; set; }
+    public string? EnderecoCompleto { get; set; }
 }

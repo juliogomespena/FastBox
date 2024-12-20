@@ -164,7 +164,7 @@ public partial class FormAtualizarFornecedor : Form
                     MessageBox.Show("Selecione um concelho válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-
+            fornecedor.FornecedorId = fornecedor.FornecedorId;
             fornecedor.Nome = TxtNome.Text.Trim();
             fornecedor.Telemovel = TxtMskTelemovel.Text.Trim();
             fornecedor.Email = TxtEmail.Text.Trim();

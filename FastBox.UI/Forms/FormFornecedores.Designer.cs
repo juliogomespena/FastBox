@@ -46,11 +46,11 @@
             toolStripSeparator3 = new ToolStripSeparator();
             TspTxtEmail = new ToolStripTextBox();
             toolStripSeparator4 = new ToolStripSeparator();
+            TspTxtPeca = new ToolStripTextBox();
+            toolStripSeparator6 = new ToolStripSeparator();
             TspTxtEndereco = new ToolStripTextBox();
             toolStripSeparator7 = new ToolStripSeparator();
             TspBtnAplicar = new ToolStripButton();
-            toolStripSeparator6 = new ToolStripSeparator();
-            TspTxtPeca = new ToolStripTextBox();
             ((System.ComponentModel.ISupportInitialize)DgvFornecedores).BeginInit();
             PanelFornecedoresBotoes.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -215,7 +215,7 @@
             TspTxtNome.ForeColor = Color.Gray;
             TspTxtNome.Name = "TspTxtNome";
             TspTxtNome.Size = new Size(150, 41);
-            TspTxtNome.Text = "Nome completo";
+            TspTxtNome.Text = "Nome";
             TspTxtNome.ToolTipText = "Nome";
             TspTxtNome.Enter += TspTxtNome_Enter;
             TspTxtNome.Leave += TspTxtNome_Leave;
@@ -253,6 +253,18 @@
             toolStripSeparator4.Name = "toolStripSeparator4";
             toolStripSeparator4.Size = new Size(6, 41);
             // 
+            // TspTxtPeca
+            // 
+            TspTxtPeca.ForeColor = Color.Gray;
+            TspTxtPeca.Name = "TspTxtPeca";
+            TspTxtPeca.Size = new Size(180, 41);
+            TspTxtPeca.Text = "Peça";
+            // 
+            // toolStripSeparator6
+            // 
+            toolStripSeparator6.Name = "toolStripSeparator6";
+            toolStripSeparator6.Size = new Size(6, 41);
+            // 
             // TspTxtEndereco
             // 
             TspTxtEndereco.ForeColor = Color.Gray;
@@ -276,20 +288,6 @@
             TspBtnAplicar.Size = new Size(52, 38);
             TspBtnAplicar.Text = "Aplicar";
             TspBtnAplicar.Click += TspBtnAplicar_Click;
-            // 
-            // toolStripSeparator6
-            // 
-            toolStripSeparator6.Name = "toolStripSeparator6";
-            toolStripSeparator6.Size = new Size(6, 41);
-            // 
-            // TspTxtPeca
-            // 
-            TspTxtPeca.ForeColor = Color.Gray;
-            TspTxtPeca.Name = "TspTxtPeca";
-            TspTxtPeca.Size = new Size(180, 41);
-            TspTxtPeca.Text = "Peça";
-            // TspTxtPeca.Enter += TspTxtMatricula_Enter;
-            // TspTxtPeca.Leave += TspTxtMatricula_Leave;
             // 
             // FormFornecedores
             // 
