@@ -61,15 +61,25 @@ Principais Telas:
 </ul>
 </ul>
 <table>
-<td>
-<img src="https://github.com/user-attachments/assets/a91236f1-67a6-4241-8b1c-4120b2a8870b"/>
-</td>
-<td>
-<img src="https://github.com/user-attachments/assets/1e6b4040-ccd8-40d3-9182-2fa51bbf8870"/>       
-</td>
-<td>
-<img src="https://github.com/user-attachments/assets/86cef272-8bbf-491c-91b0-e241135bf2a1"/>            
-</td>
+    <tr>
+        <td>
+        <img src="https://github.com/user-attachments/assets/a91236f1-67a6-4241-8b1c-4120b2a8870b"/>
+        </td>
+        <td>
+        <img src="https://github.com/user-attachments/assets/1e6b4040-ccd8-40d3-9182-2fa51bbf8870"/>       
+        </td>
+        <td>
+        <img src="https://github.com/user-attachments/assets/6cc8b919-eb93-4f4b-869b-adcf9df72185"/>            
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <img src="https://github.com/user-attachments/assets/d481d863-6f0a-49ed-8078-7c2cfc861d3c"/>
+        </td>
+        <td>
+        <img src="https://github.com/user-attachments/assets/8d5a07e0-8c01-424d-9c94-13b42fb8edd6"/>
+        </td>
+    </tr>
 </table>
 <br><br>
 
