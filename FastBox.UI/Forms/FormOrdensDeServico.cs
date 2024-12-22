@@ -38,6 +38,7 @@ public partial class FormOrdensDeServico : Form
             TspCmbStatus.Items.AddRange(status.Select(s => s.Nome).ToArray());
         }
         TspCmbStatus.SelectedIndex = 0;
+        TspCmbValorTotalOpcao.SelectedIndex = 0;
     }
 
     private async Task LoadOrdensDeServicoIntoDgvAsync(int page, int size, OrdemDeServicoFilter? filter = null)
@@ -49,17 +50,16 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.DataSource = ordensDeServico;
             DgvOrdensDeServico.Columns["ClienteId"].Visible = false;
             DgvOrdensDeServico.Columns["VeiculoId"].Visible = false;
-            DgvOrdensDeServico.Columns["GarantiaEmDias"].Visible = false;
-            DgvOrdensDeServico.Columns["ObservacoesGarantia"].Visible = false;
             DgvOrdensDeServico.Columns["Cliente"].Visible = false;
             DgvOrdensDeServico.Columns["Orcamentos"].Visible = false;
             DgvOrdensDeServico.Columns["Pagamentos"].Visible = false;
             DgvOrdensDeServico.Columns["Veiculo"].Visible = false;
-            DgvOrdensDeServico.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
+            DgvOrdensDeServico.Columns["DataGarantia"].Visible = false;
             DgvOrdensDeServico.Columns["StatusOrdemDeServicoId"].Visible = false;
             DgvOrdensDeServico.Columns["StatusOrdemDeServico"].Visible = false;
             DgvOrdensDeServico.Columns["DataConclusao"].Visible = false;
             DgvOrdensDeServico.Columns["IncluirIva"].Visible = false;
+            DgvOrdensDeServico.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
             DgvOrdensDeServico.Columns["OrdemDeServicoId"].HeaderText = "Id";
             DgvOrdensDeServico.Columns["ModeloMatricula"].HeaderText = "Veículo (matrícula)";
             DgvOrdensDeServico.Columns["NomeCliente"].HeaderText = "Cliente";
@@ -68,6 +68,10 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.Columns["EstimativaConclusao"].HeaderText = "Prazo estimado";
             DgvOrdensDeServico.Columns["ValorTotal"].HeaderText = "Valor total";
             DgvOrdensDeServico.Columns["OrcamentosCount"].HeaderText = "Orçamentos";
+            DgvOrdensDeServico.Columns["DataGarantiaStatus"].HeaderText = "Garantia";
+            DgvOrdensDeServico.Columns["ValorPago"].HeaderText = "Valor pago";
+            DgvOrdensDeServico.Columns["ValorDevido"].HeaderText = "Valor em aberto";
+            DgvOrdensDeServico.Columns["ObservacoesGarantia"].HeaderText = "Observações da garantia";
             DgvOrdensDeServico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DgvOrdensDeServico.MultiSelect = false;
         }
@@ -322,14 +326,9 @@ public partial class FormOrdensDeServico : Form
                     return;
                 }
 
-                var dialog = MessageBox.Show($"Deseja concluir a ordem de serviço: {ordem.OrdemDeServicoId}?\nVeículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (dialog == DialogResult.Yes)
-                {
-                    var frmConcluirOrdem = _serviceProvider.GetRequiredService<FormConcluirOrdem>();
-                    frmConcluirOrdem.OrdemAtual = ordem;
-                    frmConcluirOrdem.ShowDialog();
-                }
+                var frmConcluirOrdem = _serviceProvider.GetRequiredService<FormConcluirOrdem>();
+                frmConcluirOrdem.OrdemAtual = ordem;
+                frmConcluirOrdem.ShowDialog();
             }
             catch (DbUpdateException ex)
             {

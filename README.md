@@ -48,7 +48,7 @@
     <li>Geração de relatório customizados. (a ser implementado)</li>
     <li>Validação de entrada lógica implementada nos formulários.</li>
     <li>Feedbacks de operações ao usuário com MessageBox.</li>
-    <li>Pagamentos para ordens de serviço, conclusão apenas após pagamento total do valor devido. (a ser implementado)</li>
+    <li>Pagamentos para ordens de serviço, conclusão apenas após pagamento total do valor devido.</li>
 </ul>
 <br>
 Principais Telas:

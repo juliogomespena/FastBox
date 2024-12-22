@@ -24,7 +24,7 @@ public partial class OrdemDeServico
 
     public bool IncluirIva { get; set; }
 
-    public int? GarantiaEmDias { get; set; }
+    public DateTime? DataGarantia { get; set; }
 
     public string? ObservacoesGarantia { get; set; }
 

@@ -27,7 +27,7 @@ public partial class FormAtualizarOrcamento : Form
 
     public OrcamentoViewModel OrcamentoAtual { get; set; }
     public ICollection<ItemOrcamentoViewModel> _items = [];
-    public bool IsOrdemCancelledOrCompleted = false;
+    public bool IsOrdemCancelledCompletedOrAwaitingPayment = false;
 
     private async void BtnAtualizarOrcamento_Click(object sender, EventArgs e)
     {
@@ -59,15 +59,19 @@ public partial class FormAtualizarOrcamento : Form
 
     private void SetAllControlsEnabled(Control parent, bool enabled)
     {
-        foreach (Control control in parent.Controls)
-        {
-            control.Enabled = enabled;
-
-            if (control.HasChildren)
-            {
-                SetAllControlsEnabled(control, enabled);
-            }
-        }
+        TxtItemAtualizarOrcamento.Enabled = enabled;
+        ChkMaoDeObra.Enabled = enabled;
+        TxtQuantidadeAtualizarOrcamento.Enabled= enabled;
+        TxtPrecoUnitarioAtualizarOrcamento.Enabled = enabled;
+        TxtMargemAtualizarOrdem.Enabled = enabled;
+        TxtPrecoFinalTotalAtualizarOrcamento.Enabled = enabled;
+        TxtPrecoUnitarioFinalAtualizarOrcamento.Enabled = enabled;
+        TxtFornecedorAtualizarOrcamento.Enabled = enabled;
+        BtnIncluirItemAtualizarOrcamento.Enabled = enabled;
+        BtnExcluirItemAtualizarOrcamento.Enabled = enabled;
+        RTxtDescricaoAtualizarOrcamento.Enabled = enabled;
+        BtnAtualizarOrcamento.Enabled = enabled;
+        DgvOrcamentosAtualizar.Enabled = true;
     }
 
     private bool CheckFields()
@@ -108,7 +112,7 @@ public partial class FormAtualizarOrcamento : Form
 
     private void FormAtualizarOrcamento_Load(object sender, EventArgs e)
     {
-        if (IsOrdemCancelledOrCompleted)
+        if (IsOrdemCancelledCompletedOrAwaitingPayment)
             SetAllControlsEnabled(this, false);
 
         RTxtDescricaoAtualizarOrcamento.Text = OrcamentoAtual.Descricao;

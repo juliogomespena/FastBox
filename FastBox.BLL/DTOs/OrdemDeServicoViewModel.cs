@@ -9,6 +9,8 @@ namespace FastBox.BLL.DTOs;
 
 public class OrdemDeServicoViewModel
 {
+    private DateTime? _dataGarantia;
+    private string? _observacoesGarantia;
     public long OrdemDeServicoId { get; set; }
 
     public long StatusOrdemDeServicoId { get; set; }
@@ -33,11 +35,27 @@ public class OrdemDeServicoViewModel
 
     public DateTime? DataConclusao { get; set; }
 
+    public string DataGarantiaStatus => StatusOrdemDeServicoId == 7 ? "Cancelada" : DataGarantia != null ? DataGarantia.Value.ToString("d") : "Aguardando conclusão";
+
+    public string? ObservacoesGarantia 
+    {
+        get
+        {
+            return String.IsNullOrWhiteSpace(_observacoesGarantia) ? "Observações da garantia" : _observacoesGarantia;
+        }
+        set
+        {
+            _observacoesGarantia = value;
+        }
+    }
+
+    public DateTime? DataGarantia { get; set; }
+
     public decimal? ValorTotal { get; set; }
 
-    public int? GarantiaEmDias { get; set; }
+    public string? ValorPago => StatusOrdemDeServicoId == 7 ? "Cancelada" : Pagamentos.Any() ? Pagamentos.Sum(p => p.Valor).ToString("C2") : "Aguardando conclusão";
 
-    public string? ObservacoesGarantia { get; set; }
+    public string? ValorDevido => StatusOrdemDeServicoId == 7 ? "Cancelada" : Pagamentos.Any() ? (ValorTotal - Pagamentos.Sum(p => p.Valor))?.ToString("C2") : "Aguardando conclusão";
 
     public virtual Cliente? Cliente { get; set; }
 

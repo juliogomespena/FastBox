@@ -46,10 +46,12 @@ public partial class FormConcluirOrdem : Form
 
             var novoTotalDePagamentos = OrdemAtual.Pagamentos.Sum(p => p.Valor) + pagamento.Valor;
 
-            if(novoTotalDePagamentos > OrdemAtual.ValorTotal)
+            if (novoTotalDePagamentos > OrdemAtual.ValorTotal)
                 throw new InvalidOperationException($"O valor do pagamento excede o total da ordem. Excedente: {novoTotalDePagamentos - OrdemAtual.ValorTotal:C2}");
 
             OrdemAtual.Pagamentos.Add(pagamento);
+            OrdemAtual.DataGarantia = DtpGarantiaConcluirOrdem.Value;
+            OrdemAtual.ObservacoesGarantia = RTxtObservacoesGarantiaConcluirOrdem.Text == "Observações da garantia" ? null : RTxtObservacoesGarantiaConcluirOrdem.Text;
             await _ordemDeServicoService.UpdateOrdemAsync(OrdemAtual);
 
             MessageBox.Show($"Pagamento de {valorRecebido.ToString("C2")} recebido com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -117,6 +119,17 @@ public partial class FormConcluirOrdem : Form
         TxtClienteConcluirOrdem.Text = OrdemAtual.NomeCliente;
         TxtVeiculoConcluirOrdem.Text = $"{OrdemAtual.Veiculo.Modelo} ({OrdemAtual.Veiculo.Matricula})";
         TxtEuroConcluirOrdem.Text = $"Total: {OrdemAtual.ValorTotal - OrdemAtual.Pagamentos.Sum(p => p.Valor)}";
+
+        if(OrdemAtual.DataGarantia != null)
+        {
+            DtpGarantiaConcluirOrdem.Value = OrdemAtual.DataGarantia.Value;
+            RTxtObservacoesGarantiaConcluirOrdem.Text = OrdemAtual.ObservacoesGarantia;
+            if (string.IsNullOrWhiteSpace(RTxtObservacoesGarantiaConcluirOrdem.Text))
+            {
+                RTxtObservacoesGarantiaConcluirOrdem.Text = "Observações da garantia";
+                RTxtObservacoesGarantiaConcluirOrdem.ForeColor = Color.Gray;
+            }
+        }
 
         LoadItensIntoDgvOrcamentoConcluirOrdem(ConvertOrcamentosIntoOrcamentoViewModel(OrdemAtual.Orcamentos));
     }
@@ -218,6 +231,24 @@ public partial class FormConcluirOrdem : Form
         {
             TxtEuroConcluirOrdem.Text = $"Total: {OrdemAtual.ValorTotal - OrdemAtual.Pagamentos.Sum(p => p.Valor)}";
             TxtEuroConcluirOrdem.ForeColor = Color.Gray;
+        }
+    }
+
+    private void RTxtObservacoesGarantiaConcluirOrdem_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(RTxtObservacoesGarantiaConcluirOrdem.Text))
+        {
+            RTxtObservacoesGarantiaConcluirOrdem.Text = "Observações da garantia";
+            RTxtObservacoesGarantiaConcluirOrdem.ForeColor = Color.Gray;
+        }
+    }
+
+    private void RTxtObservacoesGarantiaConcluirOrdem_Enter(object sender, EventArgs e)
+    {
+        if (RTxtObservacoesGarantiaConcluirOrdem.Text == "Observações da garantia")
+        {
+            RTxtObservacoesGarantiaConcluirOrdem.Text = null;
+            RTxtObservacoesGarantiaConcluirOrdem.ForeColor = SystemColors.WindowText;
         }
     }
 }
