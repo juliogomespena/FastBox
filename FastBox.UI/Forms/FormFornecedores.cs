@@ -243,6 +243,24 @@ public partial class FormFornecedores : Form
         }
     }
 
+    private void TspTxtPeca_Enter(object sender, EventArgs e)
+    {
+        if (TspTxtPeca.Text == "Peça")
+        {
+            TspTxtPeca.Text = null;
+            TspTxtPeca.ForeColor = SystemColors.WindowText;
+        }
+    }
+
+    private void TspTxtPeca_Leave(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(TspTxtPeca.Text))
+        {
+            TspTxtPeca.Text = "Peça";
+            TspTxtPeca.ForeColor = Color.Gray;
+        }
+    }
+
     private void TspTxtTelemovel_Enter(object sender, EventArgs e)
     {
         if (TspTxtTelemovel.Text == "Telemóvel")
@@ -310,6 +328,9 @@ public partial class FormFornecedores : Form
 
         TspTxtEndereco.Text = "Endereço";
         TspTxtEndereco.ForeColor = Color.Gray;
+
+        TspTxtPeca.Text = "Peça";
+        TspTxtPeca.ForeColor = Color.Gray;
     }
 
 }

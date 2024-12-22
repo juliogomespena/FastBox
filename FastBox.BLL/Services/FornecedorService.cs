@@ -43,6 +43,7 @@ public class FornecedorService : IFornecedorService
     public async Task<IEnumerable<FornecedorViewModel>> GetFornecedoresInPagesAsync(int page, int size, FornecedorFilter? filter = null)
     {
         var query = _fornecedorRepository.Query().AsNoTracking();
+
         if (filter != null)
         {
             if (!String.IsNullOrWhiteSpace(filter.Nome))
@@ -55,7 +56,7 @@ public class FornecedorService : IFornecedorService
                 query = query.Where(fornecedor => fornecedor.Email != null && fornecedor.Email.Contains(filter.Email));
 
             if (!String.IsNullOrWhiteSpace(filter.Peca))
-                query = query.Where(fornecedor => fornecedor.ItensOrcamento.Select(peca => peca.Descricao).Contains(filter.Peca) || fornecedor.EstoquePecas.Select(peca => peca.Nome).Contains(filter.Peca));
+                query = query.Where(fornecedor => fornecedor.ItensOrcamento.Any(peca => peca.Descricao.Contains(filter.Peca)) || fornecedor.EstoquePecas.Any(peca => peca.Nome.Contains(filter.Peca)));
 
             if (!String.IsNullOrWhiteSpace(filter.EnderecoCompleto))
                 query = query.Where(fornecedor => fornecedor.Endereco != null && (fornecedor.Endereco.Pais + " " + fornecedor.Endereco.Concelho.Distrito.Nome + " " + fornecedor.Endereco.Concelho.Nome + " " + fornecedor.Endereco.Freguesia + " " + fornecedor.Endereco.Logradouro + " " + fornecedor.Endereco.Numero + " " + fornecedor.Endereco.Complemento + " " + fornecedor.Endereco.CodigoPostal).Contains(filter.EnderecoCompleto));

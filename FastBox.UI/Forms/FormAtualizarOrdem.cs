@@ -48,6 +48,7 @@ public partial class FormAtualizarOrdem : Form
                 OrdemDeServicoId = OrdemDeServicoAtual.OrdemDeServicoId,
                 ClienteId = _clienteId,
                 VeiculoId = _veiculoId,
+                StatusOrdemDeServicoId = OrdemDeServicoAtual.StatusOrdemDeServicoId,
                 Descricao = RTxtDescricaoOrdemAtualizar.Text.Trim(),
                 DataAbertura = OrdemDeServicoAtual.DataAbertura,
                 EstimativaConclusao = DateTimePickerEstimativaConclusao.Value,
@@ -294,8 +295,8 @@ public partial class FormAtualizarOrdem : Form
                 var frmAtualizarOrcamento = _serviceProvider.GetRequiredService<FormAtualizarOrcamento>();
                 frmAtualizarOrcamento.OrcamentoAtual = orcamentoSelecionado;
 
-                if (OrdemDeServicoAtual.StatusOrdemDeServicoId == 7)
-                    frmAtualizarOrcamento.IsOrdemCancelled = true;
+                if (OrdemDeServicoAtual.StatusOrdemDeServicoId == 7 || OrdemDeServicoAtual.StatusOrdemDeServicoId == 6)
+                    frmAtualizarOrcamento.IsOrdemCancelledOrCompleted = true;
 
                 var result = frmAtualizarOrcamento.ShowDialog();
 
@@ -311,7 +312,7 @@ public partial class FormAtualizarOrdem : Form
                 }
                 else
                 {
-                    if (frmAtualizarOrcamento.IsOrdemCancelled == false)
+                    if (frmAtualizarOrcamento.IsOrdemCancelledOrCompleted == false)
                         MessageBox.Show("As alterações no orçamento não foram salvas!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }

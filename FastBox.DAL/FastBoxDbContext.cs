@@ -218,10 +218,11 @@ public partial class FastBoxDbContext : DbContext
             entity.Property(e => e.MetodoPagamentoId).ValueGeneratedNever();
             entity.Property(e => e.Nome).HasMaxLength(45);
             entity.HasData(
-                new MetodoPagamento { MetodoPagamentoId = 1, Nome = "Cartão de Crédito" },
-                new MetodoPagamento { MetodoPagamentoId = 2, Nome = "Pix" },
-                new MetodoPagamento { MetodoPagamentoId = 3, Nome = "Dinheiro" });
-        });
+                new MetodoPagamento { MetodoPagamentoId = 1, Nome = "MULTIBANCO" },
+                new MetodoPagamento { MetodoPagamentoId = 2, Nome = "MBWAY STD" },
+                new MetodoPagamento { MetodoPagamentoId = 3, Nome = "MBWAY NB" },
+                new MetodoPagamento { MetodoPagamentoId = 4, Nome = "NUMERÁRIO" });
+    });
 
         modelBuilder.Entity<OrdemDeServico>(entity =>
         {

@@ -5,6 +5,7 @@ using FastBox.DAL.Repositories;
 using FastBox.BLL.Services;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.UI.Forms;
+using FastBox.DAL.Models;
 
 namespace FastBox.UI;
 
@@ -25,7 +26,7 @@ internal class Startup
         services.AddScoped<IOrdemDeServicoService, OrdemDeServicoService>();
         services.AddScoped<IStatusOrdemDeServicoService, StatusOrdemDeServicoService>();
         services.AddScoped<IFornecedorService, FornecedorService>();
-        //services.AddScoped<IRelatorioService, RelatorioService>();
+        services.AddScoped<IPagamentoService, PagamentoService>();
 
         services.AddTransient<FormLogin>();
         services.AddTransient<FormDashboard>();
@@ -45,7 +46,8 @@ internal class Startup
         services.AddTransient<FormFornecedores>();
         services.AddTransient<FormCadastrarFornecedor>();
         services.AddTransient<FormAtualizarFornecedor>();
-
+        services.AddTransient<FormConcluirOrdem>();
+        
         return services.BuildServiceProvider();
 
     }

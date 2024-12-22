@@ -31,6 +31,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                 .ThenInclude(i => i.ItensOrcamento)
                     .ThenInclude(f => f.Fornecedor)
             .Include(o => o.Pagamentos)
+                .ThenInclude(m => m.MetodoPagamento)
             .Include(o => o.StatusOrdemDeServico)
             .Include(o => o.Veiculo)
             .Select(o => new OrdemDeServicoViewModel
@@ -87,6 +88,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                 .ThenInclude(i => i.ItensOrcamento)
                         .ThenInclude(f => f.Fornecedor)
             .Include(o => o.Pagamentos)
+                .ThenInclude(m => m.MetodoPagamento)
             .Include(o => o.StatusOrdemDeServico)
             .Include(o => o.Veiculo)
             .OrderByDescending(o => o.OrdemDeServicoId)
@@ -117,12 +119,13 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
     public async Task<OrdemDeServicoViewModel> GetOrdemByIdAsync(long id)
     {
-        var ordemExistente = await _ordemRepository.Query()
+        var ordemExistente = await _ordemRepository.Query().AsNoTracking()
             .Include(o => o.Cliente)
             .Include(o => o.Orcamentos)
                 .ThenInclude(o => o.ItensOrcamento)
                     .ThenInclude(f => f.Fornecedor)
             .Include(o => o.Pagamentos)
+                .ThenInclude(m => m.MetodoPagamento)
             .Include(o => o.StatusOrdemDeServico)
             .Include(o => o.Veiculo)
             .FirstOrDefaultAsync(o => o.OrdemDeServicoId == id);
@@ -213,6 +216,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             ordemExistente = await _ordemRepository.Query()
                 .Include(o => o.Orcamentos)
                     .ThenInclude(o => o.ItensOrcamento)
+                .Include(o => o.Pagamentos)
+                    .ThenInclude(o => o.MetodoPagamento)
                 .FirstOrDefaultAsync(o => o.OrdemDeServicoId == ordem.OrdemDeServicoId);
 
             if (ordemExistente == null)
@@ -221,8 +226,14 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                 throw new InvalidOperationException("A ordem de serviço foi cancelada e não pode ser alterada.");
             if (ordemExistente.StatusOrdemDeServicoId == 6)
                 throw new InvalidOperationException("A ordem de serviço foi concluída e não pode ser alterada.");
-            if (ordemExistente.StatusOrdemDeServicoId == 5)
-                throw new InvalidOperationException("O veículo já foi retirado e a ordem não pode ser alterada.");
+
+            var totalNovosPagamentos = ordem.Pagamentos.Sum(p => p.Valor);
+
+            if (totalNovosPagamentos > ordem.ValorTotal)
+            {
+                var excedente = totalNovosPagamentos - ordem.ValorTotal.Value;
+                throw new InvalidOperationException($"O valor do pagamento excede o total da ordem. Excedente: {excedente:C2}");
+            }
 
             var statusOrdemDeServicoId = DetermineOrderStatus(ordem);
 
@@ -241,6 +252,23 @@ public class OrdemDeServicoService : IOrdemDeServicoService
             ordemExistente.EstimativaConclusao = ordem.EstimativaConclusao;
             ordemExistente.ValorTotal = valorTotalOrdem;
             ordemExistente.IncluirIva = ordem.IncluirIva;
+
+            foreach (var novoPagamento in ordem.Pagamentos)
+            {
+                var pagamentoExistente = ordemExistente.Pagamentos
+                    .FirstOrDefault(p => p.PagamentoId == novoPagamento.PagamentoId);
+
+                if (pagamentoExistente == null)
+                {
+                    ordemExistente.Pagamentos.Add(new Pagamento
+                    {
+                        OrdemDeServicoId = novoPagamento.OrdemDeServicoId,
+                        Valor = novoPagamento.Valor,
+                        DataPagamento = novoPagamento.DataPagamento,
+                        MetodoPagamentoId = novoPagamento.MetodoPagamentoId
+                    });
+                }
+            }
 
             foreach (var orcamentoViewModel in ordem.Orcamentos)
             {
@@ -347,15 +375,25 @@ public class OrdemDeServicoService : IOrdemDeServicoService
     private int DetermineOrderStatus(OrdemDeServicoViewModel ordem)
     {
         var statusOrdemDeServicoId = 1;
-        if (ordem.StatusOrdemDeServicoId == 7)
-            statusOrdemDeServicoId = 7;
-        else if (ordem.StatusOrdemDeServicoId > 3)
+        if (ordem.StatusOrdemDeServicoId == 7 || ordem.StatusOrdemDeServicoId == 6) // Se id for 7 (cancelado) ou 6 (concluído), não permite trocar.
             statusOrdemDeServicoId = (int)ordem.StatusOrdemDeServicoId;
-        else if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Any(o => o.StatusOrcamento == 3))
+
+        else if (ordem.Pagamentos.Any() && ordem.ValorTotal.HasValue && Math.Abs(ordem.Pagamentos.Sum(p => p.Valor) - ordem.ValorTotal.Value) < 0.01M) //Se houver pagamentos e eles somarem igual ao valor total, marca como concluído (6).
+            statusOrdemDeServicoId = 6;
+
+        else if (ordem.Pagamentos.Any() && (ordem.Pagamentos.Sum(p => p.Valor) < ordem.ValorTotal)) //Se houver pagamentos mas forem menores que o valor total, marca como aguardando pagamento(5).
+            statusOrdemDeServicoId = 5;
+
+        else if (ordem.StatusOrdemDeServicoId == 4 && ordem.Orcamentos.All(o => o.StatusOrcamento > 1) && ordem.Orcamentos.Any(o => o.StatusOrcamento == 2)) //Se ordem atual estiver como aguardando retirada (4) e não houver nenhum orçamento pendente (1) e pelo menos um aprovado (2), mantém como 4
+            statusOrdemDeServicoId = (int)ordem.StatusOrdemDeServicoId;
+
+        else if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Any(o => o.StatusOrcamento == 3) && !(ordem.Orcamentos.Any(o => o.StatusOrcamento == 1))) // Se tiver pelo menos um orçamento com status aprovado (2) e um com status reprovado (3) marca como em serviço (3)
             statusOrdemDeServicoId = 3;
-        else if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3))
+
+        else if (ordem.Orcamentos.Any(o => o.StatusOrcamento == 1 || o.StatusOrcamento == 3)) //Se houver orçamentos com status pendente (1) ou reprovado (3) marca como aguardando diagnóstico (2)
             statusOrdemDeServicoId = 2;
-        else if (ordem.Orcamentos.All(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Count != 0)
+
+        else if (ordem.Orcamentos.All(o => o.StatusOrcamento == 2) && ordem.Orcamentos.Count != 0) // Se todos orçamentos estiverem aprovados(2) e tiver pelo menos um orçamento, marca como em serviço (3)
             statusOrdemDeServicoId = 3;
 
         return statusOrdemDeServicoId;

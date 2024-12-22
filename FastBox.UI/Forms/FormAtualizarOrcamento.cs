@@ -27,7 +27,7 @@ public partial class FormAtualizarOrcamento : Form
 
     public OrcamentoViewModel OrcamentoAtual { get; set; }
     public ICollection<ItemOrcamentoViewModel> _items = [];
-    public bool IsOrdemCancelled = false;
+    public bool IsOrdemCancelledOrCompleted = false;
 
     private async void BtnAtualizarOrcamento_Click(object sender, EventArgs e)
     {
@@ -108,7 +108,7 @@ public partial class FormAtualizarOrcamento : Form
 
     private void FormAtualizarOrcamento_Load(object sender, EventArgs e)
     {
-        if (IsOrdemCancelled)
+        if (IsOrdemCancelledOrCompleted)
             SetAllControlsEnabled(this, false);
 
         RTxtDescricaoAtualizarOrcamento.Text = OrcamentoAtual.Descricao;

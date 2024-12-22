@@ -259,6 +259,8 @@
             TspTxtPeca.Name = "TspTxtPeca";
             TspTxtPeca.Size = new Size(180, 41);
             TspTxtPeca.Text = "Peça";
+            TspTxtPeca.Enter += TspTxtPeca_Enter;
+            TspTxtPeca.Leave += TspTxtPeca_Leave;
             // 
             // toolStripSeparator6
             // 

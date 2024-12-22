@@ -29,7 +29,6 @@ public partial class FormOrdensDeServico : Form
     private async void FormOrdensDeServico_Load(object sender, EventArgs e)
     {
         await LoadOrdensDeServicoIntoDgvAsync(1, GlobalConfiguration.PageSize);
-        TspCmbValorTotalOpcao.SelectedIndex = 0;
         TspCmbStatus.Items.Add("Status");
         using (var scope = _serviceProvider.CreateScope())
         {
@@ -172,6 +171,12 @@ public partial class FormOrdensDeServico : Form
                 if (ordem == null)
                     throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
 
+                if (ordem.StatusOrdemDeServicoId == 5 || ordem.StatusOrdemDeServicoId == 6)
+                {
+                    MessageBox.Show($"A ordem já foi retirada e não pode ser excluída.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 var dialog = MessageBox.Show($"Deseja excluir a ordem {ordem.OrdemDeServicoId}\nVeículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialog == DialogResult.Yes)
@@ -231,6 +236,24 @@ public partial class FormOrdensDeServico : Form
                 if (ordem == null)
                     throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
 
+                if (ordem.StatusOrdemDeServicoId == 4)
+                {
+                    MessageBox.Show($"A ordem já foi marcada para retirada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (ordem.StatusOrdemDeServicoId == 5 || ordem.StatusOrdemDeServicoId == 6)
+                {
+                    MessageBox.Show($"A ordem já foi retirada e não pode ser alterada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (ordem.StatusOrdemDeServicoId == 7)
+                {
+                    MessageBox.Show($"A ordem foi cancelada e não pode ser alterada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (ordem.StatusOrdemDeServicoId != 3)
                 {
                     MessageBox.Show($"A ordem precisa estar em serviço para ser finalizada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -281,7 +304,19 @@ public partial class FormOrdensDeServico : Form
                 if (ordem == null)
                     throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
 
-                if (ordem.StatusOrdemDeServicoId != 4)
+                if (ordem.StatusOrdemDeServicoId == 6)
+                {
+                    MessageBox.Show($"A ordem já foi retirada e não pode ser alterada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (ordem.StatusOrdemDeServicoId == 7)
+                {
+                    MessageBox.Show($"A ordem foi cancelada e não pode ser alterada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (ordem.StatusOrdemDeServicoId < 4 || ordem.StatusOrdemDeServicoId > 5)
                 {
                     MessageBox.Show($"A ordem precisa estar aguardando retirada para ser concluída.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -291,11 +326,9 @@ public partial class FormOrdensDeServico : Form
 
                 if (dialog == DialogResult.Yes)
                 {
-                    MessageBox.Show($"Valor devido: {ordem.ValorTotal}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    //ordem.StatusOrdemDeServicoId = 4;
-                    //ordem.ValorTotal = ordem.Orcamentos.SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade);
-                    //await _ordemDeServicoService.UpdateOrdemAsync(ordem);
-                    //MessageBox.Show("A ordem de serviço foi concluída.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var frmConcluirOrdem = _serviceProvider.GetRequiredService<FormConcluirOrdem>();
+                    frmConcluirOrdem.OrdemAtual = ordem;
+                    frmConcluirOrdem.ShowDialog();
                 }
             }
             catch (DbUpdateException ex)
@@ -341,7 +374,7 @@ public partial class FormOrdensDeServico : Form
     {
         var filter = new OrdemDeServicoFilter
         {
-            Status = TspCmbStatus.SelectedIndex > 0 && TspCmbStatus.SelectedItem != null ? TspCmbStatus.SelectedItem.ToString() : null, //aqui
+            Status = TspCmbStatus.SelectedIndex > 0 && TspCmbStatus.SelectedItem != null ? TspCmbStatus.SelectedItem.ToString() : null,
             Cliente = TspTxtCliente.Text == "Cliente" ? null : TspTxtCliente.Text,
             Veiculo = TspTxtVeiculo.Text == "Veículo" ? null : TspTxtVeiculo.Text,
             Descricao = TspTxtDescricao.Text == "Descrição" ? null : TspTxtDescricao.Text,
@@ -482,6 +515,19 @@ public partial class FormOrdensDeServico : Form
 
                 if (ordem == null)
                     throw new Exception("Não foi possível selecionar a ordem de serviço, tente novamente.");
+
+
+                if (ordem.StatusOrdemDeServicoId == 5 || ordem.StatusOrdemDeServicoId == 6)
+                {
+                    MessageBox.Show($"A ordem já foi retirada e não pode ser cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (ordem.StatusOrdemDeServicoId == 7)
+                {
+                    MessageBox.Show($"A ordem já foi cancelada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 var dialog = MessageBox.Show($"Deseja cancelar a ordem {ordem.OrdemDeServicoId}\nVeículo: {(ordem.Veiculo == null ? "não cadastrado" : $"{ordem.Veiculo.Modelo} ({ordem.Veiculo.Matricula})")}?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 

@@ -54,6 +54,9 @@
     <Compile Update="Forms\FormCadastrarOrdem.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\FormConcluirOrdem.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\FormCadastrarVeiculo.cs">
       <SubType>Form</SubType>
     </Compile>
