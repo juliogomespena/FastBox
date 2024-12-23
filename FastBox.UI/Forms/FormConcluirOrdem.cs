@@ -120,11 +120,12 @@ public partial class FormConcluirOrdem : Form
         TxtVeiculoConcluirOrdem.Text = $"{OrdemAtual.Veiculo.Modelo} ({OrdemAtual.Veiculo.Matricula})";
         TxtEuroConcluirOrdem.Text = $"Total: {OrdemAtual.ValorTotal - OrdemAtual.Pagamentos.Sum(p => p.Valor)}";
 
-        if(OrdemAtual.DataGarantia != null)
+        if (OrdemAtual.DataGarantia != null)
         {
             DtpGarantiaConcluirOrdem.Value = OrdemAtual.DataGarantia.Value;
             RTxtObservacoesGarantiaConcluirOrdem.Text = OrdemAtual.ObservacoesGarantia;
-            if (string.IsNullOrWhiteSpace(RTxtObservacoesGarantiaConcluirOrdem.Text))
+            RTxtObservacoesGarantiaConcluirOrdem.ForeColor = SystemColors.WindowText;
+            if (RTxtObservacoesGarantiaConcluirOrdem.Text == "Sem observações")
             {
                 RTxtObservacoesGarantiaConcluirOrdem.Text = "Observações da garantia";
                 RTxtObservacoesGarantiaConcluirOrdem.ForeColor = Color.Gray;

@@ -41,7 +41,7 @@ public class OrdemDeServicoViewModel
     {
         get
         {
-            return String.IsNullOrWhiteSpace(_observacoesGarantia) ? "Observações da garantia" : _observacoesGarantia;
+            return String.IsNullOrWhiteSpace(_observacoesGarantia) ? "Sem observações" : _observacoesGarantia;
         }
         set
         {
