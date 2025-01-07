@@ -67,6 +67,7 @@
             TxtMarca.Name = "TxtMarca";
             TxtMarca.Size = new Size(167, 33);
             TxtMarca.TabIndex = 1;
+            TxtMarca.KeyPress += TxtMarca_KeyPress;
             // 
             // TxtModelo
             // 
@@ -75,6 +76,7 @@
             TxtModelo.Name = "TxtModelo";
             TxtModelo.Size = new Size(307, 33);
             TxtModelo.TabIndex = 2;
+            TxtModelo.KeyPress += TxtModelo_KeyPress;
             // 
             // LblModelo
             // 
@@ -184,6 +186,7 @@
             TxtCliente.Size = new Size(201, 33);
             TxtCliente.TabIndex = 15;
             TxtCliente.TextChanged += TxtCliente_TextChanged;
+            TxtCliente.KeyPress += TxtCliente_KeyPress;
             // 
             // RTxtObservacoes
             // 

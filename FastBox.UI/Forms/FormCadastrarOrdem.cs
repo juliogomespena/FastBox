@@ -651,7 +651,7 @@ public partial class FormCadastrarOrdem : Form
 
                     try
                     {
-                        PDF.GenerateOrcamento(orcamento, filePath);
+                        PDF.GenerateOrcamento(orcamento, veiculo, filePath);
                         MessageBox.Show("Orçamento exportado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)

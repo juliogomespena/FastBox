@@ -80,6 +80,7 @@
             TxtNome.Name = "TxtNome";
             TxtNome.Size = new Size(167, 33);
             TxtNome.TabIndex = 1;
+            TxtNome.KeyPress += TxtNome_KeyPress;
             // 
             // TxtSobrenome
             // 
@@ -88,6 +89,7 @@
             TxtSobrenome.Name = "TxtSobrenome";
             TxtSobrenome.Size = new Size(405, 33);
             TxtSobrenome.TabIndex = 2;
+            TxtSobrenome.KeyPress += TxtSobrenome_KeyPress;
             // 
             // LblSobrenome
             // 

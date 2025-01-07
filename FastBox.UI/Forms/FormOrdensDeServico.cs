@@ -348,7 +348,7 @@ public partial class FormOrdensDeServico : Form
             }
         }
         else
-            MessageBox.Show("Selecione uma ordem para finalizar serviços.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Selecione uma ordem de serviço para concluir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 
     private void TspTxtCliente_Enter(object sender, EventArgs e)

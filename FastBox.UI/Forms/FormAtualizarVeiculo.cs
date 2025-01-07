@@ -61,8 +61,8 @@ public partial class FormAtualizarVeiculo : Form
             var veiculoExistente = await _veiculoService.GetVeiculoByIdAsync(VeiculoId);
 
             veiculoExistente.ClienteId = clienteId;
-            veiculoExistente.Marca = TxtMarca.Text.Trim();
-            veiculoExistente.Modelo = TxtModelo.Text.Trim();
+            veiculoExistente.Marca = TxtMarca.Text.ToUpper().Trim();
+            veiculoExistente.Modelo = TxtModelo.Text.ToUpper().Trim();
             veiculoExistente.Ano = int.TryParse(TxtMskAno.Text.Trim(), out int anoCarro) ? anoCarro : 0;
             veiculoExistente.Matricula = TxtMskMatricula.Text.Trim();
             veiculoExistente.Observacoes = RTxtObservacoes.Text.Trim();
@@ -173,7 +173,7 @@ public partial class FormAtualizarVeiculo : Form
             MessageBox.Show("Digite um ano válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
-        if(String.IsNullOrWhiteSpace(TxtMskMatricula.Text))
+        if (String.IsNullOrWhiteSpace(TxtMskMatricula.Text))
         {
             MessageBox.Show("Digite uma matrícula para o veículo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
@@ -233,6 +233,30 @@ public partial class FormAtualizarVeiculo : Form
                 TxtCliente.Text = row.Cells["NomeSobrenome"].Value.ToString();
                 _isUpdatingText = false;
             }
+        }
+    }
+
+    private void TxtMarca_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
+    }
+
+    private void TxtModelo_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
+    }
+
+    private void TxtCliente_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
         }
     }
 }

@@ -15,7 +15,7 @@ internal class Startup
     {
         var services = new ServiceCollection();
 
-        services.AddDbContext<FastBoxDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
+        services.AddDbContext<FastBoxDbContext>(options => options.UseAzureSql(connectionString), ServiceLifetime.Scoped);
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         services.AddScoped<IClienteService, ClienteService>();

@@ -9,7 +9,7 @@ namespace FastBox.UI.Helper
 {
     internal class PDF
     {
-        public static void GenerateOrcamento(OrcamentoViewModel orcamento, string filePath)
+        public static void GenerateOrcamento(OrcamentoViewModel orcamento, VeiculoViewModel veiculo, string filePath)
         {
             using (PdfWriter writer = new PdfWriter(filePath))
             {
@@ -33,14 +33,14 @@ namespace FastBox.UI.Helper
                     document.Add(new Paragraph("FastBox - Setúbal")
                         .SetFontSize(16)
                         .SetTextAlignment(TextAlignment.LEFT));
-                    document.Add(new Paragraph("Endereço: Rua Exemplo, 123, Centro, Cidade/UF")
+                    document.Add(new Paragraph("Estrada de Palmela, 45a - Setúbal")
                         .SetTextAlignment(TextAlignment.LEFT));
-                    document.Add(new Paragraph("Telefone: (00) 1234-5678")
+                    document.Add(new Paragraph("Telefone: +357 937-368-242")
                         .SetTextAlignment(TextAlignment.LEFT));
 
                     document.Add(new Paragraph("\n"));
 
-                    document.Add(new Paragraph($"Orçamento - Nº{orcamento.Numero}")
+                    document.Add(new Paragraph($"Orçamento - Nº{orcamento.Numero}\nViatura: {veiculo.ModeloMatricula}\nCliente: {veiculo.NomeCliente}")
                         .SetFontSize(14)
                         .SetTextAlignment(TextAlignment.CENTER));
                     document.Add(new Paragraph($"{orcamento.Descricao}")

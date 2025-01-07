@@ -118,8 +118,8 @@ public partial class FormCadastrarCliente : Form
 
             var cliente = new ClienteViewModel
             {
-                Nome = TxtNome.Text.Trim(),
-                Sobrenome = TxtSobrenome.Text.Trim(),
+                Nome = TxtNome.Text.ToUpper().Trim(),
+                Sobrenome = TxtSobrenome.Text.ToUpper().Trim(),
                 Telemovel = TxtMskTelemovel.Text.Trim(),
                 Email = TxtEmail.Text.Trim(),
                 Nif = TxtMskNif.Text.Trim(),
@@ -167,5 +167,21 @@ public partial class FormCadastrarCliente : Form
     private void ChkCadastrarEndereco_CheckedChanged_1(object sender, EventArgs e)
     {
         PanelEnderecoCliente.Enabled = ChkCadastrarEndereco.Checked;
+    }
+
+    private void TxtNome_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
+    }
+
+    private void TxtSobrenome_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
     }
 }

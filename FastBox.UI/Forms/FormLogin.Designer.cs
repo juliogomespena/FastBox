@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
             LblLogin = new Label();
             LblPassword = new Label();
             TxtLogin = new TextBox();
@@ -107,6 +108,7 @@
             Controls.Add(TxtLogin);
             Controls.Add(LblPassword);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new Size(328, 412);
             MinimumSize = new Size(328, 412);

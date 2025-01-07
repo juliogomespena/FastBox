@@ -16,7 +16,7 @@ namespace FastBox.DAL
             var connectionString = configuration.GetConnectionString("FastBoxDbConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<FastBoxDbContext>();
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseAzureSql(connectionString);
 
             return new FastBoxDbContext(optionsBuilder.Options);
         }

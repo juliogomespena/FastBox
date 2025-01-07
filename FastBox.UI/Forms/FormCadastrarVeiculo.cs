@@ -53,8 +53,8 @@ public partial class FormCadastrarVeiculo : Form
             var veiculo = new VeiculoViewModel
             {
                 ClienteId = clienteId,
-                Marca = TxtMarca.Text.Trim(),
-                Modelo = TxtModelo.Text.Trim(),
+                Marca = TxtMarca.Text.ToUpper().Trim(),
+                Modelo = TxtModelo.Text.ToUpper().Trim(),
                 Ano = int.TryParse(TxtMskAno.Text.Trim(), out int anoCarro) ? anoCarro : 0,
                 Matricula = TxtMskMatricula.Text.Trim(),
                 Observacoes = RTxtObservacoes.Text.Trim(),
@@ -203,5 +203,29 @@ public partial class FormCadastrarVeiculo : Form
             TxtCliente.Text = NomeCliente;
         if (!String.IsNullOrEmpty(MatriculaParaCadastro))
             TxtMskMatricula.Text = MatriculaParaCadastro;
+    }
+
+    private void TxtMarca_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
+    }
+
+    private void TxtModelo_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
+    }
+
+    private void TxtCliente_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
     }
 }

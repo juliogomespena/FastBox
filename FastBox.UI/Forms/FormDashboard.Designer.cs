@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDashboard));
             PanelTopMenu = new Panel();
             PanelTopMenuBorder = new Panel();
             LblPagina = new Label();
@@ -271,6 +272,7 @@
             Controls.Add(PanelMain);
             Controls.Add(PanelSideMenu);
             Controls.Add(PanelTopMenu);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(1488, 0);
             Name = "FormDashboard";
             StartPosition = FormStartPosition.CenterScreen;

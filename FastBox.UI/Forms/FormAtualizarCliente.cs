@@ -167,11 +167,11 @@ public partial class FormAtualizarCliente : Form
                 else
                 {
                     MessageBox.Show("Selecione um concelho válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }  
+                }
             }
-            
-            cliente.Nome = TxtNome.Text.Trim();
-            cliente.Sobrenome = TxtSobrenome.Text.Trim();
+
+            cliente.Nome = TxtNome.Text.ToUpper().Trim();
+            cliente.Sobrenome = TxtSobrenome.Text.ToUpper().Trim();
             cliente.Telemovel = TxtMskTelemovel.Text.Trim();
             cliente.Email = TxtEmail.Text.Trim();
             cliente.Nif = TxtMskNif.Text.Trim();
@@ -228,5 +228,21 @@ public partial class FormAtualizarCliente : Form
             }
         }
         PanelEnderecoCliente.Enabled = ChkCadastrarEndereco.Checked;
+    }
+
+    private void TxtNome_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
+    }
+
+    private void TxtSobrenome_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (char.IsLetter(e.KeyChar))
+        {
+            e.KeyChar = char.ToUpper(e.KeyChar);
+        }
     }
 }
