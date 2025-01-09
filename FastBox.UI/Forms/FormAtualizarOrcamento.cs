@@ -61,7 +61,7 @@ public partial class FormAtualizarOrcamento : Form
     {
         TxtItemAtualizarOrcamento.Enabled = enabled;
         ChkMaoDeObra.Enabled = enabled;
-        TxtQuantidadeAtualizarOrcamento.Enabled= enabled;
+        TxtQuantidadeAtualizarOrcamento.Enabled = enabled;
         TxtPrecoUnitarioAtualizarOrcamento.Enabled = enabled;
         TxtMargemAtualizarOrdem.Enabled = enabled;
         TxtPrecoFinalTotalAtualizarOrcamento.Enabled = enabled;
@@ -120,7 +120,7 @@ public partial class FormAtualizarOrcamento : Form
         LoadItemsIntoDgvOrcamentoAtualizar();
         TxtPrecoUnitarioFinalAtualizarOrcamento.Text = 0.ToString("C2");
         TxtPrecoFinalTotalAtualizarOrcamento.Text = 0.ToString("C2");
-        LstSugestoesFornecedores.Width = 636;
+        LstSugestoesFornecedores.Width = 457;
     }
 
     private void LoadItemsIntoDgvOrcamentoAtualizar()
@@ -144,6 +144,7 @@ public partial class FormAtualizarOrcamento : Form
         DgvOrcamentosAtualizar.Columns["ValorTotal"].HeaderText = "Venda total";
         DgvOrcamentosAtualizar.Columns["CustoTotal"].HeaderText = "Custo total";
         DgvOrcamentosAtualizar.Columns["NomeFornecedor"].HeaderText = "Fornecedor";
+        DgvOrcamentosAtualizar.Columns["NumeroFatura"].HeaderText = "Fatura";
         DgvOrcamentosAtualizar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         DgvOrcamentosAtualizar.MultiSelect = false;
     }
@@ -163,7 +164,8 @@ public partial class FormAtualizarOrcamento : Form
                 PrecoUnitario = decimal.TryParse(TxtPrecoUnitarioAtualizarOrcamento.Text.Replace('.', ','), out decimal precoUnitario) ? precoUnitario : throw new FormatException("Erro ao processar preço unitário do item."),
                 Margem = decimal.TryParse(TxtMargemAtualizarOrdem.Text, out decimal margem) ? margem : throw new FormatException("Erro ao processar a margem do item."),
                 FornecedorId = _fornecedor.FornecedorId,
-                Fornecedor = _fornecedor
+                Fornecedor = _fornecedor,
+                NumeroFatura = int.TryParse(TxtFaturaAtualizarOrdem.Text, out int fatura) ? fatura : throw new FormatException("Erro ao processar número da fatura do item."),
             };
 
             _items.Add(item);
@@ -175,8 +177,9 @@ public partial class FormAtualizarOrcamento : Form
             TxtMargemAtualizarOrdem.Clear();
             TxtPrecoUnitarioFinalAtualizarOrcamento.Clear();
             TxtPrecoFinalTotalAtualizarOrcamento.Clear();
-            TxtItemAtualizarOrcamento.Focus();
+            TxtFaturaAtualizarOrdem.Clear();
             TxtFornecedorAtualizarOrcamento.Clear();
+            TxtItemAtualizarOrcamento.Focus();
             ChkMaoDeObra.Checked = false;
             _fornecedor = null;
         }
@@ -189,8 +192,11 @@ public partial class FormAtualizarOrcamento : Form
 
     private void TxtMargemAtualizarOrdem_KeyPress(object sender, KeyPressEventArgs e)
     {
-        if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+        if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
             e.Handled = true;
+
+        if (e.KeyChar == '.')
+            e.KeyChar = ',';
     }
 
     private void TxtPrecoUnitarioAtualizarOrcamento_KeyPress(object sender, KeyPressEventArgs e)
@@ -392,5 +398,11 @@ public partial class FormAtualizarOrcamento : Form
             LstSugestoesFornecedores.Visible = false;
             _fornecedor = fornecedorSelecionado;
         }
+    }
+
+    private void TxtFaturaAtualizarOrdem_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            e.Handled = true;
     }
 }

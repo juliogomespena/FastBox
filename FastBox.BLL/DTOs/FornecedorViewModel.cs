@@ -33,7 +33,7 @@ public class FornecedorViewModel
 
     public string? EnderecoCompleto => Endereco == null ? "Não cadastrado" : $"{Endereco.Logradouro}, {Endereco.Numero}, {(!string.IsNullOrWhiteSpace(Endereco.Complemento) ? Endereco.Complemento : "Sem complemento")}, {Endereco.Freguesia}, Concelho: {Endereco.Concelho.Nome}, Distrito: {Endereco.Concelho.Distrito.Nome}, {Endereco.CodigoPostal}, {Endereco.Pais}";
 
-    public string? InfoFornecedor => $"Id: {FornecedorId} - {Nome} - {Telemovel} - {Email}";
+    public string? InfoFornecedor => $"Id: {FornecedorId} - {Nome}";
 
     public virtual ICollection<EstoquePeca> EstoquePecas { get; set; } = new List<EstoquePeca>();
 

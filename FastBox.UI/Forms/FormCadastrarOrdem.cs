@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Drawing.Printing;
 using System.Runtime.Intrinsics.Arm;
 using System.Text.RegularExpressions;
@@ -59,7 +60,8 @@ public partial class FormCadastrarOrdem : Form
                         Quantidade = itens.Quantidade,
                         PrecoUnitario = itens.PrecoUnitario,
                         Margem = itens.Margem,
-                        FornecedorId = itens.FornecedorId
+                        FornecedorId = itens.FornecedorId,
+                        NumeroFatura = itens.NumeroFatura
                     }).ToList()
                 }).ToList(),
                 DataAbertura = DateTime.Now,
@@ -653,6 +655,17 @@ public partial class FormCadastrarOrdem : Form
                     {
                         PDF.GenerateOrcamento(orcamento, veiculo, filePath);
                         MessageBox.Show("Orçamento exportado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        string? folderPath = Path.GetDirectoryName(filePath);
+                        if (folderPath != null)
+                        {
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = folderPath,
+                                UseShellExecute = true,
+                                Verb = "open"
+                            });
+                        }
                     }
                     catch (Exception ex)
                     {

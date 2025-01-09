@@ -30,6 +30,8 @@
         {
             LblItemCadastroOrcamento = new Label();
             PanelInfoOrcamentoCadastro = new Panel();
+            TxtFaturaCadastroOrdem = new TextBox();
+            LblFaturaCadastroOrdem = new Label();
             LstSugestoesFornecedores = new ListBox();
             LblFornecedorCadastroOrcamento = new Label();
             TxtFornecedorCadastroOrcamento = new TextBox();
@@ -71,6 +73,8 @@
             // PanelInfoOrcamentoCadastro
             // 
             PanelInfoOrcamentoCadastro.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrcamentoCadastro.Controls.Add(TxtFaturaCadastroOrdem);
+            PanelInfoOrcamentoCadastro.Controls.Add(LblFaturaCadastroOrdem);
             PanelInfoOrcamentoCadastro.Controls.Add(LstSugestoesFornecedores);
             PanelInfoOrcamentoCadastro.Controls.Add(LblFornecedorCadastroOrcamento);
             PanelInfoOrcamentoCadastro.Controls.Add(TxtFornecedorCadastroOrcamento);
@@ -96,6 +100,26 @@
             PanelInfoOrcamentoCadastro.Name = "PanelInfoOrcamentoCadastro";
             PanelInfoOrcamentoCadastro.Size = new Size(778, 463);
             PanelInfoOrcamentoCadastro.TabIndex = 10;
+            // 
+            // TxtFaturaCadastroOrdem
+            // 
+            TxtFaturaCadastroOrdem.BackColor = SystemColors.Window;
+            TxtFaturaCadastroOrdem.Font = new Font("Segoe UI Variable Display", 14.25F);
+            TxtFaturaCadastroOrdem.Location = new Point(662, 113);
+            TxtFaturaCadastroOrdem.Name = "TxtFaturaCadastroOrdem";
+            TxtFaturaCadastroOrdem.Size = new Size(100, 33);
+            TxtFaturaCadastroOrdem.TabIndex = 45;
+            TxtFaturaCadastroOrdem.KeyPress += TxtFaturaCadastroOrdem_KeyPress;
+            // 
+            // LblFaturaCadastroOrdem
+            // 
+            LblFaturaCadastroOrdem.AutoSize = true;
+            LblFaturaCadastroOrdem.Font = new Font("Segoe UI Variable Display", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            LblFaturaCadastroOrdem.Location = new Point(589, 116);
+            LblFaturaCadastroOrdem.Name = "LblFaturaCadastroOrdem";
+            LblFaturaCadastroOrdem.Size = new Size(67, 26);
+            LblFaturaCadastroOrdem.TabIndex = 44;
+            LblFaturaCadastroOrdem.Text = "Fatura:";
             // 
             // LstSugestoesFornecedores
             // 
@@ -125,7 +149,7 @@
             TxtFornecedorCadastroOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtFornecedorCadastroOrcamento.Location = new Point(126, 113);
             TxtFornecedorCadastroOrcamento.Name = "TxtFornecedorCadastroOrcamento";
-            TxtFornecedorCadastroOrcamento.Size = new Size(636, 33);
+            TxtFornecedorCadastroOrcamento.Size = new Size(457, 33);
             TxtFornecedorCadastroOrcamento.TabIndex = 5;
             TxtFornecedorCadastroOrcamento.TextChanged += TxtFornecedorCadastroOrcamento_TextChanged;
             // 
@@ -405,5 +429,7 @@
         private Label LblFornecedorCadastroOrcamento;
         private TextBox TxtFornecedorCadastroOrcamento;
         private ListBox LstSugestoesFornecedores;
+        private TextBox TxtFaturaCadastroOrdem;
+        private Label LblFaturaCadastroOrdem;
     }
 }

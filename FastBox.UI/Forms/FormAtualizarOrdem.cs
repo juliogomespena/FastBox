@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Printing;
 using System.Runtime.Intrinsics.Arm;
@@ -66,7 +67,8 @@ public partial class FormAtualizarOrdem : Form
                         Quantidade = itens.Quantidade,
                         PrecoUnitario = itens.PrecoUnitario,
                         Margem = itens.Margem,
-                        FornecedorId = itens.FornecedorId
+                        FornecedorId = itens.FornecedorId,
+                        NumeroFatura = itens.NumeroFatura
                     }).ToList()
                 }).ToList(),
             };
@@ -125,11 +127,13 @@ public partial class FormAtualizarOrdem : Form
 
     private void FormAtualizarOrdem_Load(object sender, EventArgs e)
     {
+        string pagamentos = string.Empty;
+
         if (OrdemDeServicoAtual.StatusOrdemDeServicoId == 7 || OrdemDeServicoAtual.StatusOrdemDeServicoId == 6 || OrdemDeServicoAtual.StatusOrdemDeServicoId == 5)
         {
             TxtClienteOrdemAtualizar.Enabled = false;
             TxtVeiculoOrdemAtualizar.Enabled = false;
-            RTxtDescricaoOrdemAtualizar.Enabled = false;
+            RTxtDescricaoOrdemAtualizar.ReadOnly = true;
             DateTimePickerEstimativaConclusao.Enabled = false;
             BtnNovoClienteOrdemAtualizar.Enabled = false;
             BtnNovoVeiculoOrdemAtualizar.Enabled = false;
@@ -139,13 +143,24 @@ public partial class FormAtualizarOrdem : Form
             BtnReprovarOrcamentoOrdemAtualizar.Enabled = false;
             BtnAtualizarOrdem.Enabled = false;
             ChkIncluirIvaAtualizarOrdem.Enabled = false;
+
+            if (OrdemDeServicoAtual.StatusOrdemDeServicoId == 6 || OrdemDeServicoAtual.StatusOrdemDeServicoId == 5)
+            {
+                if (String.IsNullOrWhiteSpace(OrdemDeServicoAtual.Descricao))
+                    pagamentos = "Pagamentos:\n";
+                else
+                    pagamentos = "\n\nPagamentos:\n";
+
+                foreach (Pagamento pagamento in OrdemDeServicoAtual.Pagamentos)
+                    pagamentos += OrdemDeServicoAtual.Pagamentos.Count > 1 ? $"{pagamento.MetodoPagamento.Nome}: {pagamento.Valor} - " : $"{pagamento.MetodoPagamento.Nome}: {pagamento.Valor}";
+            }
         }
 
         _clienteId = OrdemDeServicoAtual.ClienteId;
         _veiculoId = OrdemDeServicoAtual.VeiculoId;
         TxtClienteOrdemAtualizar.Text = OrdemDeServicoAtual.NomeCliente;
         TxtVeiculoOrdemAtualizar.Text = OrdemDeServicoAtual.ModeloMatricula;
-        RTxtDescricaoOrdemAtualizar.Text = OrdemDeServicoAtual.Descricao;
+        RTxtDescricaoOrdemAtualizar.Text = OrdemDeServicoAtual.Descricao + $"{pagamentos}";
         DateTimePickerEstimativaConclusao.Value = OrdemDeServicoAtual.EstimativaConclusao ?? DateTime.Now;
         ChkIncluirIvaAtualizarOrdem.Checked = OrdemDeServicoAtual.IncluirIva;
         _orcamentos = OrdemDeServicoAtual.Orcamentos.Select(orcamento => new OrcamentoViewModel
@@ -164,6 +179,7 @@ public partial class FormAtualizarOrdem : Form
                 PrecoUnitario = item.PrecoUnitario,
                 Margem = item.Margem * 100,
                 FornecedorId = item.FornecedorId,
+                NumeroFatura = item.NumeroFatura,
                 Fornecedor = new FornecedorViewModel
                 {
                     Nome = item.Fornecedor.Nome,
@@ -442,6 +458,17 @@ public partial class FormAtualizarOrdem : Form
                     {
                         PDF.GenerateOrcamento(orcamento, veiculo, filePath);
                         MessageBox.Show("Orçamento exportado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        string? folderPath = Path.GetDirectoryName(filePath);
+                        if (folderPath != null)
+                        {
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = folderPath,
+                                UseShellExecute = true,
+                                Verb = "open"
+                            });
+                        }
                     }
                     catch (Exception ex)
                     {

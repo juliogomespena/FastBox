@@ -185,6 +185,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                     PrecoUnitario = itens.PrecoUnitario,
                     Margem = itens.Margem,
                     FornecedorId = itens.FornecedorId,
+                    NumeroFatura = itens.NumeroFatura
                 }).ToList()
             }).ToList()
         };
@@ -294,6 +295,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                             itemExistente.PrecoUnitario = itemViewModel.PrecoUnitario;
                             itemExistente.Margem = itemViewModel.Margem;
                             itemExistente.FornecedorId = itemViewModel.FornecedorId;
+                            itemExistente.NumeroFatura = itemViewModel.NumeroFatura;
                         }
                         else
                         {
@@ -303,7 +305,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
                                 Quantidade = itemViewModel.Quantidade,
                                 PrecoUnitario = itemViewModel.PrecoUnitario,
                                 Margem = itemViewModel.Margem,
-                                FornecedorId = itemViewModel.FornecedorId
+                                FornecedorId = itemViewModel.FornecedorId,
+                                NumeroFatura = itemViewModel.NumeroFatura
                             });
                         }
                     }

@@ -11,6 +11,8 @@ public partial class ItemOrcamento
 
     public string Descricao { get; set; } = null!;
 
+    public int? NumeroFatura {  get; set; }
+
     public int Quantidade { get; set; }
 
     public decimal PrecoUnitario { get; set; }

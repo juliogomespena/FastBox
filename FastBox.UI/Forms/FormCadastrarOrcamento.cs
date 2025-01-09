@@ -98,7 +98,7 @@ public partial class FormCadastrarOrcamento : Form
         LoadItemsIntoDgvOrcamentoCadastro();
         TxtPrecoUnitarioFinalCadastroOrcamento.Text = 0.ToString("C2");
         TxtPrecoFinalTotalCadastroOrcamento.Text = 0.ToString("C2");
-        LstSugestoesFornecedores.Width = 636;
+        LstSugestoesFornecedores.Width = 457;
     }
 
     private void LoadItemsIntoDgvOrcamentoCadastro()
@@ -122,6 +122,7 @@ public partial class FormCadastrarOrcamento : Form
         DgvOrcamentosCadastro.Columns["ValorTotal"].HeaderText = "Venda total";
         DgvOrcamentosCadastro.Columns["CustoTotal"].HeaderText = "Custo total";
         DgvOrcamentosCadastro.Columns["NomeFornecedor"].HeaderText = "Fornecedor";
+        DgvOrcamentosCadastro.Columns["NumeroFatura"].HeaderText = "Fatura";
         DgvOrcamentosCadastro.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         DgvOrcamentosCadastro.MultiSelect = false;
     }
@@ -133,7 +134,7 @@ public partial class FormCadastrarOrcamento : Form
 
         try
         {
-            
+
             var item = new ItemOrcamentoViewModel
             {
                 Descricao = TxtItemCadastroOrcamento.Text.Trim(),
@@ -141,7 +142,8 @@ public partial class FormCadastrarOrcamento : Form
                 PrecoUnitario = decimal.TryParse(TxtPrecoUnitarioCadastroOrcamento.Text.Replace('.', ','), out decimal precoUnitario) ? precoUnitario : throw new FormatException("Erro ao processar preço unitário do item."),
                 Margem = decimal.TryParse(TxtMargemCadastroOrdem.Text, out decimal margem) ? margem : throw new FormatException("Erro ao processar a margem do item."),
                 FornecedorId = _fornecedor.FornecedorId,
-                Fornecedor = _fornecedor
+                Fornecedor = _fornecedor,
+                NumeroFatura = int.TryParse(TxtFaturaCadastroOrdem.Text, out int fatura) ? fatura : throw new FormatException("Erro ao processar número da fatura do item."),
             };
 
             _items.Add(item);
@@ -154,6 +156,7 @@ public partial class FormCadastrarOrcamento : Form
             TxtPrecoUnitarioFinalCadastroOrcamento.Clear();
             TxtPrecoFinalTotalCadastroOrcamento.Clear();
             TxtFornecedorCadastroOrcamento.Clear();
+            TxtFaturaCadastroOrdem.Clear();
             TxtItemCadastroOrcamento.Focus();
             ChkMaoDeObra.Checked = false;
             _fornecedor = null;
@@ -167,8 +170,11 @@ public partial class FormCadastrarOrcamento : Form
 
     private void TxtMargemCadastroOrdem_KeyPress(object sender, KeyPressEventArgs e)
     {
-        if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+        if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
             e.Handled = true;
+
+        if (e.KeyChar == '.')
+            e.KeyChar = ',';
     }
 
     private void TxtPrecoUnitarioCadastroOrcamento_KeyPress(object sender, KeyPressEventArgs e)
@@ -369,5 +375,11 @@ public partial class FormCadastrarOrcamento : Form
             LstSugestoesFornecedores.Visible = false;
             _fornecedor = fornecedorSelecionado;
         }
+    }
+
+    private void TxtFaturaCadastroOrdem_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            e.Handled = true;
     }
 }

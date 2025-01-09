@@ -30,6 +30,8 @@
         {
             LblItemAtualizarOrcamento = new Label();
             PanelInfoOrcamentoAtualizar = new Panel();
+            TxtFaturaAtualizarOrdem = new TextBox();
+            LblFaturaAtualizarOrdem = new Label();
             LstSugestoesFornecedores = new ListBox();
             LblFornecedorAtualizarOrcamento = new Label();
             TxtFornecedorAtualizarOrcamento = new TextBox();
@@ -71,6 +73,8 @@
             // PanelInfoOrcamentoAtualizar
             // 
             PanelInfoOrcamentoAtualizar.BorderStyle = BorderStyle.Fixed3D;
+            PanelInfoOrcamentoAtualizar.Controls.Add(TxtFaturaAtualizarOrdem);
+            PanelInfoOrcamentoAtualizar.Controls.Add(LblFaturaAtualizarOrdem);
             PanelInfoOrcamentoAtualizar.Controls.Add(LstSugestoesFornecedores);
             PanelInfoOrcamentoAtualizar.Controls.Add(LblFornecedorAtualizarOrcamento);
             PanelInfoOrcamentoAtualizar.Controls.Add(TxtFornecedorAtualizarOrcamento);
@@ -96,6 +100,26 @@
             PanelInfoOrcamentoAtualizar.Name = "PanelInfoOrcamentoAtualizar";
             PanelInfoOrcamentoAtualizar.Size = new Size(778, 463);
             PanelInfoOrcamentoAtualizar.TabIndex = 10;
+            // 
+            // TxtFaturaAtualizarOrdem
+            // 
+            TxtFaturaAtualizarOrdem.BackColor = SystemColors.Window;
+            TxtFaturaAtualizarOrdem.Font = new Font("Segoe UI Variable Display", 14.25F);
+            TxtFaturaAtualizarOrdem.Location = new Point(662, 113);
+            TxtFaturaAtualizarOrdem.Name = "TxtFaturaAtualizarOrdem";
+            TxtFaturaAtualizarOrdem.Size = new Size(100, 33);
+            TxtFaturaAtualizarOrdem.TabIndex = 47;
+            TxtFaturaAtualizarOrdem.KeyPress += TxtFaturaAtualizarOrdem_KeyPress;
+            // 
+            // LblFaturaAtualizarOrdem
+            // 
+            LblFaturaAtualizarOrdem.AutoSize = true;
+            LblFaturaAtualizarOrdem.Font = new Font("Segoe UI Variable Display", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            LblFaturaAtualizarOrdem.Location = new Point(589, 116);
+            LblFaturaAtualizarOrdem.Name = "LblFaturaAtualizarOrdem";
+            LblFaturaAtualizarOrdem.Size = new Size(67, 26);
+            LblFaturaAtualizarOrdem.TabIndex = 46;
+            LblFaturaAtualizarOrdem.Text = "Fatura:";
             // 
             // LstSugestoesFornecedores
             // 
@@ -125,7 +149,7 @@
             TxtFornecedorAtualizarOrcamento.Font = new Font("Segoe UI Variable Display", 14.25F);
             TxtFornecedorAtualizarOrcamento.Location = new Point(126, 113);
             TxtFornecedorAtualizarOrcamento.Name = "TxtFornecedorAtualizarOrcamento";
-            TxtFornecedorAtualizarOrcamento.Size = new Size(636, 33);
+            TxtFornecedorAtualizarOrcamento.Size = new Size(457, 33);
             TxtFornecedorAtualizarOrcamento.TabIndex = 5;
             TxtFornecedorAtualizarOrcamento.TextChanged += TxtFornecedorAtualizarOrcamento_TextChanged;
             // 
@@ -405,5 +429,7 @@
         private Label LblFornecedorAtualizarOrcamento;
         private TextBox TxtFornecedorAtualizarOrcamento;
         private ListBox LstSugestoesFornecedores;
+        private TextBox TxtFaturaAtualizarOrdem;
+        private Label LblFaturaAtualizarOrdem;
     }
 }

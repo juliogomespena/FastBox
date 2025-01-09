@@ -35,7 +35,7 @@ namespace FastBox.UI.Helper
                         .SetTextAlignment(TextAlignment.LEFT));
                     document.Add(new Paragraph("Estrada de Palmela, 45a - Setúbal")
                         .SetTextAlignment(TextAlignment.LEFT));
-                    document.Add(new Paragraph("Telefone: +357 937-368-242")
+                    document.Add(new Paragraph("Telefone: +351 937-368-242")
                         .SetTextAlignment(TextAlignment.LEFT));
 
                     document.Add(new Paragraph("\n"));

@@ -48,6 +48,8 @@ namespace FastBox.BLL.DTOs
 
         public string NomeFornecedor => Fornecedor.Nome;
 
+        public int? NumeroFatura { get; set; }
+
         public FornecedorViewModel Fornecedor { get; set; } = null!;
 
         public virtual Orcamento Orcamento { get; set; } = null!;
