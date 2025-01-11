@@ -122,7 +122,8 @@ public partial class FormCadastrarVeiculo : Form
                         DgvVeiculosClientes.Columns["Sobrenome"].Visible = false;
                         DgvVeiculosClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
                         DgvVeiculosClientes.Columns["ClienteId"].HeaderText = "Id";
-                        DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                        DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                        DgvVeiculosClientes.Columns["Email"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         DgvVeiculosClientes.MultiSelect = false;
                         DgvVeiculosClientes.Rows[0].Selected = true;
                         DgvVeiculosClientes.Focus();

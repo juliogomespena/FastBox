@@ -139,12 +139,14 @@ public partial class FormAtualizarOrcamento : Form
         DgvOrcamentosAtualizar.Columns["CustoTotal"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizar.Columns["Lucro"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizar.Columns["Descricao"].HeaderText = "Item";
-        DgvOrcamentosAtualizar.Columns["PrecoUnitario"].HeaderText = "Custo unitário";
-        DgvOrcamentosAtualizar.Columns["ValorUnitario"].HeaderText = "Venda unitário";
-        DgvOrcamentosAtualizar.Columns["ValorTotal"].HeaderText = "Venda total";
-        DgvOrcamentosAtualizar.Columns["CustoTotal"].HeaderText = "Custo total";
+        DgvOrcamentosAtualizar.Columns["Quantidade"].HeaderText = "Quant.";
+        DgvOrcamentosAtualizar.Columns["PrecoUnitario"].HeaderText = "Custo";
+        DgvOrcamentosAtualizar.Columns["CustoTotal"].HeaderText = "Custo T.";
+        DgvOrcamentosAtualizar.Columns["ValorUnitario"].HeaderText = "Venda Un.";
+        DgvOrcamentosAtualizar.Columns["ValorTotal"].HeaderText = "Venda T.";
         DgvOrcamentosAtualizar.Columns["NomeFornecedor"].HeaderText = "Fornecedor";
         DgvOrcamentosAtualizar.Columns["NumeroFatura"].HeaderText = "Fatura";
+
         DgvOrcamentosAtualizar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         DgvOrcamentosAtualizar.MultiSelect = false;
     }

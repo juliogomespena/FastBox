@@ -128,7 +128,8 @@ public partial class FormAtualizarVeiculo : Form
                         DgvVeiculosClientes.Columns["Sobrenome"].Visible = false;
                         DgvVeiculosClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
                         DgvVeiculosClientes.Columns["ClienteId"].HeaderText = "Id";
-                        DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                        DgvVeiculosClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                        DgvVeiculosClientes.Columns["Email"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                         DgvVeiculosClientes.MultiSelect = false;
                         DgvVeiculosClientes.ClearSelection();
                         DgvVeiculosClientes.Rows[0].Selected = true;

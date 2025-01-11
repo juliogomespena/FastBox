@@ -262,16 +262,19 @@ public partial class FormAtualizarOrdem : Form
         DgvOrcamentosAtualizarOrdem.Columns["VendaTotal"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].DefaultCellStyle.Format = "C2";
         DgvOrcamentosAtualizarOrdem.Columns["IVA"].DefaultCellStyle.Format = "C2";
-        DgvOrcamentosAtualizarOrdem.Columns["Numero"].HeaderText = "Número";
+        DgvOrcamentosAtualizarOrdem.Columns["Numero"].HeaderText = "Nº";
         DgvOrcamentosAtualizarOrdem.Columns["DataCriacao"].HeaderText = "Data de criação";
         DgvOrcamentosAtualizarOrdem.Columns["NumeroDeItens"].HeaderText = "Itens";
-        DgvOrcamentosAtualizarOrdem.Columns["CustoPecas"].HeaderText = "Custo peças";
-        DgvOrcamentosAtualizarOrdem.Columns["VendaPecas"].HeaderText = "Venda peças";
-        DgvOrcamentosAtualizarOrdem.Columns["LucroPecas"].HeaderText = "Lucro peças";
+        DgvOrcamentosAtualizarOrdem.Columns["CustoPecas"].HeaderText = "Peças";
+        DgvOrcamentosAtualizarOrdem.Columns["VendaPecas"].HeaderText = "Venda";
+        DgvOrcamentosAtualizarOrdem.Columns["LucroPecas"].HeaderText = "Lucro";
         DgvOrcamentosAtualizarOrdem.Columns["MaoDeObra"].HeaderText = "Mão de obra";
-        DgvOrcamentosAtualizarOrdem.Columns["VendaTotal"].HeaderText = "Venda total";
-        DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].HeaderText = "Lucro total";
-        DgvOrcamentosAtualizarOrdem.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        DgvOrcamentosAtualizarOrdem.Columns["VendaTotal"].HeaderText = "Total";
+        DgvOrcamentosAtualizarOrdem.Columns["LucroTotal"].HeaderText = "Lucro T.";
+        DgvOrcamentosAtualizarOrdem.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        DgvOrcamentosAtualizarOrdem.Columns["NumeroDeItens"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        DgvOrcamentosAtualizarOrdem.Columns["Numero"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        DgvOrcamentosAtualizarOrdem.Columns["MaoDeObra"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         DgvOrcamentosAtualizarOrdem.MultiSelect = false;
     }
 

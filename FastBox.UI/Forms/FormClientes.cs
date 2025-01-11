@@ -53,6 +53,10 @@ public partial class FormClientes : Form
             DgvClientes.Columns["NomeSobrenome"].HeaderText = "Nome";
             DgvClientes.Columns["Telemovel"].HeaderText = "Telemóvel";
             DgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DgvClientes.Columns["ClienteId"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DgvClientes.Columns["OrdensDeServicoCount"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DgvClientes.Columns["DataCadastro"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DgvClientes.Columns["Email"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             DgvClientes.MultiSelect = false;
         }
         catch (Exception ex)

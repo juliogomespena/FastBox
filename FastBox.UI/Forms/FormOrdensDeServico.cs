@@ -72,7 +72,14 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.Columns["ValorPago"].HeaderText = "Valor pago";
             DgvOrdensDeServico.Columns["ValorDevido"].HeaderText = "Valor em aberto";
             DgvOrdensDeServico.Columns["ObservacoesGarantia"].HeaderText = "Observações da garantia";
-            DgvOrdensDeServico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DgvOrdensDeServico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DgvOrdensDeServico.Columns["Descricao"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DgvOrdensDeServico.Columns["ObservacoesGarantia"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DgvOrdensDeServico.Columns["NomeCliente"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DgvOrdensDeServico.Columns["DataGarantiaStatus"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DgvOrdensDeServico.Columns["ValorPago"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DgvOrdensDeServico.Columns["ValorDevido"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DgvOrdensDeServico.Columns["ValorTotal"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             DgvOrdensDeServico.MultiSelect = false;
         }
         catch (Exception ex)

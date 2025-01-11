@@ -46,6 +46,10 @@ public partial class FormVeiculos : Form
             DgvVeiculos.Columns["NomeCliente"].HeaderText = "Cliente";
             DgvVeiculos.Columns["OrdensDeServico"].HeaderText = "Ordens de serviço";
             DgvVeiculos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DgvVeiculos.Columns["VeiculoId"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DgvVeiculos.Columns["Ano"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DgvVeiculos.Columns["Matricula"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DgvVeiculos.Columns["OrdensDeServico"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             DgvVeiculos.MultiSelect = false;
         }
         catch (Exception ex)

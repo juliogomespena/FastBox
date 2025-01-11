@@ -44,11 +44,13 @@ public partial class FormFornecedores : Form
             DgvFornecedores.Columns["EnderecoCompleto"].Visible = false;
             DgvFornecedores.Columns["EstoquePecas"].Visible = false;
             DgvFornecedores.Columns["ItensOrcamento"].Visible = false;
-                DgvFornecedores.Columns["InfoFornecedor"].Visible = false;          
+            DgvFornecedores.Columns["InfoFornecedor"].Visible = false;          
             DgvFornecedores.Columns["Telemovel"].HeaderText = "Telemóvel";
             DgvFornecedores.Columns["EnderecoResumido"].HeaderText = "Endereço";
             DgvFornecedores.Columns["FornecedorId"].HeaderText = "Id";
             DgvFornecedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DgvFornecedores.Columns["FornecedorId"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
             DgvFornecedores.MultiSelect = false;
         }
         catch (Exception ex)
