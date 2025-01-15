@@ -196,7 +196,7 @@ public partial class FormCadastrarOrcamento : Form
 
             decimal precoUnitario = decimal.TryParse(TxtPrecoUnitarioCadastroOrcamento.Text.Replace('.', ','), out decimal precoUnitarioValue) ? precoUnitarioValue : 0;
 
-            TxtPrecoUnitarioFinalCadastroOrcamento.Text = (precoUnitario + (precoUnitario * margem)).ToString("C2");
+            TxtPrecoUnitarioFinalCadastroOrcamento.Text = Math.Round((precoUnitario + (precoUnitario * margem)), 2, MidpointRounding.AwayFromZero).ToString("C2");
         }
         if (!String.IsNullOrWhiteSpace(TxtPrecoUnitarioCadastroOrcamento.Text) && !String.IsNullOrWhiteSpace(TxtMargemCadastroOrdem.Text) && !String.IsNullOrWhiteSpace(TxtQuantidadeCadastroOrcamento.Text))
         {
@@ -207,7 +207,7 @@ public partial class FormCadastrarOrcamento : Form
 
             int quantidade = int.TryParse(TxtQuantidadeCadastroOrcamento.Text, out int qtd) ? qtd : 0;
 
-            TxtPrecoFinalTotalCadastroOrcamento.Text = ((precoUnitario + (precoUnitario * margem)) * quantidade).ToString("C2");
+            TxtPrecoFinalTotalCadastroOrcamento.Text = Math.Round(((precoUnitario + (precoUnitario * margem)) * quantidade), 2, MidpointRounding.AwayFromZero).ToString("C2");
         }
     }
 
@@ -266,9 +266,11 @@ public partial class FormCadastrarOrcamento : Form
         TxtItemCadastroOrcamento.Enabled = !ChkMaoDeObra.Checked;
         TxtMargemCadastroOrdem.Enabled = !ChkMaoDeObra.Checked;
         TxtFornecedorCadastroOrcamento.Enabled = !ChkMaoDeObra.Checked;
+        TxtFaturaCadastroOrdem.Enabled = !ChkMaoDeObra.Checked;
 
         TxtItemCadastroOrcamento.Text = ChkMaoDeObra.Checked ? "Mão de obra" : "";
         TxtMargemCadastroOrdem.Text = ChkMaoDeObra.Checked ? "0" : "";
+        TxtFaturaCadastroOrdem.Text = "0001";
     }
 
     private void TxtPrecoUnitarioCadastroOrcamento_TextChanged(object sender, EventArgs e)

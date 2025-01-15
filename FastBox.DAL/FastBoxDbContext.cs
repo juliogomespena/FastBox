@@ -179,7 +179,7 @@ public partial class FastBoxDbContext : DbContext
 
             entity.Property(e => e.Descricao).HasMaxLength(255);
             entity.Property(e => e.PrecoUnitario).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Margem).HasColumnType("decimal(5, 2)");
+            entity.Property(e => e.Margem).HasColumnType("decimal(10, 5)");
 
             entity.HasOne(d => d.Orcamento).WithMany(p => p.ItensOrcamento)
                 .HasForeignKey(d => d.OrcamentoId)

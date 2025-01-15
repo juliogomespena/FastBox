@@ -23,7 +23,7 @@ namespace FastBox.BLL.DTOs
 
         public decimal CustoTotal => Math.Round(PrecoUnitario * Quantidade, 2, MidpointRounding.AwayFromZero);
 
-        public decimal ValorUnitario => Math.Round(PrecoUnitario + (PrecoUnitario * Margem),2,MidpointRounding.AwayFromZero);
+        public decimal ValorUnitario => Math.Round(PrecoUnitario * (1 + Margem), 4, MidpointRounding.AwayFromZero);
 
         public decimal ValorTotal => Math.Round(ValorUnitario * Quantidade, 2, MidpointRounding.AwayFromZero);
 

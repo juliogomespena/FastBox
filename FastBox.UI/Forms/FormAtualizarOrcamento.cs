@@ -71,6 +71,7 @@ public partial class FormAtualizarOrcamento : Form
         BtnExcluirItemAtualizarOrcamento.Enabled = enabled;
         RTxtDescricaoAtualizarOrcamento.Enabled = enabled;
         BtnAtualizarOrcamento.Enabled = enabled;
+        TxtFaturaAtualizarOrdem.Enabled = enabled;
         DgvOrcamentosAtualizar.Enabled = true;
     }
 
@@ -218,7 +219,7 @@ public partial class FormAtualizarOrcamento : Form
 
             decimal precoUnitario = decimal.TryParse(TxtPrecoUnitarioAtualizarOrcamento.Text.Replace('.', ','), out decimal precoUnitarioValue) ? precoUnitarioValue : 0;
 
-            TxtPrecoUnitarioFinalAtualizarOrcamento.Text = (precoUnitario + (precoUnitario * margem)).ToString("C2");
+            TxtPrecoUnitarioFinalAtualizarOrcamento.Text = Math.Round((precoUnitario + (precoUnitario * margem)), 2, MidpointRounding.AwayFromZero).ToString("C2");
         }
         if (!String.IsNullOrWhiteSpace(TxtPrecoUnitarioAtualizarOrcamento.Text) && !String.IsNullOrWhiteSpace(TxtMargemAtualizarOrdem.Text) && !String.IsNullOrWhiteSpace(TxtQuantidadeAtualizarOrcamento.Text))
         {
@@ -229,7 +230,7 @@ public partial class FormAtualizarOrcamento : Form
 
             int quantidade = int.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out int qtd) ? qtd : 0;
 
-            TxtPrecoFinalTotalAtualizarOrcamento.Text = ((precoUnitario + (precoUnitario * margem)) * quantidade).ToString("C2");
+            TxtPrecoFinalTotalAtualizarOrcamento.Text = Math.Round(((precoUnitario + (precoUnitario * margem)) * quantidade), 2, MidpointRounding.AwayFromZero).ToString("C2");
         }
     }
 
@@ -289,9 +290,11 @@ public partial class FormAtualizarOrcamento : Form
         TxtItemAtualizarOrcamento.Enabled = !ChkMaoDeObra.Checked;
         TxtMargemAtualizarOrdem.Enabled = !ChkMaoDeObra.Checked;
         TxtFornecedorAtualizarOrcamento.Enabled = !ChkMaoDeObra.Checked;
+        TxtFaturaAtualizarOrdem.Enabled = !ChkMaoDeObra.Checked;
 
         TxtItemAtualizarOrcamento.Text = ChkMaoDeObra.Checked ? "Mão de obra" : "";
         TxtMargemAtualizarOrdem.Text = ChkMaoDeObra.Checked ? "0" : "";
+        TxtFaturaAtualizarOrdem.Text = "0001";
     }
 
     private void TxtPrecoUnitarioAtualizarOrcamento_TextChanged(object sender, EventArgs e)
