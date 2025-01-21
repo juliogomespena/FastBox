@@ -67,11 +67,11 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.Columns["DataAbertura"].HeaderText = "Abertura";
             DgvOrdensDeServico.Columns["EstimativaConclusao"].HeaderText = "Prazo estimado";
             DgvOrdensDeServico.Columns["ValorTotal"].HeaderText = "Valor total";
-            DgvOrdensDeServico.Columns["OrcamentosCount"].HeaderText = "Orçamentos";
             DgvOrdensDeServico.Columns["DataGarantiaStatus"].HeaderText = "Garantia";
-            DgvOrdensDeServico.Columns["ValorPago"].HeaderText = "Valor pago";
-            DgvOrdensDeServico.Columns["ValorDevido"].HeaderText = "Valor em aberto";
-            DgvOrdensDeServico.Columns["ObservacoesGarantia"].HeaderText = "Observações da garantia";
+            DgvOrdensDeServico.Columns["ValorPago"].HeaderText = "Pago";
+            DgvOrdensDeServico.Columns["ValorDevido"].HeaderText = "Aberto";
+            DgvOrdensDeServico.Columns["ObservacoesGarantia"].HeaderText = "-";
+            DgvOrdensDeServico.Columns["ObservacoesGarantia"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             DgvOrdensDeServico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             DgvOrdensDeServico.Columns["Descricao"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             DgvOrdensDeServico.Columns["ObservacoesGarantia"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;

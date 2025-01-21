@@ -27,8 +27,6 @@ public class OrdemDeServicoViewModel
 
     public string Descricao { get; set; } = null!;
 
-    public int OrcamentosCount => Orcamentos.Count;
-
     public DateTime DataAbertura { get; set; }
 
     public DateTime? EstimativaConclusao { get; set; }

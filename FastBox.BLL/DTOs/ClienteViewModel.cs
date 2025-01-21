@@ -46,7 +46,7 @@ public class ClienteViewModel
     public DateTime DataCadastro { get; set; }
 
     public string? VeiculosMatricula => Veiculos != null && Veiculos.Any()
-            ? string.Join(", ", Veiculos.Select(v => v.Matricula))
+            ? string.Join(", ", Veiculos.Select(v => $"{v.Modelo} ({v.Matricula})"))
             : "Sem veículos cadastrados";
 
     public int? OrdensDeServicoCount => OrdemDeServicos.Count();
