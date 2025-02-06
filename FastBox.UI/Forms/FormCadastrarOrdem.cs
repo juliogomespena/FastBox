@@ -95,9 +95,11 @@ public partial class FormCadastrarOrdem : Form
     {
         if (String.IsNullOrWhiteSpace(TxtVeiculoOrdemCadastrar.Text) || _veiculoId == null)
         {
-            MessageBox.Show("Selecione um veículo para abrir a ordem de serviço.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return false;
-        }
+			var dialog = MessageBox.Show("Deseja continuar sem selecionar um veículo?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+			if (dialog == DialogResult.No)
+				return false;
+		}
 
         if (String.IsNullOrWhiteSpace(RTxtDescricaoOrdemCadastrar.Text))
         {
@@ -120,7 +122,6 @@ public partial class FormCadastrarOrdem : Form
 
             if (dialog == DialogResult.No)
                 return false;
-
         }
 
         if (!_orcamentos.Any())
@@ -634,7 +635,7 @@ public partial class FormCadastrarOrdem : Form
             var orcamento = _orcamentos.FirstOrDefault(o => o.OrcamentoId == orcamentoId);
             if (orcamento != null)
             {
-                VeiculoViewModel veiculo = new();
+                VeiculoViewModel? veiculo = null;
 
                 using (var scope = _serviceProvider.CreateScope())
                 {
@@ -647,9 +648,9 @@ public partial class FormCadastrarOrdem : Form
                 }
                 saveFileDialog.Filter = "PDF Files (*.pdf)|*.pdf";
                 saveFileDialog.Title = "Salvar orçamento como PDF";
-                saveFileDialog.FileName = $"Orçamento Nº{orcamento.Numero} {veiculo.ModeloMatricula} {orcamento.DataCriacao:dd-MM-yyyy}";
+				saveFileDialog.FileName = $"Orçamento Nº{orcamento.Numero} {(veiculo is null ? "Viatura não cadastrada" : veiculo.ModeloMatricula)} {orcamento.DataCriacao:dd-MM-yyyy HHmmss}";
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+				if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string filePath = saveFileDialog.FileName;
 

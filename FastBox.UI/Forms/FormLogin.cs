@@ -1,4 +1,5 @@
-﻿using FastBox.BLL.Services.Interfaces;
+﻿using FastBox.BLL.Services;
+using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using FastBox.UI.Helper;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,14 +22,6 @@ public partial class FormLogin : Form
 
     private async void btnEntrar_Click(object sender, EventArgs e)
     {
-        Usuario user = new Usuario
-        {
-            Login = "fastboxadm",
-            Email = "fastboxsetubal@gmail.com",
-            Senha = "gabi#1957",
-            DataCadastro = DateTime.Now,
-            NivelDeAcessoId = 3,
-        };
         try
         {
             BtnEntrar.Enabled = false;

@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FastBox.UI.Helper
+namespace FastBox.UI.Helper;
+
+public class GlobalConfiguration
 {
-    public class GlobalConfiguration
-    {
-        public static int debounceTimeMiliseconds => 1000;
+    public static bool IsDevelopment = true;
 
-        public static int PageSize => 31;
+	public static string connectionString = IsDevelopment ? Configuration.GetConnectionString("LocalDbConnection") : Configuration.GetConnectionString("FastBoxDbConnection");
 
-        public static decimal IVA => 0.23m;
-    }
+	public static int debounceTimeMiliseconds => 1000;
+
+    public static int PageSize => 31;
+
+    public static decimal IVA => 0.23m;
 }

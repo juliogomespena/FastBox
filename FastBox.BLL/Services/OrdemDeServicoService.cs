@@ -4,8 +4,6 @@ using FastBox.BLL.Services.Interfaces;
 using FastBox.DAL.Models;
 using FastBox.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging.Abstractions;
-using System.Runtime.Intrinsics.Arm;
 
 namespace FastBox.BLL.Services;
 

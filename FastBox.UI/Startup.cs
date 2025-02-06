@@ -6,6 +6,7 @@ using FastBox.BLL.Services;
 using FastBox.BLL.Services.Interfaces;
 using FastBox.UI.Forms;
 using FastBox.DAL.Models;
+using FastBox.UI.Helper;
 
 namespace FastBox.UI;
 
@@ -15,9 +16,16 @@ internal class Startup
     {
         var services = new ServiceCollection();
 
-        services.AddDbContext<FastBoxDbContext>(options => options.UseAzureSql(connectionString), ServiceLifetime.Scoped);
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddDbContext<FastBoxDbContext>(options =>
+        {
+			if (GlobalConfiguration.IsDevelopment)
+				options.UseSqlServer(connectionString);
+			else
+				options.UseAzureSql(connectionString);
+		}, ServiceLifetime.Scoped);
 
+
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IClienteService, ClienteService>();
         services.AddScoped<IUsuarioService, UsuarioService>();
         services.AddScoped<IConcelhoService, ConcelhoService>();

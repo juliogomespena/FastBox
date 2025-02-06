@@ -4,6 +4,7 @@ using FastBox.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastBox.DAL.Migrations
 {
     [DbContext(typeof(FastBoxDbContext))]
-    partial class FastBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250206112306_CreateLocalDatabase")]
+    partial class CreateLocalDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,8 +296,8 @@ namespace FastBox.DAL.Migrations
                     b.Property<decimal>("PrecoUnitario")
                         .HasColumnType("decimal(10, 2)");
 
-                    b.Property<float>("Quantidade")
-                        .HasColumnType("real");
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
 
                     b.HasKey("ItemOrcamentoId")
                         .HasName("PK_ItemOrcamento_ItemOrcamentoId");

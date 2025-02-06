@@ -15,6 +15,7 @@ internal class Configuration
     public static string GetConnectionString(string name)
     {
         var configuration = GetConfiguration();
+
         return configuration.GetConnectionString(name);
     }
 }

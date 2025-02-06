@@ -13,7 +13,7 @@ public partial class ItemOrcamento
 
     public int? NumeroFatura {  get; set; }
 
-    public int Quantidade { get; set; }
+    public float Quantidade { get; set; }
 
     public decimal PrecoUnitario { get; set; }
 

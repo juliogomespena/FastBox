@@ -2,23 +2,22 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace FastBox.DAL
+namespace FastBox.DAL;
+
+public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<FastBoxDbContext>
 {
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<FastBoxDbContext>
+    public FastBoxDbContext CreateDbContext(string[] args)
     {
-        public FastBoxDbContext CreateDbContext(string[] args)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../FastBox.UI/Helper"))
-                .AddJsonFile("appsettings.json")
-                .Build();
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../FastBox.UI/Helper"))
+            .AddJsonFile("appsettings.json")
+            .Build();
 
-            var connectionString = configuration.GetConnectionString("FastBoxDbConnection");
+        var connectionString = configuration.GetConnectionString("LocalDbConnection");
 
-            var optionsBuilder = new DbContextOptionsBuilder<FastBoxDbContext>();
-            optionsBuilder.UseAzureSql(connectionString);
+        var optionsBuilder = new DbContextOptionsBuilder<FastBoxDbContext>();
+        optionsBuilder.UseSqlServer(connectionString);
 
-            return new FastBoxDbContext(optionsBuilder.Options);
-        }
+        return new FastBoxDbContext(optionsBuilder.Options);
     }
 }
