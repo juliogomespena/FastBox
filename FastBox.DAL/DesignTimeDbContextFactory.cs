@@ -13,7 +13,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<FastBoxDbC
             .AddJsonFile("appsettings.json")
             .Build();
 
-        var connectionString = configuration.GetConnectionString("LocalDbConnection");
+        var connectionString = configuration.GetConnectionString("FastBoxDbConnection");
 
         var optionsBuilder = new DbContextOptionsBuilder<FastBoxDbContext>();
         optionsBuilder.UseSqlServer(connectionString);

@@ -276,7 +276,7 @@ public partial class FormOrdensDeServico : Form
                 if (dialog == DialogResult.Yes)
                 {
                     ordem.StatusOrdemDeServicoId = 4;
-                    ordem.ValorTotal = ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade);
+                    ordem.ValorTotal = ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * (decimal)itens.Quantidade);
                     await _ordemDeServicoService.UpdateOrdemAsync(ordem);
                     MessageBox.Show("Serviços da ordem concluídos.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

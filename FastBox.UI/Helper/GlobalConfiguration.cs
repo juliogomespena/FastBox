@@ -8,7 +8,7 @@ namespace FastBox.UI.Helper;
 
 public class GlobalConfiguration
 {
-    public static bool IsDevelopment = true;
+    public static bool IsDevelopment = false;
 
 	public static string connectionString = IsDevelopment ? Configuration.GetConnectionString("LocalDbConnection") : Configuration.GetConnectionString("FastBoxDbConnection");
 

@@ -9,7 +9,7 @@ namespace FastBox.UI.Helper;
 
 internal class PDF
 {
-    public static void GenerateOrcamento(OrcamentoViewModel orcamento, VeiculoViewModel? veiculo, string filePath)
+    public static void GenerateOrcamento(OrcamentoViewModel orcamento,ClienteViewModel? cliente, VeiculoViewModel? veiculo, string filePath)
     {
         using (PdfWriter writer = new PdfWriter(filePath))
         {
@@ -40,7 +40,7 @@ internal class PDF
 
                 document.Add(new Paragraph("\n"));
 
-                document.Add(new Paragraph($"Orçamento - Nº{orcamento.Numero}\nViatura: {(veiculo is null ? "Viatura não cadastrada" : veiculo.ModeloMatricula)}\nCliente: {(veiculo is null ? "Cliente não cadastrado" : veiculo.ModeloMatricula)}")
+                document.Add(new Paragraph($"Orçamento - Nº{orcamento.Numero}\nViatura: {(veiculo is null ? "Viatura não cadastrada" : veiculo.ModeloMatricula)}\nCliente: {(cliente is null ? "Cliente não cadastrado" : cliente.NomeSobrenome)}")
                     .SetFontSize(14)
                     .SetTextAlignment(TextAlignment.CENTER));
                 document.Add(new Paragraph($"{orcamento.Descricao}")

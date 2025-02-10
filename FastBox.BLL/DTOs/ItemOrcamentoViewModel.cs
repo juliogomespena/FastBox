@@ -13,7 +13,7 @@ namespace FastBox.BLL.DTOs
 
         public string Descricao { get; set; } = null!;
 
-        public int Quantidade { get; set; }
+        public float Quantidade { get; set; }
 
         public decimal PrecoUnitario
         {
@@ -21,11 +21,11 @@ namespace FastBox.BLL.DTOs
             set => _precoUnitario = Math.Round(value, 2, MidpointRounding.AwayFromZero);
         }
 
-        public decimal CustoTotal => Math.Round(PrecoUnitario * Quantidade, 2, MidpointRounding.AwayFromZero);
+        public decimal CustoTotal => Math.Round(PrecoUnitario * (decimal)Quantidade, 2, MidpointRounding.AwayFromZero);
 
         public decimal ValorUnitario => Math.Round(PrecoUnitario * (1 + Margem), 4, MidpointRounding.AwayFromZero);
 
-        public decimal ValorTotal => Math.Round(ValorUnitario * Quantidade, 2, MidpointRounding.AwayFromZero);
+        public decimal ValorTotal => Math.Round(ValorUnitario * (decimal)Quantidade, 2, MidpointRounding.AwayFromZero);
 
         public decimal Lucro 
         {

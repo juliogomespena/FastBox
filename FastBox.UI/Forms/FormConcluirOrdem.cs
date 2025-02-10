@@ -117,7 +117,7 @@ public partial class FormConcluirOrdem : Form
 
         TxtIdConcluirOrdem.Text = OrdemAtual.OrdemDeServicoId.ToString();
         TxtClienteConcluirOrdem.Text = OrdemAtual.NomeCliente;
-        TxtVeiculoConcluirOrdem.Text = $"{OrdemAtual.Veiculo.Modelo} ({OrdemAtual.Veiculo.Matricula})";
+        TxtVeiculoConcluirOrdem.Text = $"{OrdemAtual.ModeloMatricula}";
         TxtEuroConcluirOrdem.Text = $"Total: {OrdemAtual.ValorTotal - OrdemAtual.Pagamentos.Sum(p => p.Valor)}";
 
         if (OrdemAtual.DataGarantia != null)

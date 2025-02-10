@@ -438,6 +438,7 @@ public partial class FormAtualizarOrdem : Form
             if (orcamento != null)
             {
                 VeiculoViewModel? veiculo = null;
+                ClienteViewModel? cliente = null;
 
                 using (var scope = _serviceProvider.CreateScope())
                 {
@@ -446,8 +447,13 @@ public partial class FormAtualizarOrdem : Form
                         var veiculoService = scope.ServiceProvider.GetRequiredService<IVeiculoService>();
                         veiculo = await veiculoService.GetVeiculoByIdAsync((long)_veiculoId);
                     }
+					if (_clienteId != null)
+					{
+						var clienteService = scope.ServiceProvider.GetRequiredService<IClienteService>();
+						cliente = await clienteService.GetClientByIdAsync((long)_clienteId);
+					}
 
-                }
+				}
                 saveFileDialog.Filter = "PDF Files (*.pdf)|*.pdf";
                 saveFileDialog.Title = "Salvar orçamento como PDF";
 				saveFileDialog.FileName = $"Orçamento Nº{orcamento.Numero} {(veiculo is null ? "Viatura não cadastrada" : veiculo.ModeloMatricula)} {orcamento.DataCriacao:dd-MM-yyyy HHmmss}";
@@ -459,7 +465,7 @@ public partial class FormAtualizarOrdem : Form
 
                     try
                     {
-                        PDF.GenerateOrcamento(orcamento, veiculo, filePath);
+                        PDF.GenerateOrcamento(orcamento, cliente, veiculo, filePath);
                         MessageBox.Show("Orçamento exportado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         string? folderPath = Path.GetDirectoryName(filePath);

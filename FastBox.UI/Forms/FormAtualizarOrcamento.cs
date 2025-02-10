@@ -107,9 +107,12 @@ public partial class FormAtualizarOrcamento : Form
 
     private void TxtQuantidadeAtualizarOrcamento_KeyPress(object sender, KeyPressEventArgs e)
     {
-        if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            e.Handled = true;
-    }
+		if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+			e.Handled = true;
+
+		if (e.KeyChar == '.')
+			e.KeyChar = ',';
+	}
 
     private void FormAtualizarOrcamento_Load(object sender, EventArgs e)
     {
@@ -163,7 +166,7 @@ public partial class FormAtualizarOrcamento : Form
             {
                 ItemOrcamentoId = _tempItemId--,
                 Descricao = TxtItemAtualizarOrcamento.Text.Trim(),
-                Quantidade = int.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out int qtd) ? qtd : throw new FormatException("Erro ao processar a quantidade do item."),
+                Quantidade = float.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out float qtd) ? qtd : throw new FormatException("Erro ao processar a quantidade do item."),
                 PrecoUnitario = decimal.TryParse(TxtPrecoUnitarioAtualizarOrcamento.Text.Replace('.', ','), out decimal precoUnitario) ? precoUnitario : throw new FormatException("Erro ao processar preço unitário do item."),
                 Margem = decimal.TryParse(TxtMargemAtualizarOrdem.Text, out decimal margem) ? margem : throw new FormatException("Erro ao processar a margem do item."),
                 FornecedorId = _fornecedor.FornecedorId,
@@ -228,9 +231,9 @@ public partial class FormAtualizarOrcamento : Form
 
             decimal precoUnitario = decimal.TryParse(TxtPrecoUnitarioAtualizarOrcamento.Text.Replace('.', ','), out decimal precoUnitarioValue) ? precoUnitarioValue : 0;
 
-            int quantidade = int.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out int qtd) ? qtd : 0;
+            float quantidade = float.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out float qtd) ? qtd : 0;
 
-            TxtPrecoFinalTotalAtualizarOrcamento.Text = Math.Round(((precoUnitario + (precoUnitario * margem)) * quantidade), 2, MidpointRounding.AwayFromZero).ToString("C2");
+            TxtPrecoFinalTotalAtualizarOrcamento.Text = Math.Round(((precoUnitario + (precoUnitario * margem)) * (decimal)quantidade), 2, MidpointRounding.AwayFromZero).ToString("C2");
         }
     }
 
@@ -302,9 +305,9 @@ public partial class FormAtualizarOrcamento : Form
         if (ChkMaoDeObra.Checked == true)
         {
             decimal precoUnitario = decimal.TryParse(TxtPrecoUnitarioAtualizarOrcamento.Text.Replace('.', ','), out decimal precoUnitarioValue) ? precoUnitarioValue : 0;
-            int quantidade = int.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out int qtd) ? qtd : 0;
+            float quantidade = float.TryParse(TxtQuantidadeAtualizarOrcamento.Text, out float qtd) ? qtd : 0;
             TxtPrecoUnitarioFinalAtualizarOrcamento.Text = precoUnitario.ToString("C2");
-            TxtPrecoFinalTotalAtualizarOrcamento.Text = (precoUnitario * quantidade).ToString("C2");
+            TxtPrecoFinalTotalAtualizarOrcamento.Text = (precoUnitario * (decimal)quantidade).ToString("C2");
         }
     }
 

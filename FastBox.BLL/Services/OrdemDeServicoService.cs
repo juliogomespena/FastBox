@@ -157,7 +157,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
     {
         var statusOrdemDeServicoId = DetermineOrderStatus(ordem);
 
-        var valorTotalOrdem = Math.Round(ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade), 2, MidpointRounding.AwayFromZero);
+        var valorTotalOrdem = Math.Round(ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * (decimal)itens.Quantidade), 2, MidpointRounding.AwayFromZero);
 
         if (ordem.IncluirIva == true)
             valorTotalOrdem = Math.Round(valorTotalOrdem + (valorTotalOrdem * (decimal)0.23), 2, MidpointRounding.AwayFromZero);
@@ -236,7 +236,7 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
             var statusOrdemDeServicoId = DetermineOrderStatus(ordem);
 
-            var valorTotalOrdem = ordem.StatusOrdemDeServicoId == 7 ? 0 : Math.Round(ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * itens.Quantidade), 2, MidpointRounding.AwayFromZero);
+            var valorTotalOrdem = ordem.StatusOrdemDeServicoId == 7 ? 0 : Math.Round(ordem.Orcamentos.Where(orcamentos => orcamentos.StatusOrcamento == 2).SelectMany(orcamento => orcamento.ItensOrcamento).Sum(itens => (itens.PrecoUnitario + (itens.PrecoUnitario * itens.Margem)) * (decimal)itens.Quantidade), 2, MidpointRounding.AwayFromZero);
 
             if (ordem.IncluirIva == true)
                 valorTotalOrdem = Math.Round(valorTotalOrdem + (valorTotalOrdem * (decimal)0.23), 2, MidpointRounding.AwayFromZero);
