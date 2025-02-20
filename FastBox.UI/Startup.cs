@@ -24,7 +24,6 @@ internal class Startup
 				options.UseAzureSql(connectionString);
 		}, ServiceLifetime.Scoped);
 
-
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IClienteService, ClienteService>();
         services.AddScoped<IUsuarioService, UsuarioService>();
@@ -55,8 +54,8 @@ internal class Startup
         services.AddTransient<FormCadastrarFornecedor>();
         services.AddTransient<FormAtualizarFornecedor>();
         services.AddTransient<FormConcluirOrdem>();
-        
-        return services.BuildServiceProvider();
+		services.AddTransient<FormRelatorio>();
 
+		return services.BuildServiceProvider();
     }
 }

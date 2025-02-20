@@ -23,4 +23,8 @@ public class OrdemDeServicoFilter
     public decimal? ValorTotal { get; set; }
     
     public bool? ValorTotalMaiorOuIgual { get; set; }
+
+    public int? Ano { get; set; }
+
+    public int? Mes { get; set; } 
 }
