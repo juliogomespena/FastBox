@@ -8,7 +8,7 @@ namespace FastBox.BLL.DTOs.Filters;
 
 public class OrdemDeServicoFilter
 {
-    public string? Status { get; set; }
+    public List<string>? Status { get; set; }
 
     public string? Cliente { get; set; }
 

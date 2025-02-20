@@ -24,7 +24,8 @@ public partial class FormRelatorio : Form
 			OrdemDeServicoFilter filter = new OrdemDeServicoFilter
 			{
 				Ano = DtpMesRelatorio.Value.Year,
-				Mes = DtpMesRelatorio.Value.Month
+				Mes = DtpMesRelatorio.Value.Month,
+				Status = new List<string> { "Concluída", "Aguardando pagamento" }
 			};
 
 			var ordens = await _ordemDeServicoService.GetAllOrdens(filter);
@@ -39,7 +40,7 @@ public partial class FormRelatorio : Form
 				{
 					string filePath = saveFileDialog.FileName;
 
-					PDF.GenerateRelatorio(ordens.ToList(), filePath);
+					PDF.GenerateRelatorio(ordens.ToList(), filePath, $"{DtpMesRelatorio.Value.ToString("MMMM")}/{DtpMesRelatorio.Value.Year}");
 					MessageBox.Show($"Relatório de {DtpMesRelatorio.Value.ToString("MMMM")}/{DtpMesRelatorio.Value.Year} gerado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 					string? folderPath = Path.GetDirectoryName(filePath);

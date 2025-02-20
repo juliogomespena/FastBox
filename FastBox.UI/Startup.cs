@@ -49,7 +49,6 @@ internal class Startup
         services.AddTransient<FormCadastrarOrcamento>();
         services.AddTransient<FormAtualizarOrcamento>();
         services.AddTransient<FormAtualizarOrdem>();        
-        services.AddTransient<FormRelatorios>();
         services.AddTransient<FormFornecedores>();
         services.AddTransient<FormCadastrarFornecedor>();
         services.AddTransient<FormAtualizarFornecedor>();

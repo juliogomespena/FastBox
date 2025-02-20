@@ -26,8 +26,8 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
 		if (filter != null)
 		{
-			if (!String.IsNullOrWhiteSpace(filter.Status))
-				query = query.Where(ordem => ordem.StatusOrdemDeServico.Nome.Equals(filter.Status));
+			if (filter.Status != null && filter.Status.Count != 0)
+				query = query.Where(ordem => filter.Status.Contains(ordem.StatusOrdemDeServico.Nome));
 			if (!String.IsNullOrWhiteSpace(filter.Cliente))
 				query = query.Where(ordem => ordem.Cliente != null && (ordem.Cliente.Nome + " " + ordem.Cliente.Sobrenome).Contains(filter.Cliente));
 			if (!String.IsNullOrWhiteSpace(filter.Veiculo))
@@ -85,9 +85,9 @@ public class OrdemDeServicoService : IOrdemDeServicoService
 
         if(filter != null)
         {
-            if (!String.IsNullOrWhiteSpace(filter.Status))
-                query = query.Where(ordem => ordem.StatusOrdemDeServico.Nome.Equals(filter.Status));
-            if (!String.IsNullOrWhiteSpace(filter.Cliente))
+			if (filter.Status != null && filter.Status.Count != 0)
+				query = query.Where(ordem => filter.Status.Contains(ordem.StatusOrdemDeServico.Nome));
+			if (!String.IsNullOrWhiteSpace(filter.Cliente))
                 query = query.Where(ordem => ordem.Cliente != null && (ordem.Cliente.Nome + " " + ordem.Cliente.Sobrenome).Contains(filter.Cliente));
             if (!String.IsNullOrWhiteSpace(filter.Veiculo))
                 query = query.Where(ordem => ordem.Veiculo != null && (ordem.Veiculo.Modelo + " " + ordem.Veiculo.Marca + " " + ordem.Veiculo.Matricula).Contains(filter.Veiculo));

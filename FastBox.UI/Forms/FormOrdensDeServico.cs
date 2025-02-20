@@ -59,7 +59,12 @@ public partial class FormOrdensDeServico : Form
             DgvOrdensDeServico.Columns["StatusOrdemDeServico"].Visible = false;
             DgvOrdensDeServico.Columns["DataConclusao"].Visible = false;
             DgvOrdensDeServico.Columns["IncluirIva"].Visible = false;
-            DgvOrdensDeServico.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
+			DgvOrdensDeServico.Columns["ValorPagoDecimal"].Visible = false;
+			DgvOrdensDeServico.Columns["ValorDevidoDecimal"].Visible = false;
+			DgvOrdensDeServico.Columns["MaoDeObra"].Visible = false;
+			DgvOrdensDeServico.Columns["Pecas"].Visible = false;
+			DgvOrdensDeServico.Columns["Lucro"].Visible = false;
+			DgvOrdensDeServico.Columns["ValorTotal"].DefaultCellStyle.Format = "C2";
             DgvOrdensDeServico.Columns["OrdemDeServicoId"].HeaderText = "Id";
             DgvOrdensDeServico.Columns["ModeloMatricula"].HeaderText = "Veículo (matrícula)";
             DgvOrdensDeServico.Columns["NomeCliente"].HeaderText = "Cliente";
@@ -380,7 +385,7 @@ public partial class FormOrdensDeServico : Form
     {
         var filter = new OrdemDeServicoFilter
         {
-            Status = TspCmbStatus.SelectedIndex > 0 && TspCmbStatus.SelectedItem != null ? TspCmbStatus.SelectedItem.ToString() : null,
+            Status = new List<string> { TspCmbStatus.SelectedIndex > 0 && TspCmbStatus.SelectedItem != null ? TspCmbStatus.SelectedItem.ToString() : null },
             Cliente = TspTxtCliente.Text == "Cliente" ? null : TspTxtCliente.Text,
             Veiculo = TspTxtVeiculo.Text == "Veículo" ? null : TspTxtVeiculo.Text,
             Descricao = TspTxtDescricao.Text == "Descrição" ? null : TspTxtDescricao.Text,

@@ -11,6 +11,7 @@ public class OrdemDeServicoViewModel
 {
     private DateTime? _dataGarantia;
     private string? _observacoesGarantia;
+
     public long OrdemDeServicoId { get; set; }
 
     public long StatusOrdemDeServicoId { get; set; }
@@ -53,9 +54,21 @@ public class OrdemDeServicoViewModel
 
     public string? ValorPago => StatusOrdemDeServicoId == 7 ? "Cancelada" : Pagamentos.Any() ? Pagamentos.Sum(p => p.Valor).ToString("C2") : "Aguardando conclusão";
 
-    public string? ValorDevido => StatusOrdemDeServicoId == 7 ? "Cancelada" : Pagamentos.Any() ? (ValorTotal - Pagamentos.Sum(p => p.Valor))?.ToString("C2") : "Aguardando conclusão";
+    public decimal? ValorPagoDecimal => Pagamentos.Any() ? Pagamentos.Sum(p => p.Valor) : 0;
 
-    public virtual Cliente? Cliente { get; set; }
+	public string? ValorDevido => StatusOrdemDeServicoId == 7 ? "Cancelada" : Pagamentos.Any() ? (ValorTotal - Pagamentos.Sum(p => p.Valor))?.ToString("C2") : "Aguardando conclusão";
+
+    public decimal? ValorDevidoDecimal => Pagamentos.Any() ? (ValorTotal - Pagamentos.Sum(p => p.Valor)) : 0;
+
+	public decimal? MaoDeObra => Orcamentos.Count != 0 ? Orcamentos.Select(orcamento => orcamento.ItensOrcamento.Where(item => item.Descricao == "Mão de obra")).Sum(item => item.Sum(i => i.PrecoUnitario * (decimal)i.Quantidade)) : 0;
+
+	public decimal? Pecas => Orcamentos.Count != 0 ? Orcamentos.Select(orcamento => orcamento.ItensOrcamento.Where(item => item.Descricao != "Mão de obra")).Sum(item => item.Sum(i => i.PrecoUnitario * (decimal)i.Quantidade)) : 0;
+
+    public decimal? LucroPecas => ValorTotal - MaoDeObra - Pecas;
+
+	public decimal? Lucro => ValorTotal - Pecas;
+
+	public virtual Cliente? Cliente { get; set; }
 
     public virtual ICollection<Orcamento> Orcamentos { get; set; } = new List<Orcamento>();
 
