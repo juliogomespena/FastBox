@@ -64,9 +64,9 @@ public class OrdemDeServicoViewModel
 
 	public decimal? Pecas => Orcamentos.Count != 0 ? Orcamentos.Select(orcamento => orcamento.ItensOrcamento.Where(item => item.Descricao != "Mão de obra")).Sum(item => item.Sum(i => i.PrecoUnitario * (decimal)i.Quantidade)) : 0;
 
-    public decimal? LucroPecas => ValorTotal - MaoDeObra - Pecas;
+    public decimal? LucroPecas => IncluirIva ? (ValorTotal / (decimal)1.23) - MaoDeObra - Pecas : ValorTotal - MaoDeObra - Pecas;
 
-	public decimal? Lucro => ValorTotal - Pecas;
+	public decimal? Lucro => IncluirIva ? (ValorTotal/(decimal)1.23) - Pecas : ValorTotal - Pecas;
 
 	public virtual Cliente? Cliente { get; set; }
 
